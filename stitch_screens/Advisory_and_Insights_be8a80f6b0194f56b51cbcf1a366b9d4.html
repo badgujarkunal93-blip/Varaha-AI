@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Advisory - Krishi Vikas AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#00201e",
+                        "on-secondary-fixed-variant": "#643f00",
+                        "surface-dim": "#cedfc5",
+                        "inverse-primary": "#a1d48d",
+                        "on-tertiary-fixed-variant": "#1c4e4b",
+                        "on-error": "#ffffff",
+                        "primary": "#346127",
+                        "surface-container-high": "#dcedd3",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#845400",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#032100",
+                        "on-surface-variant": "#42493e",
+                        "surface-container-low": "#e8f9de",
+                        "outline": "#72796d",
+                        "on-primary-container": "#d5ffc1",
+                        "tertiary-fixed": "#baece7",
+                        "on-secondary-container": "#714800",
+                        "surface": "#edffe3",
+                        "inverse-on-surface": "#e5f6db",
+                        "outline-variant": "#c2c9ba",
+                        "on-surface": "#121f0e",
+                        "on-secondary-fixed": "#2a1800",
+                        "surface-tint": "#3c692e",
+                        "primary-fixed-dim": "#a1d48d",
+                        "on-tertiary-container": "#cafdf7",
+                        "primary-fixed": "#bcf1a7",
+                        "on-primary-fixed-variant": "#245018",
+                        "surface-container-highest": "#d6e8cd",
+                        "surface-variant": "#d6e8cd",
+                        "secondary-fixed": "#ffddb5",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#121f0e",
+                        "tertiary": "#2e5e5a",
+                        "secondary-fixed-dim": "#ffb958",
+                        "tertiary-container": "#477773",
+                        "inverse-surface": "#263422",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#edffe3",
+                        "primary-container": "#4c7a3d",
+                        "background": "#edffe3",
+                        "surface-container": "#e2f3d8",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#9ed0cb",
+                        "secondary-container": "#fcb654"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "furrow-sm": "32px",
+                        "furrow-lg": "48px",
+                        "gutter-grid": "16px",
+                        "stack-unit": "8px",
+                        "margin-page": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Fraunces"],
+                        "data-lg": ["IBM Plex Mono"],
+                        "display-lg": ["Fraunces"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "display-md": ["Fraunces"],
+                        "data-md": ["IBM Plex Mono"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "data-lg": ["20px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-md": ["32px", { "lineHeight": "40px", "fontWeight": "500" }],
+                        "data-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #F5F6F0; }
+        .furrow-divider { border-bottom: 1px solid #DCE1D3; margin-bottom: 48px; }
+        .card-level-1 { background-color: #FBFBF6; border: 1px solid #DCE1D3; }
+        .spine-danger { border-left: 3px solid #ba1a1a; }
+        .spine-warning { border-left: 3px solid #845400; }
+        .spine-optimal { border-left: 3px solid #346127; }
+        .spine-water { border-left: 3px solid #2e5e5a; }
+    </style>
+</head>
+<body class="text-on-background font-body-md antialiased overflow-x-hidden">
+<!-- TopNavBar -->
+<nav class="w-full h-16 fixed top-0 z-40 border-b border-outline-variant bg-surface hidden md:flex justify-between items-center px-furrow-lg ml-64">
+<div class="flex items-center gap-4">
+<span class="font-display-md text-display-md text-primary">Krishi Vikas AI</span>
+<span class="text-on-surface-variant font-medium ml-8">Advisory</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 p-1 bg-surface-container-highest rounded-lg">
+<button class="px-3 py-1 bg-surface rounded text-primary font-label-caps text-label-caps uppercase">ENG</button>
+<button class="px-3 py-1 text-on-surface-variant hover:text-primary font-label-caps text-label-caps uppercase">MAR</button>
+<button class="px-3 py-1 text-on-surface-variant hover:text-primary font-label-caps text-label-caps uppercase">HIN</button>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-highest text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined">language</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-highest text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+<img alt="User avatar" class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A small circular avatar image showing a close up of a person's face, well lit, professional setting. The image is used as a user profile picture in the top navigation bar. The colors are natural and the background is slightly blurred." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl9uhn8D8MDXNJDCKhrxm8mmTurXZUkhoJ9Xs4y5FZohc3m0kH9Weexs6Dn3mo_s_Q23EPdxxb7_aDh5qWWs-vGh_8S8Ov9E7zFUjdKcJWJNKxmIw7fk1EJjzbip6YrNJZTvpPn709D6BTezIiJCwaNdIrR7wMpTRd4OO15Ev7N5-V_KXZWQxOgL8E0n_j4CRYESyBUWMPxoFc_cmRaFxAePkcCGXT4vFFMulqFnWxnxRWJShZMtMr"/>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r border-outline-variant bg-on-primary-fixed hidden md:flex flex-col h-full py-margin-page z-50">
+<div class="px-6 mb-8">
+<h1 class="font-display-md text-display-md text-primary-fixed">Krishi Vikas AI</h1>
+<p class="font-label-caps text-label-caps text-primary-fixed-dim mt-1 uppercase">Precision Farming</p>
+</div>
+<nav class="flex-1 px-3 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-fixed-variant hover:bg-primary-container/20 rounded-lg transition-colors scale-95 active:transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-caps text-label-caps uppercase">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-fixed-variant hover:bg-primary-container/20 rounded-lg transition-colors scale-95 active:transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-caps text-label-caps uppercase">Field Map</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-fixed-variant hover:bg-primary-container/20 rounded-lg transition-colors scale-95 active:transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">water_drop</span>
+<span class="font-label-caps text-label-caps uppercase">Irrigation</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-fixed-variant hover:bg-primary-container/20 rounded-lg transition-colors scale-95 active:transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">eco</span>
+<span class="font-label-caps text-label-caps uppercase">Crop Health</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg font-bold scale-95 active:transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-label-caps uppercase">Advisory</span>
+</a>
+<div class="my-4 border-t border-on-surface-variant/20 mx-4"></div>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-fixed-variant hover:bg-primary-container/20 rounded-lg transition-colors scale-95 active:transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps uppercase">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-fixed-variant hover:bg-primary-container/20 rounded-lg transition-colors scale-95 active:transition-transform duration-150" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-caps text-label-caps uppercase">Support</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content -->
+<main class="md:ml-64 pt-20 px-4 md:px-furrow-lg pb-24 max-w-7xl mx-auto">
+<!-- Header Section -->
+<header class="mb-furrow-lg flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="font-display-lg text-display-lg text-on-surface mb-2">Advisory Feed</h1>
+<p class="font-body-lg text-body-lg text-outline">Actionable insights from your field data.</p>
+</div>
+<!-- Filters -->
+<div class="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0">
+<button class="px-4 py-2 bg-primary text-surface rounded-lg font-label-caps text-label-caps uppercase whitespace-nowrap">All</button>
+<button class="px-4 py-2 border border-primary text-primary hover:bg-primary/5 rounded-lg font-label-caps text-label-caps uppercase whitespace-nowrap transition-colors">Unread</button>
+<button class="px-4 py-2 border border-primary text-primary hover:bg-primary/5 rounded-lg font-label-caps text-label-caps uppercase whitespace-nowrap transition-colors">Disease</button>
+<button class="px-4 py-2 border border-primary text-primary hover:bg-primary/5 rounded-lg font-label-caps text-label-caps uppercase whitespace-nowrap transition-colors">Pest</button>
+<button class="px-4 py-2 border border-primary text-primary hover:bg-primary/5 rounded-lg font-label-caps text-label-caps uppercase whitespace-nowrap transition-colors">Water</button>
+</div>
+</header>
+<!-- Advisory Feed Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-gutter-grid mb-furrow-lg furrow-divider">
+<!-- Card 1: Danger (Disease) -->
+<div class="card-level-1 p-4 rounded-lg flex gap-4 spine-danger relative group">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-error-container text-on-error-container flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">coronavirus</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-caps text-label-caps text-outline uppercase">Zone A • North Field</span>
+<span class="font-data-md text-data-md text-outline">10:42 AM</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Possible fungal disease detected</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Elevated humidity and leaf discoloration patterns suggest early stage Blight. Recommend immediate physical inspection.</p>
+</div>
+<button class="absolute top-4 right-4 text-outline hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">check_circle</span>
+</button>
+</div>
+<!-- Card 2: Warning (Pest) -->
+<div class="card-level-1 p-4 rounded-lg flex gap-4 spine-warning relative group">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bug_report</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-caps text-label-caps text-outline uppercase">Zone C • East Ridge</span>
+<span class="font-data-md text-data-md text-outline">08:15 AM</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Aphid activity suspected</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Sensor network detected anomalies in canopy reflectance. Monitor for pest activity along the windbreak.</p>
+</div>
+<button class="absolute top-4 right-4 text-outline hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">check_circle</span>
+</button>
+</div>
+<!-- Card 3: Water (Irrigation) -->
+<div class="card-level-1 p-4 rounded-lg flex gap-4 spine-water relative group">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-tertiary-container text-on-tertiary-container flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">water_drop</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-caps text-label-caps text-outline uppercase">Zone B • Central Basin</span>
+<span class="font-data-md text-data-md text-outline">Yesterday, 18:30</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Moisture levels dropping</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Soil moisture has dropped below the 30% threshold. Scheduled irrigation event recommended for tomorrow morning.</p>
+</div>
+<button class="absolute top-4 right-4 text-outline hover:text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined">check_circle</span>
+</button>
+</div>
+<!-- Card 4: Optimal (General) -->
+<div class="card-level-1 p-4 rounded-lg flex gap-4 spine-optimal relative group opacity-60">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-surface-container-high text-primary flex items-center justify-center">
+<span class="material-symbols-outlined">eco</span>
+</div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-1">
+<span class="font-label-caps text-label-caps text-outline uppercase">All Zones</span>
+<span class="font-data-md text-data-md text-outline">Yesterday, 12:00</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface mb-2">Optimal growing conditions</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Temperature and humidity remain in the ideal range. Photosynthesis efficiency is peak.</p>
+</div>
+<span class="absolute top-4 right-4 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</span>
+</div>
+</div>
+<!-- Insights Section -->
+<section>
+<div class="mb-6">
+<h2 class="font-display-md text-display-md text-on-surface">Insights</h2>
+<div class="w-full h-px bg-outline-variant mt-2"></div>
+</div>
+<!-- Stat Cards Row -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter-grid mb-furrow-lg">
+<div class="card-level-1 p-6 rounded-lg spine-optimal flex flex-col justify-between h-32">
+<span class="font-label-caps text-label-caps text-outline uppercase">Total Predictions</span>
+<span class="font-data-lg text-[32px] leading-tight font-semibold text-on-surface mt-2 block">1,248</span>
+</div>
+<div class="card-level-1 p-6 rounded-lg spine-optimal flex flex-col justify-between h-32">
+<span class="font-label-caps text-label-caps text-outline uppercase">Confirmed</span>
+<span class="font-data-lg text-[32px] leading-tight font-semibold text-primary mt-2 block">942</span>
+</div>
+<div class="card-level-1 p-6 rounded-lg spine-danger flex flex-col justify-between h-32">
+<span class="font-label-caps text-label-caps text-outline uppercase">Rejected</span>
+<span class="font-data-lg text-[32px] leading-tight font-semibold text-error mt-2 block">56</span>
+</div>
+<div class="card-level-1 p-6 rounded-lg spine-warning flex flex-col justify-between h-32">
+<span class="font-label-caps text-label-caps text-outline uppercase">Pending Review</span>
+<span class="font-data-lg text-[32px] leading-tight font-semibold text-secondary mt-2 block">250</span>
+</div>
+</div>
+</section>
+</main>
+</body></html>

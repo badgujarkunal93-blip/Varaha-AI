@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Crop Health - Krishi Vikas AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#00201e",
+                        "on-secondary-fixed-variant": "#643f00",
+                        "surface-dim": "#cedfc5",
+                        "inverse-primary": "#a1d48d",
+                        "on-tertiary-fixed-variant": "#1c4e4b",
+                        "on-error": "#ffffff",
+                        "primary": "#346127",
+                        "surface-container-high": "#dcedd3",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#845400",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-fixed": "#032100",
+                        "on-surface-variant": "#42493e",
+                        "surface-container-low": "#e8f9de",
+                        "outline": "#72796d",
+                        "on-primary-container": "#d5ffc1",
+                        "tertiary-fixed": "#baece7",
+                        "on-secondary-container": "#714800",
+                        "surface": "#edffe3",
+                        "inverse-on-surface": "#e5f6db",
+                        "outline-variant": "#c2c9ba",
+                        "on-surface": "#121f0e",
+                        "on-secondary-fixed": "#2a1800",
+                        "surface-tint": "#3c692e",
+                        "primary-fixed-dim": "#a1d48d",
+                        "on-tertiary-container": "#cafdf7",
+                        "primary-fixed": "#bcf1a7",
+                        "on-primary-fixed-variant": "#245018",
+                        "surface-container-highest": "#d6e8cd",
+                        "surface-variant": "#d6e8cd",
+                        "secondary-fixed": "#ffddb5",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#121f0e",
+                        "tertiary": "#2e5e5a",
+                        "secondary-fixed-dim": "#ffb958",
+                        "tertiary-container": "#477773",
+                        "inverse-surface": "#263422",
+                        "error-container": "#ffdad6",
+                        "on-primary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#edffe3",
+                        "primary-container": "#4c7a3d",
+                        "background": "#edffe3",
+                        "surface-container": "#e2f3d8",
+                        "error": "#ba1a1a",
+                        "tertiary-fixed-dim": "#9ed0cb",
+                        "secondary-container": "#fcb654"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "furrow-sm": "32px",
+                        "furrow-lg": "48px",
+                        "gutter-grid": "16px",
+                        "stack-unit": "8px",
+                        "margin-page": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-sm": ["Fraunces"],
+                        "data-lg": ["IBM Plex Mono"],
+                        "display-lg": ["Fraunces"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "display-md": ["Fraunces"],
+                        "data-md": ["IBM Plex Mono"]
+                    },
+                    "fontSize": {
+                        "headline-sm": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "data-lg": ["20px", { "lineHeight": "24px", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "display-md": ["32px", { "lineHeight": "40px", "fontWeight": "500" }],
+                        "data-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #F5F6F0; }
+        .furrow-divider { border-bottom: 1px solid #DCE1D3; }
+        .card-level-1 { background-color: #FBFBF6; border: 1px solid #DCE1D3; }
+        .spine-healthy { border-left: 3px solid #346127; }
+        .spine-warning { border-left: 3px solid #fcb654; }
+        .spine-danger { border-left: 3px solid #ba1a1a; }
+    </style>
+</head>
+<body class="h-full overflow-hidden flex">
+<!-- Top Navigation Container (Hidden md:flex) -->
+<div class="hidden md:flex w-full h-16 fixed top-0 z-40 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-on-surface-variant justify-between items-center px-furrow-lg ml-64" style="left: 0; width: calc(100% - 16rem);">
+<div class="flex items-center gap-6 h-full">
+<span class="font-display-md text-display-md text-primary dark:text-primary-fixed-dim">Krishi Vikas AI</span>
+<div class="h-full flex items-center border-b-2 border-primary">
+<span class="text-primary font-bold font-label-caps text-label-caps px-4 py-2">Crop Status</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim hover:opacity-80 active:opacity-100 transition-opacity cursor-pointer">language</span>
+<img alt="User avatar" class="w-8 h-8 rounded-full border border-outline-variant" data-alt="A detailed headshot portrait of an agricultural professional or farmer looking authoritative yet warm, wearing practical outdoor clothing. The lighting is soft natural daylight, emphasizing approachability and expertise. The background is slightly blurred outdoor scenery, keeping the focus entirely on the person's face. The overall aesthetic is professional, authentic, and high-quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4uIMiYDIDQM1xkQL0VBBYdyJLcc9Yl-ZVmPnoQdP6n53qu1yOIMmFrBN4thNaYmjuCTDDm_UCxkpG5zjolIo8tw7p_sY16dFAnhPXfi8EFL71mIAIho8HXHNdwFWPJPFLgMWCJ8B8MPHSZdYyfjH_bPygJBzYtObm8Jf4zYsvsQx3LEl0e-cF8oxvn2SaXZDIZ7dWEIefgIaCp_jTCJxza_ma2Wi_AJ5VXLXesXWV8BgJd8TJWeze"/>
+</div>
+</div>
+<!-- Side Navigation (Web) -->
+<nav class="hidden md:flex h-screen w-64 fixed left-0 top-0 bg-on-primary-fixed dark:bg-on-tertiary-fixed border-r border-outline-variant dark:border-on-surface-variant flex-col py-margin-page z-50">
+<div class="px-6 mb-8 flex flex-col gap-2">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center mb-2">
+<span class="font-headline-sm text-headline-sm text-on-primary-container">KV</span>
+</div>
+<h1 class="font-headline-sm text-headline-sm text-primary-fixed dark:text-primary-fixed-dim">Krishi Vikas AI</h1>
+<p class="font-label-caps text-label-caps text-outline">Precision Farming</p>
+</div>
+<div class="flex flex-col gap-1 px-4 flex-1">
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-fixed-variant dark:text-on-tertiary-fixed-variant hover:bg-surface-container-low transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:scale-95 transition-transform duration-150" data-weight="fill" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-fixed-variant dark:text-on-tertiary-fixed-variant hover:bg-surface-container-low transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:scale-95 transition-transform duration-150" data-weight="fill" style="font-variation-settings: 'FILL' 0;">map</span>
+<span class="font-label-caps text-label-caps">Field Map</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-fixed-variant dark:text-on-tertiary-fixed-variant hover:bg-surface-container-low transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:scale-95 transition-transform duration-150" data-weight="fill" style="font-variation-settings: 'FILL' 0;">water_drop</span>
+<span class="font-label-caps text-label-caps">Irrigation</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg font-bold group" href="#">
+<span class="material-symbols-outlined group-hover:scale-95 transition-transform duration-150" data-weight="fill" style="font-variation-settings: 'FILL' 1;">eco</span>
+<span class="font-label-caps text-label-caps">Crop Health</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-fixed-variant dark:text-on-tertiary-fixed-variant hover:bg-surface-container-low transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:scale-95 transition-transform duration-150" data-weight="fill" style="font-variation-settings: 'FILL' 0;">psychology</span>
+<span class="font-label-caps text-label-caps">Advisory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-fixed-variant dark:text-on-tertiary-fixed-variant hover:bg-surface-container-low transition-colors rounded-lg group mt-auto" href="#">
+<span class="material-symbols-outlined group-hover:scale-95 transition-transform duration-150" data-weight="fill" style="font-variation-settings: 'FILL' 0;">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-primary-fixed-variant dark:text-on-tertiary-fixed-variant hover:bg-surface-container-low transition-colors rounded-lg group" href="#">
+<span class="material-symbols-outlined group-hover:scale-95 transition-transform duration-150" data-weight="fill" style="font-variation-settings: 'FILL' 0;">help</span>
+<span class="font-label-caps text-label-caps">Support</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col h-screen overflow-y-auto w-full md:ml-64 pt-16 md:pt-24 px-4 md:px-furrow-lg pb-24">
+<!-- Header & Segmented Control -->
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-furrow-lg">
+<div>
+<h2 class="font-display-lg text-display-lg text-on-surface mb-2">Crop Health</h2>
+<p class="font-body-lg text-body-lg text-outline">Real-time scan diagnostics and review queue.</p>
+</div>
+<div class="flex items-center bg-surface-container-low p-1 rounded-lg border border-outline-variant w-fit">
+<button class="px-6 py-2 rounded font-label-caps text-label-caps bg-primary text-on-primary shadow-sm transition-colors" id="tab-scans">Scans</button>
+<button class="px-6 py-2 rounded font-label-caps text-label-caps text-on-surface-variant hover:bg-surface-container-highest transition-colors" id="tab-review">Review Queue</button>
+</div>
+</header>
+<!-- Scans Tab Content (Active) -->
+<section class="flex flex-col gap-6" id="content-scans">
+<!-- Filters & Actions -->
+<div class="flex flex-col sm:flex-row justify-between items-center pb-4 furrow-divider gap-4">
+<div class="flex flex-wrap gap-2 items-center">
+<span class="font-label-caps text-label-caps text-outline mr-2 uppercase tracking-wider">Filter:</span>
+<button class="px-4 py-1.5 rounded-full border border-primary text-primary font-body-sm text-body-sm bg-surface flex items-center gap-1 hover:bg-primary-container/10 transition-colors">
+                        All Zones
+                        <span class="material-symbols-outlined text-[16px]">expand_more</span>
+</button>
+<button class="px-4 py-1.5 rounded-full border border-outline-variant text-on-surface-variant font-body-sm text-body-sm bg-surface hover:bg-surface-container-high transition-colors">Wheat</button>
+<button class="px-4 py-1.5 rounded-full border border-outline-variant text-on-surface-variant font-body-sm text-body-sm bg-surface hover:bg-surface-container-high transition-colors">Corn</button>
+</div>
+<button class="px-6 py-2.5 rounded-lg bg-primary text-on-primary font-label-caps text-label-caps hover:opacity-90 active:scale-95 transition-all flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add_a_photo</span>
+                    New Scan
+                </button>
+</div>
+<!-- Scans Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter-grid">
+<!-- Card 1 (Disease/High) -->
+<article class="card-level-1 spine-danger rounded-lg p-5 flex flex-col gap-4 relative">
+<span class="absolute top-4 right-4 font-data-md text-data-md text-outline">08:42 AM</span>
+<div class="flex gap-4 items-start">
+<img alt="Leaf rust close-up" class="w-16 h-16 rounded object-cover border border-outline-variant" data-alt="A highly detailed close-up photograph of a wheat leaf infected with leaf rust. The leaf shows prominent reddish-brown pustules characteristic of the disease. The lighting is crisp and analytical, suggesting a macro shot taken for scientific diagnostic purposes. The background is a soft, out-of-focus natural green, keeping the viewer's attention entirely on the diseased leaf texture. Professional, high-resolution agricultural imagery." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCeyOaFll6LFKwfiYxeM3M96KH2r0MlnLCU2IsqMrupXSgtralAW8VUoL_TTAAN9NsBfQ_I_1ovSl6O_v48Y53OwuNwrsRpLmesCNYIdgFiBveNLgh8y7-1JicEkJXhXI7CHoe-3jDjR5ePnAbTSma1KGeOtOPTuAA7CTEbQhttWWIC2HC8w4NE3E3qB055Zo7Xm9VisPqAezTYneYvDBQxxq7O5eXXzzWLWWnrcWheYZOHrc9g-Joz"/>
+<div class="flex flex-col gap-1 mt-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface leading-tight">North Field (Z2)</h3>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Winter Wheat</span>
+</div>
+</div>
+<div class="mt-2 border-t border-outline-variant/50 pt-4">
+<div class="flex justify-between items-center mb-2">
+<span class="px-2 py-1 rounded bg-error-container text-on-error-container font-label-caps text-label-caps flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">warning</span>
+                                Leaf Rust Detected
+                            </span>
+<span class="font-data-md text-data-md text-error">94%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-error" style="width: 94%;"></div>
+</div>
+</div>
+</article>
+<!-- Card 2 (Healthy) -->
+<article class="card-level-1 spine-healthy rounded-lg p-5 flex flex-col gap-4 relative">
+<span class="absolute top-4 right-4 font-data-md text-data-md text-outline">09:15 AM</span>
+<div class="flex gap-4 items-start">
+<img alt="Healthy corn leaves" class="w-16 h-16 rounded object-cover border border-outline-variant" data-alt="A vivid, sharp photograph of perfectly healthy, vibrant green corn leaves in a field. The lighting is bright morning sunlight, highlighting the lushness and vigor of the crop. Water droplets from morning dew might be slightly visible. The aesthetic communicates optimal health and robust growth, matching a positive diagnostic outcome. Shot with a shallow depth of field for professional polish." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCXMRHGlQCNf5z7vfiXA1nKRicNWdygvZBtzzneJq0wAsrBbl2uCbkTFcz0maWQ418KuKZLT1tKJMOe9IpTL4vAOzgQWHomtzn_vwuYqR4W8e1y2LCX7odzNs0nKOSVI2NtCG_cOmv9_ZWy0quoVB-_6jVsLQqx7gI-ZZExWZSmYz7eCl-Akl5cxdUfFnEHPAs6Z_ZX4MLarQrQcMCpOJK3vLo29e171hOQD4IMxdS_RomWmVApQql"/>
+<div class="flex flex-col gap-1 mt-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface leading-tight">East Sector (Z5)</h3>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Sweet Corn</span>
+</div>
+</div>
+<div class="mt-2 border-t border-outline-variant/50 pt-4">
+<div class="flex justify-between items-center mb-2">
+<span class="px-2 py-1 rounded bg-[#d5ffc1] text-[#245018] font-label-caps text-label-caps flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+                                Healthy
+                            </span>
+<span class="font-data-md text-data-md text-primary">98%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary" style="width: 98%;"></div>
+</div>
+</div>
+</article>
+<!-- Card 3 (Pest/Moderate) -->
+<article class="card-level-1 spine-warning rounded-lg p-5 flex flex-col gap-4 relative">
+<span class="absolute top-4 right-4 font-data-md text-data-md text-outline">10:30 AM</span>
+<div class="flex gap-4 items-start">
+<img alt="Aphid infestation" class="w-16 h-16 rounded object-cover border border-outline-variant" data-alt="A clear, macro photograph showing early signs of aphid infestation on a soybean plant leaf. The tiny pests are visible clustered near the veins of the leaf. The lighting is analytical and direct, designed to show the texture and presence of the insects clearly without being overly alarming. The image feels like a high-quality field report observation, focused and pragmatic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlTnnOlC4-pBkdJmjAuMPFY9trrkX6nN-krrVjiUtDwuKW2SnGLnQN1fy3mPA1Y3b6plNJ_5BXldpuZCumtRhYA9n4RSznYZC_sLk_ZVNDwMnmvIw4o4DhSaMFMzxtVi1h748-q5_FwtJ5IlCcCBzpa7zdbaL_HWX2kVREocT1u-J6zbDv0SRi6ptAoRUdzQUc6fwTGumoR-RE6OtmzJ7QOMTeQO6lK0TCTaZvYKUMpD232LPlJT14"/>
+<div class="flex flex-col gap-1 mt-1">
+<h3 class="font-headline-sm text-headline-sm text-on-surface leading-tight">South Plot (Z1)</h3>
+<span class="font-label-caps text-label-caps text-on-surface-variant">Soybeans</span>
+</div>
+</div>
+<div class="mt-2 border-t border-outline-variant/50 pt-4">
+<div class="flex justify-between items-center mb-2">
+<span class="px-2 py-1 rounded bg-[#ffddb5] text-[#714800] font-label-caps text-label-caps flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">bug_report</span>
+                                Aphid Presence
+                            </span>
+<span class="font-data-md text-data-md text-[#845400]">82%</span>
+</div>
+<div class="w-full h-1.5 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-[#fcb654]" style="width: 82%;"></div>
+</div>
+</div>
+</article>
+</div>
+</section>
+</main>
+<script>
+        // Simple tab switching logic for demonstration
+        document.getElementById('tab-scans').addEventListener('click', function() {
+            this.classList.replace('text-on-surface-variant', 'bg-primary');
+            this.classList.replace('hover:bg-surface-container-highest', 'text-on-primary');
+            
+            const reviewTab = document.getElementById('tab-review');
+            reviewTab.classList.replace('bg-primary', 'text-on-surface-variant');
+            reviewTab.classList.replace('text-on-primary', 'hover:bg-surface-container-highest');
+        });
+
+        document.getElementById('tab-review').addEventListener('click', function() {
+            this.classList.replace('text-on-surface-variant', 'bg-primary');
+            this.classList.replace('hover:bg-surface-container-highest', 'text-on-primary');
+            
+            const scansTab = document.getElementById('tab-scans');
+            scansTab.classList.replace('bg-primary', 'text-on-surface-variant');
+            scansTab.classList.replace('text-on-primary', 'hover:bg-surface-container-highest');
+        });
+    </script>
+</body></html>

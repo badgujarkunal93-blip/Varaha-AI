@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html class="h-full antialiased dark:bg-background bg-background" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Irrigation - Krishi Vikas AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary": "#845400",
+                        "secondary-container": "#fcb654",
+                        "on-primary-container": "#d5ffc1",
+                        "surface-container-high": "#dcedd3",
+                        "on-primary": "#ffffff",
+                        "primary-fixed": "#bcf1a7",
+                        "inverse-surface": "#263422",
+                        "surface-tint": "#3c692e",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#42493e",
+                        "outline-variant": "#c2c9ba",
+                        "on-tertiary-fixed": "#00201e",
+                        "secondary-fixed-dim": "#ffb958",
+                        "inverse-primary": "#a1d48d",
+                        "surface-dim": "#cedfc5",
+                        "primary": "#346127",
+                        "surface-variant": "#d6e8cd",
+                        "on-background": "#121f0e",
+                        "on-error-container": "#93000a",
+                        "surface-container-low": "#e8f9de",
+                        "on-tertiary-container": "#cafdf7",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "on-secondary-container": "#714800",
+                        "surface": "#edffe3",
+                        "on-primary-fixed-variant": "#245018",
+                        "tertiary-fixed": "#baece7",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#ffddb5",
+                        "on-secondary-fixed-variant": "#643f00",
+                        "primary-container": "#4c7a3d",
+                        "on-secondary-fixed": "#2a1800",
+                        "tertiary-container": "#477773",
+                        "on-surface": "#121f0e",
+                        "on-tertiary": "#ffffff",
+                        "outline": "#72796d",
+                        "tertiary": "#2e5e5a",
+                        "on-primary-fixed": "#032100",
+                        "tertiary-fixed-dim": "#9ed0cb",
+                        "inverse-on-surface": "#e5f6db",
+                        "background": "#edffe3",
+                        "surface-container": "#e2f3d8",
+                        "surface-bright": "#edffe3",
+                        "primary-fixed-dim": "#a1d48d",
+                        "surface-container-highest": "#d6e8cd",
+                        "on-tertiary-fixed-variant": "#1c4e4b",
+                        "surface-container-lowest": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-unit": "8px",
+                        "gutter-grid": "16px",
+                        "furrow-lg": "48px",
+                        "margin-page": "24px",
+                        "furrow-sm": "32px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "display-lg": ["Fraunces"],
+                        "display-md": ["Fraunces"],
+                        "label-caps": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "data-md": ["IBM Plex Mono"],
+                        "headline-sm": ["Fraunces"],
+                        "data-lg": ["IBM Plex Mono"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "display-md": ["32px", { "lineHeight": "40px", "fontWeight": "500" }],
+                        "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "data-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-sm": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "data-lg": ["20px", { "lineHeight": "24px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.5s ease-out forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .stagger-1 { animation-delay: 0.1s; }
+        .stagger-2 { animation-delay: 0.2s; }
+        .stagger-3 { animation-delay: 0.3s; }
+        .stagger-4 { animation-delay: 0.4s; }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden text-on-surface bg-[#F5F6F0]">
+<!-- Shared SideNav Structure -->
+<nav class="hidden md:flex flex-col h-full py-6 space-y-4 bg-primary-container dark:bg-primary-fixed-variant border-r border-outline-variant docked left-0 h-screen w-64 z-20 shrink-0">
+<div class="px-6 pb-6 border-b border-outline-variant/30 flex items-center space-x-3">
+<div class="w-10 h-10 rounded-full bg-surface flex items-center justify-center shadow-sm overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A macro shot of vibrant green rice seedlings emerging from dark, rich, wet soil, bathed in warm golden hour sunlight, highlighting the intricate details of the agricultural process and suggesting growth and precision." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlyQsuQtST7fbP1wWq3FFzT76cFlxP3QB3KB0pr6AcMsvcYcOSsSt6vuwFU_4Chu4U_Kuu3HIhieMgl1SoYrHHeAEgtNCKKKLEMZqRxGRLP4OVE0GSFsFtFu7s7hT_TknrviWTs-hJXz6EWXNXJXOFeqIyngk1s-42bReKgdDPB-wS_Vn90IzuvSfDt7lQBXI7kjJFt3cRxV0zR7WRCqJ58-K2Y9AmqIXS9lDww7GagTnf1wYv0K_n"/>
+</div>
+<div>
+<h1 class="text-headline-sm font-headline-sm text-on-primary-container">Krishi Vikas AI</h1>
+<p class="text-label-caps font-label-caps text-on-primary-container/80">Precision Agriculture</p>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto pt-4 space-y-2">
+<a class="text-on-primary-container flex items-center px-4 py-3 mx-2 hover:bg-primary/10 dark:hover:bg-primary-fixed/10 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3 text-on-primary-container/70 group-hover:text-on-primary-container transition-colors" data-icon="dashboard">dashboard</span>
+<span class="text-label-caps font-label-caps">Dashboard</span>
+</a>
+<a class="text-on-primary-container flex items-center px-4 py-3 mx-2 hover:bg-primary/10 dark:hover:bg-primary-fixed/10 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3 text-on-primary-container/70 group-hover:text-on-primary-container transition-colors" data-icon="map">map</span>
+<span class="text-label-caps font-label-caps">Field Map</span>
+</a>
+<!-- Active Tab Logic: Intent Match for "Irrigation" -->
+<a class="bg-primary text-on-primary rounded-lg flex items-center px-4 py-3 mx-2 scale-95 transition-transform duration-150 shadow-inner" href="#">
+<span class="material-symbols-outlined mr-3 filled-icon" data-icon="water_drop">water_drop</span>
+<span class="text-label-caps font-label-caps">Irrigation</span>
+</a>
+<a class="text-on-primary-container flex items-center px-4 py-3 mx-2 hover:bg-primary/10 dark:hover:bg-primary-fixed/10 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3 text-on-primary-container/70 group-hover:text-on-primary-container transition-colors" data-icon="grass">grass</span>
+<span class="text-label-caps font-label-caps">Crop Health</span>
+</a>
+<a class="text-on-primary-container flex items-center px-4 py-3 mx-2 hover:bg-primary/10 dark:hover:bg-primary-fixed/10 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3 text-on-primary-container/70 group-hover:text-on-primary-container transition-colors" data-icon="psychology">psychology</span>
+<span class="text-label-caps font-label-caps">Advisory</span>
+</a>
+</div>
+<div class="pt-4 border-t border-outline-variant/30 space-y-2 pb-6">
+<a class="text-on-primary-container flex items-center px-4 py-3 mx-2 hover:bg-primary/10 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3 text-on-primary-container/70 group-hover:text-on-primary-container transition-colors" data-icon="settings">settings</span>
+<span class="text-label-caps font-label-caps">Settings</span>
+</a>
+<a class="text-on-primary-container flex items-center px-4 py-3 mx-2 hover:bg-primary/10 transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-3 text-on-primary-container/70 group-hover:text-on-primary-container transition-colors" data-icon="help_outline">help_outline</span>
+<span class="text-label-caps font-label-caps">Support</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+<!-- Mobile Top Nav (Hidden on md+) -->
+<header class="md:hidden flex justify-between items-center px-margin-page h-16 w-full sticky top-0 z-50 bg-surface border-b border-outline-variant">
+<div class="text-headline-sm font-headline-sm font-bold text-primary dark:text-inverse-primary">Krishi Vikas AI</div>
+<div class="flex space-x-4">
+<button class="text-primary hover:bg-surface-container-high p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="language">language</span>
+</button>
+<button class="text-primary hover:bg-surface-container-high p-2 rounded-full transition-colors relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-error rounded-full border-2 border-surface"></span>
+</button>
+<button class="text-primary hover:bg-surface-container-high p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</div>
+</header>
+<main class="flex-1 overflow-y-auto p-margin-page md:p-furrow-lg pb-32 md:pb-furrow-lg relative">
+<div class="max-w-6xl mx-auto space-y-furrow-sm">
+<!-- Page Header & Zone Selector -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 fade-in-up stagger-1">
+<div>
+<h2 class="text-display-md font-display-md text-on-surface mb-2">Irrigation Control</h2>
+<p class="text-body-md font-body-md text-outline">Manage and monitor water distribution across field sectors.</p>
+</div>
+<div class="inline-flex bg-surface-container rounded-lg p-1 border border-outline-variant shadow-sm h-10 self-start md:self-auto">
+<button class="px-4 py-1 text-label-caps font-label-caps rounded-md bg-primary text-on-primary shadow-sm transition-colors">All Zones</button>
+<button class="px-4 py-1 text-label-caps font-label-caps rounded-md text-on-surface-variant hover:bg-surface-variant transition-colors">Sector A</button>
+<button class="px-4 py-1 text-label-caps font-label-caps rounded-md text-on-surface-variant hover:bg-surface-variant transition-colors">Sector B</button>
+<button class="px-4 py-1 text-label-caps font-label-caps rounded-md text-on-surface-variant hover:bg-surface-variant transition-colors">Sector C</button>
+</div>
+</div>
+<!-- Header Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter-grid fade-in-up stagger-2">
+<!-- Stat Card 1 -->
+<div class="bg-[#FBFBF6] border border-[#DCE1D3] rounded-lg p-6 relative overflow-hidden flex flex-col justify-between">
+<div class="absolute left-0 top-0 bottom-0 w-[3px] bg-primary"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="text-label-caps font-label-caps text-outline uppercase tracking-wider">Avg Soil Moisture</span>
+<span class="text-data-md font-data-md text-outline">Just now</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-display-md font-display-md text-on-surface">32.4</span>
+<span class="text-body-md font-body-md text-outline">%</span>
+</div>
+<div class="mt-2 flex items-center text-error">
+<span class="material-symbols-outlined text-sm mr-1" data-icon="trending_down">trending_down</span>
+<span class="text-body-sm font-body-sm font-medium">Dropping rapidly</span>
+</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-[#FBFBF6] border border-[#DCE1D3] rounded-lg p-6 relative overflow-hidden flex flex-col justify-between">
+<div class="absolute left-0 top-0 bottom-0 w-[3px] bg-tertiary"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="text-label-caps font-label-caps text-outline uppercase tracking-wider">Days Since Last</span>
+<span class="text-data-md font-data-md text-outline">12:00 PM</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-display-md font-display-md text-on-surface">4</span>
+<span class="text-body-md font-body-md text-outline">Days</span>
+</div>
+<div class="mt-2 flex items-center text-on-surface-variant">
+<span class="material-symbols-outlined text-sm mr-1" data-icon="history">history</span>
+<span class="text-body-sm font-body-sm">Last: Sector A &amp; B</span>
+</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-[#FBFBF6] border border-[#DCE1D3] rounded-lg p-6 relative overflow-hidden flex flex-col justify-between">
+<div class="absolute left-0 top-0 bottom-0 w-[3px] bg-secondary-container"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="text-label-caps font-label-caps text-outline uppercase tracking-wider">Water Used (Week)</span>
+<span class="text-data-md font-data-md text-outline">YTD: 1.2M L</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="text-display-md font-display-md text-on-surface">45,200</span>
+<span class="text-body-md font-body-md text-outline">Liters</span>
+</div>
+<div class="mt-2 flex items-center text-primary">
+<span class="material-symbols-outlined text-sm mr-1" data-icon="trending_down">trending_down</span>
+<span class="text-body-sm font-body-sm font-medium">12% below budget</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile Bottom Nav -->
+<nav class="md:hidden flex justify-around items-center px-4 py-2 w-full bg-surface border-t border-outline-variant fixed bottom-0 z-50">
+<a class="flex flex-col items-center p-2 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="dashboard">dashboard</span>
+<span class="text-[10px] font-label-caps font-semibold">Dash</span>
+</a>
+<a class="flex flex-col items-center p-2 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="map">map</span>
+<span class="text-[10px] font-label-caps font-semibold">Map</span>
+</a>
+<a class="flex flex-col items-center p-2 text-primary" href="#">
+<span class="material-symbols-outlined mb-1 filled-icon" data-icon="water_drop">water_drop</span>
+<span class="text-[10px] font-label-caps font-semibold border-b-2 border-primary">Irrigate</span>
+</a>
+<a class="flex flex-col items-center p-2 text-on-surface-variant" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="psychology">psychology</span>
+<span class="text-[10px] font-label-caps font-semibold">Advisory</span>
+</a>
+</nav>
+</div>
+</body></html>

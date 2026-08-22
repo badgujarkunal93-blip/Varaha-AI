@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>My Farm - Farmer Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline": "#72796d",
+                      "outline-variant": "#c2c9ba",
+                      "error": "#ba1a1a",
+                      "surface-container": "#e2f3d8",
+                      "on-background": "#121f0e",
+                      "on-primary": "#ffffff",
+                      "primary-container": "#4c7a3d",
+                      "background": "#edffe3",
+                      "on-tertiary": "#ffffff",
+                      "secondary": "#845400",
+                      "surface": "#edffe3",
+                      "on-secondary": "#ffffff",
+                      "surface-container-highest": "#d6e8cd",
+                      "primary-fixed": "#bcf1a7",
+                      "on-tertiary-container": "#cafdf7",
+                      "secondary-container": "#fcb654",
+                      "surface-bright": "#edffe3",
+                      "on-secondary-fixed": "#2a1800",
+                      "inverse-on-surface": "#e5f6db",
+                      "on-primary-fixed-variant": "#245018",
+                      "on-secondary-fixed-variant": "#643f00",
+                      "inverse-primary": "#a1d48d",
+                      "surface-tint": "#3c692e",
+                      "on-surface-variant": "#42493e",
+                      "secondary-fixed-dim": "#ffb958",
+                      "primary": "#346127",
+                      "tertiary": "#2e5e5a",
+                      "tertiary-container": "#477773",
+                      "surface-dim": "#cedfc5",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed-dim": "#a1d48d",
+                      "on-surface": "#121f0e",
+                      "on-tertiary-fixed-variant": "#1c4e4b",
+                      "on-secondary-container": "#714800",
+                      "inverse-surface": "#263422",
+                      "error-container": "#ffdad6",
+                      "on-primary-container": "#d5ffc1",
+                      "secondary-fixed": "#ffddb5",
+                      "on-error": "#ffffff",
+                      "tertiary-fixed-dim": "#9ed0cb",
+                      "on-tertiary-fixed": "#00201e",
+                      "tertiary-fixed": "#baece7",
+                      "surface-variant": "#d6e8cd",
+                      "surface-container-low": "#e8f9de",
+                      "surface-container-high": "#dcedd3",
+                      "on-primary-fixed": "#032100",
+                      "on-error-container": "#93000a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "furrow-lg": "48px",
+                      "stack-unit": "8px",
+                      "furrow-sm": "32px",
+                      "margin-page": "24px",
+                      "gutter-grid": "16px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Fraunces"
+                      ],
+                      "data-md": [
+                              "IBM Plex Mono"
+                      ],
+                      "data-lg": [
+                              "IBM Plex Mono"
+                      ],
+                      "display-md": [
+                              "Fraunces"
+                      ],
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Fraunces"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "data-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "data-lg": [
+                              "20px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-md": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+            },
+          }
+        }
+    </script>
+<style>
+        body {
+            background-color: #F5F6F0; /* Level 0 Background */
+        }
+        .card-level-1 {
+            background-color: #FBFBF6;
+            border: 1px solid theme('colors.outline-variant');
+        }
+        .furrow-divider {
+            border-bottom: 1px solid theme('colors.outline-variant');
+            margin-bottom: theme('spacing.furrow-lg');
+            padding-bottom: theme('spacing.stack-unit');
+        }
+        .card-spine-primary { border-left: 3px solid theme('colors.primary'); }
+        .card-spine-warning { border-left: 3px solid theme('colors.secondary-container'); }
+        .card-spine-danger { border-left: 3px solid theme('colors.error'); }
+        
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 0;
+        }
+    </style>
+</head>
+<body class="text-on-surface font-body-md bg-[#F5F6F0] flex h-screen overflow-hidden">
+<!-- SideNavBar (JSON Configured) -->
+<nav class="hidden md:flex bg-surface-dim dark:bg-inverse-surface h-screen w-64 border-r border-outline-variant fixed left-0 top-0 flex flex-col p-stack-unit z-50 transition-all">
+<div class="mb-furrow-sm px-4 pt-6">
+<h1 class="font-headline-sm text-headline-sm text-on-surface text-primary">Krishi Vikas AI</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">Field Ledger System</p>
+</div>
+<ul class="flex flex-col gap-2 flex-grow mt-4">
+<!-- Active Tab: Dashboard (My Farm context) -->
+<li>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary text-on-primary rounded-lg font-bold transition-all active:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-caps text-label-caps">Dashboard</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all active:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">map</span>
+<span class="font-label-caps text-label-caps">Field Map</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all active:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">water_drop</span>
+<span class="font-label-caps text-label-caps">Irrigation</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all active:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">grass</span>
+<span class="font-label-caps text-label-caps">Crop Health</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all active:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">psychology</span>
+<span class="font-label-caps text-label-caps">Advisory</span>
+</a>
+</li>
+</ul>
+<ul class="flex flex-col gap-2 mt-auto border-t border-outline-variant pt-4">
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all active:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</li>
+<li>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg transition-all active:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-caps text-label-caps">Support</span>
+</a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 overflow-y-auto w-full">
+<!-- TopNavBar (Mobile) -->
+<header class="md:hidden flex justify-between items-center px-margin-page py-4 w-full z-40 bg-surface border-b border-outline-variant">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">Krishi Vikas AI</h1>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95">language</span>
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95">account_circle</span>
+</div>
+</header>
+<div class="p-margin-page md:p-12 max-w-7xl mx-auto space-y-furrow-sm">
+<!-- Page Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+<div>
+<h2 class="font-display-md text-display-md text-on-surface">My Farm - Ramesh Patel</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2">Green Acres • 12.5 Acres • Primary Crop: Wheat</p>
+</div>
+<div class="flex gap-3">
+<button class="bg-transparent border border-primary text-primary px-4 py-2 rounded font-label-caps text-label-caps transition-colors hover:bg-surface-container-low">View Farm History</button>
+<button class="bg-primary text-surface px-4 py-2 rounded font-label-caps text-label-caps transition-colors hover:bg-surface-tint">Request Expert Help</button>
+</div>
+</div>
+<!-- Current Conditions Furrow -->
+<section>
+<div class="furrow-divider">
+<h3 class="font-label-caps text-label-caps text-outline uppercase tracking-widest">Current Conditions</h3>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter-grid">
+<!-- Metric Card 1 -->
+<div class="card-level-1 card-spine-primary p-4 rounded-r-lg relative flex flex-col justify-between h-32">
+<span class="font-data-md text-data-md text-outline absolute top-4 right-4">Now</span>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">water_drop</span>
+<span class="font-label-caps text-label-caps">Soil Moisture</span>
+</div>
+<div class="mt-auto">
+<span class="font-data-lg text-data-lg text-on-surface">32</span><span class="font-body-sm text-body-sm text-on-surface-variant ml-1">%</span>
+</div>
+</div>
+<!-- Metric Card 2 -->
+<div class="card-level-1 card-spine-primary p-4 rounded-r-lg relative flex flex-col justify-between h-32">
+<span class="font-data-md text-data-md text-outline absolute top-4 right-4">Now</span>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined">thermostat</span>
+<span class="font-label-caps text-label-caps">Temperature</span>
+</div>
+<div class="mt-auto">
+<span class="font-data-lg text-data-lg text-on-surface">28</span><span class="font-body-sm text-body-sm text-on-surface-variant ml-1">°C</span>
+</div>
+</div>
+<!-- Metric Card 3 -->
+<div class="card-level-1 card-spine-primary p-4 rounded-r-lg relative flex flex-col justify-between h-32">
+<span class="font-data-md text-data-md text-outline absolute top-4 right-4">Now</span>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined">humidity_percentage</span>
+<span class="font-label-caps text-label-caps">Humidity</span>
+</div>
+<div class="mt-auto">
+<span class="font-data-lg text-data-lg text-on-surface">65</span><span class="font-body-sm text-body-sm text-on-surface-variant ml-1">%</span>
+</div>
+</div>
+<!-- Metric Card 4 -->
+<div class="card-level-1 card-spine-primary p-4 rounded-r-lg relative flex flex-col justify-between h-32">
+<span class="font-data-md text-data-md text-outline absolute top-4 right-4">Now</span>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined">sunny</span>
+<span class="font-label-caps text-label-caps">Weather</span>
+</div>
+<div class="mt-auto">
+<span class="font-body-lg text-body-lg text-on-surface">Sunny</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Field/Zone Summary Furrow -->
+<section class="mt-furrow-lg">
+<div class="furrow-divider flex justify-between items-end">
+<h3 class="font-label-caps text-label-caps text-outline uppercase tracking-widest">Visual Field Summary</h3>
+<button class="text-error bg-error-container/30 px-3 py-1 rounded font-label-caps text-label-caps flex items-center gap-2 hover:bg-error-container transition-colors">
+<span class="material-symbols-outlined text-[16px]">report</span> Report Problem
+                    </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter-grid">
+<!-- Zone A -->
+<div class="card-level-1 card-spine-primary p-5 rounded-r-lg flex flex-col h-48">
+<div class="flex justify-between items-start mb-4">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Zone A</h4>
+<span class="bg-primary-container text-on-primary-container font-label-caps text-label-caps px-2 py-1 rounded">Healthy</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-auto">Crop: Wheat</p>
+<div class="flex items-center justify-between border-t border-outline-variant pt-3 mt-3">
+<span class="font-label-caps text-label-caps text-outline">Moisture</span>
+<span class="font-data-md text-data-md text-on-surface">34%</span>
+</div>
+</div>
+<!-- Zone B -->
+<div class="card-level-1 card-spine-warning p-5 rounded-r-lg flex flex-col h-48">
+<div class="flex justify-between items-start mb-4">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Zone B</h4>
+<span class="bg-secondary-container text-on-secondary-container font-label-caps text-label-caps px-2 py-1 rounded">Water Stress</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-auto">Crop: Wheat</p>
+<div class="flex items-center justify-between border-t border-outline-variant pt-3 mt-3">
+<span class="font-label-caps text-label-caps text-outline">Moisture</span>
+<span class="font-data-md text-data-md text-secondary">18%</span>
+</div>
+</div>
+<!-- Zone C -->
+<div class="card-level-1 card-spine-danger p-5 rounded-r-lg flex flex-col h-48">
+<div class="flex justify-between items-start mb-4">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Zone C</h4>
+<span class="bg-error-container text-on-error-container font-label-caps text-label-caps px-2 py-1 rounded">Pest Risk</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-auto">Crop: Wheat</p>
+<div class="flex items-center justify-between border-t border-outline-variant pt-3 mt-3">
+<span class="font-label-caps text-label-caps text-outline">Moisture</span>
+<span class="font-data-md text-data-md text-on-surface">31%</span>
+</div>
+</div>
+<!-- Zone D -->
+<div class="card-level-1 card-spine-primary p-5 rounded-r-lg flex flex-col h-48">
+<div class="flex justify-between items-start mb-4">
+<h4 class="font-headline-sm text-headline-sm text-on-surface">Zone D</h4>
+<span class="bg-primary-container text-on-primary-container font-label-caps text-label-caps px-2 py-1 rounded">Healthy</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-auto">Crop: Wheat</p>
+<div class="flex items-center justify-between border-t border-outline-variant pt-3 mt-3">
+<span class="font-label-caps text-label-caps text-outline">Moisture</span>
+<span class="font-data-md text-data-md text-on-surface">35%</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Decorative Map Placeholder (Optional visual grounding) -->
+<div class="mt-12 opacity-50 rounded-lg overflow-hidden border border-outline-variant h-64 relative" data-alt="A highly detailed, modern, tactile topographic map visualization of agricultural farm fields. The map is viewed from directly above, showing neat, geometric crop zones and furrows. The aesthetic is information-dense, resembling scientific instrumentation rather than a generic illustration. Light mode color palette featuring linen whites, subtle sage greens, and crisp dark ink lines. Soft, flat lighting emphasizes clarity and structure without deep shadows." data-location="Farm Fields" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC-qQt5BKco-P5gXXiwkQhdvAYTDiWqRHseTtVPxYjkTodd6XzSHHPMmcmRyi6IX-ejLNRPcWqI6ZjlkHyjHH2Ud-gWgzmg-PyvCumNm-UBnXDIKBywtvjkom6wLjbZLyFQQwioMg9txoq8xzqZIjJpTus5A6anvKPl6yWfLJhf4jTZ2OOTwl-dxSjovE-AGRq1yFTjXOG7rowdMWbUDKgTdHAg26v_51uaONNBT3qmN8JsWvT5N271')">
+<div class="absolute inset-0 bg-surface/20"></div>
+<div class="absolute bottom-4 left-4 bg-surface/90 px-3 py-1 rounded border border-outline-variant backdrop-blur-sm">
+<span class="font-data-md text-data-md text-on-surface">Map View: Active</span>
+</div>
+</div>
+</div>
+</main>
+</body></html>

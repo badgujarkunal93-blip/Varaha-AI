@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Krishi Vikas AI — Precision Agriculture Ledger & Intelligence System</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  
+  <!-- Tailwind CSS CDN & Config -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            outline: "#72796d",
+            "outline-variant": "#c2c9ba",
+            error: "#ba1a1a",
+            "error-container": "#ffdad6",
+            "on-error-container": "#93000a",
+            "surface-container": "#e2f3d8",
+            "surface-container-high": "#dcedd3",
+            "surface-container-highest": "#d6e8cd",
+            "surface-container-low": "#e8f9de",
+            "surface-container-lowest": "#ffffff",
+            "on-background": "#121f0e",
+            "on-primary": "#ffffff",
+            "primary-container": "#4c7a3d",
+            "on-primary-container": "#d5ffc1",
+            primary: "#346127",
+            "primary-fixed": "#bcf1a7",
+            "primary-fixed-dim": "#a1d48d",
+            background: "#edffe3",
+            surface: "#edffe3",
+            "surface-dim": "#cedfc5",
+            "surface-bright": "#edffe3",
+            "on-surface": "#121f0e",
+            "on-surface-variant": "#42493e",
+            secondary: "#845400",
+            "secondary-container": "#fcb654",
+            "on-secondary-container": "#714800",
+            "secondary-fixed": "#ffddb5",
+            "secondary-fixed-dim": "#ffb958",
+            tertiary: "#2e5e5a",
+            "tertiary-container": "#477773",
+            "on-tertiary-container": "#cafdf7",
+            "inverse-surface": "#263422",
+            "inverse-on-surface": "#e5f6db"
+          },
+          fontFamily: {
+            fraunces: ["Fraunces", "serif"],
+            sans: ["Inter", "sans-serif"],
+            mono: ["IBM Plex Mono", "monospace"],
+            "body-md": ["Inter", "sans-serif"],
+            "headline-sm": ["Fraunces", "serif"],
+            "display-md": ["Fraunces", "serif"],
+            "label-caps": ["Inter", "sans-serif"]
+          },
+          spacing: {
+            "furrow-lg": "48px",
+            "furrow-sm": "32px",
+            "stack-unit": "8px",
+            "margin-page": "24px",
+            "gutter-grid": "16px"
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Custom Design Tokens & Spines -->
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+
+<body class="bg-[#F5F6F0] text-on-surface font-sans h-full flex overflow-hidden antialiased">
+  
+  <!-- Left SideNavBar (Desktop Fixed) -->
+  <aside class="hidden md:flex h-screen w-64 border-r border-outline-variant bg-surface-dim dark:bg-inverse-surface flex-col p-stack-unit z-40 fixed left-0 top-0 select-none">
+    <!-- Brand Logo -->
+    <div class="px-4 py-5 mb-2 border-b border-outline-variant/40">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center shadow-sm">
+          <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">eco</span>
+        </div>
+        <div>
+          <h1 class="font-display-md text-lg font-bold font-fraunces text-on-surface leading-tight">Krishi Vikas AI</h1>
+          <p class="font-label-caps text-[10px] text-on-surface-variant tracking-wider uppercase">Field Ledger System</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Links -->
+    <nav class="flex-1 flex flex-col gap-1 px-1 mt-2 overflow-y-auto">
+      <a href="#dashboard" onclick="App.navigate('dashboard')" data-view="dashboard" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+        <span class="material-symbols-outlined">dashboard</span>
+        <span class="font-label-caps text-xs uppercase font-bold">Dashboard</span>
+      </a>
+
+      <a href="#map" onclick="App.navigate('map')" data-view="map" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+        <span class="material-symbols-outlined">map</span>
+        <span class="font-label-caps text-xs uppercase font-bold">Field Map</span>
+      </a>
+
+      <a href="#irrigation" onclick="App.navigate('irrigation')" data-view="irrigation" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+        <span class="material-symbols-outlined">water_drop</span>
+        <span class="font-label-caps text-xs uppercase font-bold">Irrigation</span>
+      </a>
+
+      <a href="#crop-health" onclick="App.navigate('crop-health')" data-view="crop-health" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+        <span class="material-symbols-outlined">grass</span>
+        <span class="font-label-caps text-xs uppercase font-bold">Crop Health</span>
+      </a>
+
+      <a href="#advisory" onclick="App.navigate('advisory')" data-view="advisory" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+        <span class="material-symbols-outlined">psychology</span>
+        <span class="font-label-caps text-xs uppercase font-bold">Advisory</span>
+      </a>
+
+      <!-- Org / Expert Exclusive Nav Items -->
+      <div class="nav-expert-only pt-2 mt-2 border-t border-outline-variant/40 space-y-1">
+        <span class="px-4 text-[10px] font-label-caps font-bold text-secondary uppercase tracking-widest block mb-1">Expert Console</span>
+        <a href="#review-queue" onclick="App.navigate('review-queue')" data-view="review-queue" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+          <span class="material-symbols-outlined text-secondary">verified_user</span>
+          <span class="font-label-caps text-xs uppercase font-bold">Review Queue</span>
+        </a>
+        <a href="#org-overview" onclick="App.navigate('org-overview')" data-view="org-overview" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+          <span class="material-symbols-outlined text-secondary">admin_panel_settings</span>
+          <span class="font-label-caps text-xs uppercase font-bold">Org Overview</span>
+        </a>
+      </div>
+
+      <!-- Settings & Support -->
+      <div class="mt-auto pt-3 border-t border-outline-variant/40 space-y-1">
+        <a href="#settings" onclick="App.navigate('settings')" data-view="settings" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+          <span class="material-symbols-outlined">settings</span>
+          <span class="font-label-caps text-xs uppercase font-bold">Settings</span>
+        </a>
+        <a href="#support" onclick="App.navigate('support')" data-view="support" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+          <span class="material-symbols-outlined">help</span>
+          <span class="font-label-caps text-xs uppercase font-bold">Support</span>
+        </a>
+      </div>
+    </nav>
+  </aside>
+
+  <!-- Main Viewport Area -->
+  <div class="flex-1 flex flex-col md:ml-64 h-full overflow-hidden">
+    
+    <!-- Top Global App Bar -->
+    <header class="h-16 w-full bg-surface border-b border-outline-variant px-4 md:px-8 flex justify-between items-center z-30 shrink-0 select-none">
+      <!-- Title on Mobile & Hardware Connection Health -->
+      <div class="flex items-center gap-3">
+        <h1 class="md:hidden font-display-md text-base font-bold font-fraunces text-primary">Krishi Vikas AI</h1>
+        <span class="hidden md:inline-flex items-center gap-2 text-xs font-mono">
+          <span id="hw-status-dot" class="w-2 h-2 rounded-full bg-secondary inline-block"></span>
+          <span id="hw-status-label" class="text-outline">Simulated Telemetry (Baramati Grid)</span>
+        </span>
+      </div>
+
+      <!-- Header Tools & Role Switcher -->
+      <div class="flex items-center gap-3">
+        <!-- Global Operating Mode Toggle Button (Demo Mode vs Live Hardware) -->
+        <button id="global-mode-toggle-btn" onclick="App.toggleMode()" title="Toggle between Demo Mode and Live Hardware Mode" class="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold font-mono bg-secondary-container text-on-secondary-container border border-secondary/40 shadow-sm cursor-pointer hover:opacity-90 transition-opacity">
+          <span class="material-symbols-outlined text-sm">developer_board</span> Demo Mode
+        </button>
+
+        <!-- Global Role Switcher Dropdown (Allows seamless switching between Farmer and Org/Expert) -->
+        <div class="flex items-center gap-2 bg-surface-container p-1 rounded-lg border border-outline-variant">
+          <span class="material-symbols-outlined text-sm text-outline pl-1.5">switch_account</span>
+          <span class="text-xs font-label-caps text-outline hidden sm:inline">Role:</span>
+          <select id="global-role-switcher" onchange="App.switchRole(this.value)" class="bg-surface rounded border-0 py-1 px-2 text-xs font-bold text-on-surface focus:ring-0 cursor-pointer">
+            <option value="Farmer">Farmer (Ramesh Patel)</option>
+            <option value="OrgExpert">Org / Expert (Dr. Anita)</option>
+          </select>
+        </div>
+
+        <!-- User Profile Pill -->
+        <div class="flex items-center gap-2.5 pl-2 border-l border-outline-variant/60">
+          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4uIMiYDIDQM1xkQL0VBBYdyJLcc9Yl-ZVmPnoQdP6n53qu1yOIMmFrBN4thNaYmjuCTDDm_UCxkpG5zjolIo8tw7p_sY16dFAnhPXfi8EFL71mIAIho8HXHNdwFWPJPFLgMWCJ8B8MPHSZdYyfjH_bPygJBzYtObm8Jf4zYsvsQx3LEl0e-cF8oxvn2SaXZDIZ7dWEIefgIaCp_jTCJxza_ma2Wi_AJ5VXLXesXWV8BgJd8TJWeze" class="w-8 h-8 rounded-full object-cover border border-outline-variant" />
+          <div class="hidden sm:block text-left">
+            <p id="user-display-name" class="text-xs font-bold text-on-surface leading-tight">Ramesh Patel</p>
+            <span id="user-role-badge" class="px-2 py-0.5 rounded-full text-[10px] font-label-caps font-bold bg-primary-container text-on-primary-container">Farmer</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Dynamic Content Container -->
+    <main id="main-content" class="flex-1 overflow-y-auto w-full h-full relative">
+      <!-- Dynamic Views Rendered Here -->
+    </main>
+
+    <!-- Mobile Bottom Navigation Bar -->
+    <nav class="md:hidden flex justify-around items-center px-2 py-2 w-full bg-surface border-t border-outline-variant sticky bottom-0 z-40">
+      <a href="#dashboard" onclick="App.navigate('dashboard')" class="flex flex-col items-center p-1.5 text-on-surface-variant hover:text-primary">
+        <span class="material-symbols-outlined text-xl">dashboard</span>
+        <span class="text-[10px] font-label-caps">Dash</span>
+      </a>
+      <a href="#map" onclick="App.navigate('map')" class="flex flex-col items-center p-1.5 text-on-surface-variant hover:text-primary">
+        <span class="material-symbols-outlined text-xl">map</span>
+        <span class="text-[10px] font-label-caps">Map</span>
+      </a>
+      <a href="#irrigation" onclick="App.navigate('irrigation')" class="flex flex-col items-center p-1.5 text-on-surface-variant hover:text-primary">
+        <span class="material-symbols-outlined text-xl">water_drop</span>
+        <span class="text-[10px] font-label-caps">Irrigate</span>
+      </a>
+      <a href="#crop-health" onclick="App.navigate('crop-health')" class="flex flex-col items-center p-1.5 text-on-surface-variant hover:text-primary">
+        <span class="material-symbols-outlined text-xl">grass</span>
+        <span class="text-[10px] font-label-caps">Health</span>
+      </a>
+      <a href="#advisory" onclick="App.navigate('advisory')" class="flex flex-col items-center p-1.5 text-on-surface-variant hover:text-primary">
+        <span class="material-symbols-outlined text-xl">psychology</span>
+        <span class="text-[10px] font-label-caps">Advisory</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Global Modal Container -->
+  <div id="app-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div id="modal-content"></div>
+  </div>
+
+  <!-- Toast Notification Mount -->
+  <div id="toast-container"></div>
+
+  <!-- Application Scripts -->
+  <script src="/js/api.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/views/dashboard.js"></script>
+  <script src="/js/views/map.js"></script>
+  <script src="/js/views/irrigation.js"></script>
+  <script src="/js/views/cropHealth.js"></script>
+  <script src="/js/views/reviewQueue.js"></script>
+  <script src="/js/views/advisory.js"></script>
+  <script src="/js/views/settings.js"></script>
+  <script src="/js/views/support.js"></script>
+  <script src="/js/views/orgOverview.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Organization Overview - Admin Console</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline": "#72796d",
+                      "outline-variant": "#c2c9ba",
+                      "error": "#ba1a1a",
+                      "surface-container": "#e2f3d8",
+                      "on-background": "#121f0e",
+                      "on-primary": "#ffffff",
+                      "primary-container": "#4c7a3d",
+                      "background": "#edffe3",
+                      "on-tertiary": "#ffffff",
+                      "secondary": "#845400",
+                      "surface": "#edffe3",
+                      "on-secondary": "#ffffff",
+                      "surface-container-highest": "#d6e8cd",
+                      "primary-fixed": "#bcf1a7",
+                      "on-tertiary-container": "#cafdf7",
+                      "secondary-container": "#fcb654",
+                      "surface-bright": "#edffe3",
+                      "on-secondary-fixed": "#2a1800",
+                      "inverse-on-surface": "#e5f6db",
+                      "on-primary-fixed-variant": "#245018",
+                      "on-secondary-fixed-variant": "#643f00",
+                      "inverse-primary": "#a1d48d",
+                      "surface-tint": "#3c692e",
+                      "on-surface-variant": "#42493e",
+                      "secondary-fixed-dim": "#ffb958",
+                      "primary": "#346127",
+                      "tertiary": "#2e5e5a",
+                      "tertiary-container": "#477773",
+                      "surface-dim": "#cedfc5",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed-dim": "#a1d48d",
+                      "on-surface": "#121f0e",
+                      "on-tertiary-fixed-variant": "#1c4e4b",
+                      "on-secondary-container": "#714800",
+                      "inverse-surface": "#263422",
+                      "error-container": "#ffdad6",
+                      "on-primary-container": "#d5ffc1",
+                      "secondary-fixed": "#ffddb5",
+                      "on-error": "#ffffff",
+                      "tertiary-fixed-dim": "#9ed0cb",
+                      "on-tertiary-fixed": "#00201e",
+                      "tertiary-fixed": "#baece7",
+                      "surface-variant": "#d6e8cd",
+                      "surface-container-low": "#e8f9de",
+                      "surface-container-high": "#dcedd3",
+                      "on-primary-fixed": "#032100",
+                      "on-error-container": "#93000a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "furrow-lg": "48px",
+                      "stack-unit": "8px",
+                      "furrow-sm": "32px",
+                      "margin-page": "24px",
+                      "gutter-grid": "16px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Fraunces"
+                      ],
+                      "data-md": [
+                              "IBM Plex Mono"
+                      ],
+                      "data-lg": [
+                              "IBM Plex Mono"
+                      ],
+                      "display-md": [
+                              "Fraunces"
+                      ],
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Fraunces"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "data-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "data-lg": [
+                              "20px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-md": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+          .material-symbols-outlined {
+              font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+          }
+          .material-symbols-outlined[data-weight="fill"] {
+              font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+          }
+      </style>
+</head>
+<body class="bg-background text-on-surface h-full flex overflow-hidden antialiased">
+<!-- Sidebar Navigation -->
+<aside class="w-64 bg-surface-dim border-r border-outline-variant fixed left-0 top-0 h-full flex flex-col p-stack-unit z-50 overflow-y-auto hidden md:flex">
+<div class="px-4 py-6 mb-4">
+<h1 class="font-headline-sm text-headline-sm text-on-surface">Krishi Vikas AI</h1>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1">Admin Console</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center px-4 py-3 bg-primary text-on-primary rounded-lg font-bold" href="#">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+<span class="font-label-caps text-label-caps">Overview</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined mr-3">group</span>
+<span class="font-label-caps text-label-caps">Farmers</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined mr-3">agriculture</span>
+<span class="font-label-caps text-label-caps">Farms &amp; Fields</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined mr-3">notifications_active</span>
+<span class="font-label-caps text-label-caps">Alert Center</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined mr-3">map</span>
+<span class="font-label-caps text-label-caps">Risk Map</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined mr-3">verified_user</span>
+<span class="font-label-caps text-label-caps">Expert Validation</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined mr-3">router</span>
+<span class="font-label-caps text-label-caps">Devices &amp; Maintenance</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined mr-3">support_agent</span>
+<span class="font-label-caps text-label-caps">Service Requests</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined mr-3">analytics</span>
+<span class="font-label-caps text-label-caps">Analytics</span>
+</a>
+<a class="flex items-center px-4 py-3 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined mr-3">settings</span>
+<span class="font-label-caps text-label-caps">Settings</span>
+</a>
+</nav>
+<div class="mt-auto px-4 py-4 border-t border-outline-variant">
+<div class="flex items-center">
+<img class="w-8 h-8 rounded-full object-cover border border-outline-variant" data-alt="A small circular avatar placeholder image showing a generic profile silhouette in a modern minimal style. Soft muted greens and earth tones. Designed for a precision agriculture admin dashboard context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaoQH6jtymWrUbGsPrgcLHb_levkTdaahED9bIWDHxgatAUroyr5NgpQZP19ydoOGiL0fgYPylKTkYGUohRcziXUWSieS1HOO1nH_mUDzI5S2baRp8AfvhEGSN5oh-qFOOiQMyRUXKb6zZ85MFLiSAPyJn06haNjDVyu28qyoC3fsCCxHEUktNqZc3vMeyBnov_x5XjIoEuSblsNpVSMXlCLJaVa9s78MSNAGqrhAALhBBwLkd4hYo"/>
+<div class="ml-3">
+<p class="font-label-caps text-label-caps text-on-surface font-bold">Admin User</p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">System Operator</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col md:ml-64 h-screen overflow-y-auto">
+<!-- Top App Bar (Mobile Only) -->
+<header class="md:hidden bg-surface flex justify-between items-center px-margin-page py-4 w-full z-40">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">Krishi Vikas AI</h1>
+<div class="flex space-x-4">
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95">menu</span>
+</div>
+</header>
+<div class="px-margin-page md:px-furrow-lg py-furrow-sm flex-1">
+<header class="mb-furrow-sm">
+<h2 class="font-display-md text-display-md text-on-surface">Organization Overview</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 max-w-2xl">High-level summary of network status, active alerts, and immediate attention items across all managed fields.</p>
+</header>
+<!-- KPI Cards -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter-grid mb-furrow-lg">
+<!-- KPI 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 relative overflow-hidden group hover:border-primary transition-colors">
+<div class="absolute left-0 top-0 bottom-0 w-[3px] bg-secondary-container"></div>
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Total Farmers</span>
+<span class="font-data-md text-data-md text-outline">Active</span>
+</div>
+<div class="flex items-baseline space-x-2">
+<span class="font-display-md text-display-md text-on-surface">124</span>
+</div>
+</div>
+<!-- KPI 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 relative overflow-hidden group hover:border-primary transition-colors">
+<div class="absolute left-0 top-0 bottom-0 w-[3px] bg-primary"></div>
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Total Farms</span>
+<span class="font-data-md text-data-md text-outline">Mapped</span>
+</div>
+<div class="flex items-baseline space-x-2">
+<span class="font-display-md text-display-md text-on-surface">156</span>
+</div>
+</div>
+<!-- KPI 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 relative overflow-hidden group hover:border-primary transition-colors">
+<div class="absolute left-0 top-0 bottom-0 w-[3px] bg-tertiary"></div>
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Connected Devices</span>
+<span class="font-data-md text-data-md text-outline">Online</span>
+</div>
+<div class="flex items-baseline space-x-2">
+<span class="font-display-md text-display-md text-on-surface">412</span>
+</div>
+</div>
+<!-- KPI 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 relative overflow-hidden group hover:border-primary transition-colors">
+<div class="absolute left-0 top-0 bottom-0 w-[3px] bg-error"></div>
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">Active Alerts</span>
+<span class="font-data-md text-data-md text-outline">Unresolved</span>
+</div>
+<div class="flex items-baseline space-x-2">
+<span class="font-display-md text-display-md text-error">18</span>
+</div>
+</div>
+</div>
+<!-- Main Layout Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter-grid">
+<!-- Priority Attention List -->
+<div class="lg:col-span-2 flex flex-col gap-gutter-grid">
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-2">Priority Attention Required</h3>
+<div class="border-b border-outline-variant mb-4 w-full"></div>
+</div>
+<!-- Item 1 -->
+<div class="bg-surface-container-lowest border border-error border-opacity-50 rounded-lg p-4 relative flex flex-col md:flex-row gap-4 items-start md:items-center">
+<div class="absolute left-0 top-0 bottom-0 w-[3px] bg-error"></div>
+<div class="flex-1 pl-2">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-error" data-weight="fill">warning</span>
+<span class="font-body-md text-body-md font-bold text-on-surface">Rajesh Patil</span>
+<span class="bg-error-container text-on-error-container font-label-caps text-label-caps px-2 py-0.5 rounded">High Risk</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">North Field • Fungal Disease Detected</p>
+</div>
+<div class="flex flex-col items-end md:items-end w-full md:w-auto mt-2 md:mt-0">
+<span class="font-data-md text-data-md text-on-surface-variant bg-surface-variant px-2 py-1 rounded">87% Confidence</span>
+<button class="mt-2 bg-primary text-on-primary font-body-sm text-body-sm px-4 py-2 rounded-lg hover:bg-surface-tint transition-colors">Review Alert</button>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="bg-surface-container-lowest border border-secondary-container border-opacity-50 rounded-lg p-4 relative flex flex-col md:flex-row gap-4 items-start md:items-center">
+<div class="absolute left-0 top-0 bottom-0 w-[3px] bg-secondary-container"></div>
+<div class="flex-1 pl-2">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-secondary" data-weight="fill">water_drop</span>
+<span class="font-body-md text-body-md font-bold text-on-surface">Sunita Pawar</span>
+<span class="bg-secondary-fixed text-on-secondary-fixed-variant font-label-caps text-label-caps px-2 py-0.5 rounded">Critical</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">South Plot • Severe Water Stress</p>
+</div>
+<div class="flex flex-col items-end md:items-end w-full md:w-auto mt-2 md:mt-0">
+<span class="font-data-md text-data-md text-on-surface-variant bg-surface-variant px-2 py-1 rounded">Sensor Reading</span>
+<button class="mt-2 border border-primary text-primary font-body-sm text-body-sm px-4 py-2 rounded-lg hover:bg-surface-container transition-colors">View Details</button>
+</div>
+</div>
+</div>
+<!-- Recent Activity Feed -->
+<div class="lg:col-span-1 flex flex-col">
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider mb-2">Recent Activity</h3>
+<div class="border-b border-outline-variant mb-4 w-full"></div>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 flex-1">
+<div class="space-y-6 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-outline-variant before:to-transparent">
+<!-- Activity 1 -->
+<div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+<!-- Icon -->
+<div class="flex items-center justify-center w-10 h-10 rounded-full border border-outline-variant bg-surface text-tertiary shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<!-- Content -->
+<div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded border border-outline-variant bg-surface shadow">
+<div class="flex items-center justify-between mb-1">
+<div class="font-bold text-on-surface font-body-sm text-body-sm">Alert Confirmed</div>
+<div class="font-data-md text-data-md text-outline">10m ago</div>
+</div>
+<div class="text-on-surface-variant font-body-sm text-body-sm">Disease alert for Plot 4B validated by expert.</div>
+</div>
+</div>
+<!-- Activity 2 -->
+<div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+<!-- Icon -->
+<div class="flex items-center justify-center w-10 h-10 rounded-full border border-outline-variant bg-surface text-primary shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+<span class="material-symbols-outlined">person_add</span>
+</div>
+<!-- Content -->
+<div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded border border-outline-variant bg-surface shadow">
+<div class="flex items-center justify-between mb-1">
+<div class="font-bold text-on-surface font-body-sm text-body-sm">New Farmer</div>
+<div class="font-data-md text-data-md text-outline">1h ago</div>
+</div>
+<div class="text-on-surface-variant font-body-sm text-body-sm">Ravi Kumar registered from Pune district.</div>
+</div>
+</div>
+<!-- Activity 3 -->
+<div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active">
+<!-- Icon -->
+<div class="flex items-center justify-center w-10 h-10 rounded-full border border-outline-variant bg-surface text-outline shadow shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
+<span class="material-symbols-outlined">sensors_off</span>
+</div>
+<!-- Content -->
+<div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-4 rounded border border-outline-variant bg-surface shadow">
+<div class="flex items-center justify-between mb-1">
+<div class="font-bold text-on-surface font-body-sm text-body-sm">Device Offline</div>
+<div class="font-data-md text-data-md text-outline">3h ago</div>
+</div>
+<div class="text-on-surface-variant font-body-sm text-body-sm">Sensor Node #42 lost connection.</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</body></html>
