@@ -50,14 +50,17 @@ const App = {
       roleSelect.value = this.session.role;
     }
 
-    // Toggle expert navigation links
-    expertNavItems.forEach(el => {
-      if (this.session.role === 'OrgExpert') {
-        el.classList.remove('hidden');
-      } else {
-        el.classList.add('hidden');
-      }
-    });
+    // Toggle farmer vs organization navigation links
+    const farmerNav = document.getElementById('nav-farmer-links');
+    const orgNav = document.getElementById('nav-org-links');
+
+    if (this.session.role === 'OrgExpert') {
+      if (farmerNav) farmerNav.classList.add('hidden');
+      if (orgNav) orgNav.classList.remove('hidden');
+    } else {
+      if (farmerNav) farmerNav.classList.remove('hidden');
+      if (orgNav) orgNav.classList.add('hidden');
+    }
 
     // Update Hardware & Operating Mode Indicator in Top App Bar
     try {
@@ -123,7 +126,7 @@ const App = {
 
         // Route based on role
         if (newRole === 'OrgExpert') {
-          this.navigate('review-queue');
+          this.navigate('org-overview');
         } else {
           this.navigate('dashboard');
         }
@@ -158,7 +161,12 @@ const App = {
         DashboardView.render(mainContainer);
         break;
       case 'map':
-        FieldMapView.render(mainContainer);
+        if (this.session && this.session.role === 'OrgExpert') {
+          OrgOverviewView.activeSection = 'map';
+          OrgOverviewView.render(mainContainer);
+        } else {
+          FieldMapView.render(mainContainer);
+        }
         break;
       case 'irrigation':
         IrrigationView.render(mainContainer);
@@ -180,10 +188,51 @@ const App = {
         SupportView.render(mainContainer);
         break;
       case 'org-overview':
+        OrgOverviewView.activeSection = 'overview';
+        OrgOverviewView.render(mainContainer);
+        break;
+      case 'org-crops':
+        OrgOverviewView.activeSection = 'crops';
+        OrgOverviewView.render(mainContainer);
+        break;
+      case 'org-surveillance':
+        OrgOverviewView.activeSection = 'surveillance';
+        OrgOverviewView.render(mainContainer);
+        break;
+      case 'org-priority':
+        OrgOverviewView.activeSection = 'priority';
+        OrgOverviewView.render(mainContainer);
+        break;
+      case 'org-field-ops':
+        OrgOverviewView.activeSection = 'field-ops';
+        OrgOverviewView.render(mainContainer);
+        break;
+      case 'org-farmers':
+        OrgOverviewView.activeSection = 'farmers';
+        OrgOverviewView.render(mainContainer);
+        break;
+      case 'org-devices':
+        OrgOverviewView.activeSection = 'devices';
+        OrgOverviewView.render(mainContainer);
+        break;
+      case 'org-maintenance':
+        OrgOverviewView.activeSection = 'maintenance';
+        OrgOverviewView.render(mainContainer);
+        break;
+      case 'org-water':
+        OrgOverviewView.activeSection = 'water';
+        OrgOverviewView.render(mainContainer);
+        break;
+      case 'org-villages':
+        OrgOverviewView.activeSection = 'villages';
         OrgOverviewView.render(mainContainer);
         break;
       default:
-        DashboardView.render(mainContainer);
+        if (this.session && this.session.role === 'OrgExpert') {
+          OrgOverviewView.render(mainContainer);
+        } else {
+          DashboardView.render(mainContainer);
+        }
     }
   },
 

@@ -22,6 +22,7 @@ const {
 } = require('./hardware');
 const { evaluateAllZones, evaluateZoneRisk } = require('./riskEngine');
 const { generateHotspots } = require('./clustering');
+const { getOrganizationComprehensiveAnalytics } = require('./orgAnalytics');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -348,34 +349,10 @@ app.post('/api/maintenance_tickets/:id/update-status', (req, res) => {
 
 app.get('/api/organization/analytics', (req, res) => {
   try {
-    const farmers = db.getAll('farmers');
-    const farms = db.getAll('farms');
-    const zones = db.getAll('zones');
-    const devices = db.getAll('devices');
-    const alerts = db.getAll('alerts');
-    const tickets = db.getAll('maintenance_tickets');
-    const predictions = db.getAll('vision_predictions');
-    const events = db.getAll('irrigation_events');
-
-    const totalHectares = zones.reduce((acc, z) => acc + (Number(z.area_ha) || 0), 0);
-    const totalWaterLiters = events.reduce((acc, e) => acc + (Number(e.water_used_liters) || 0), 0);
-    const openAlerts = alerts.filter(a => a.status !== 'RESOLVED');
-    const openTickets = tickets.filter(t => t.status !== 'RESOLVED');
-
+    const analytics = getOrganizationComprehensiveAnalytics();
     res.json({
       success: true,
-      analytics: {
-        total_farmers: farmers.length,
-        total_farms: farms.length,
-        total_zones: zones.length,
-        total_devices: devices.length,
-        total_hectares: Number(totalHectares.toFixed(1)),
-        total_water_used_liters: totalWaterLiters,
-        active_alerts_count: openAlerts.length,
-        open_tickets_count: openTickets.length,
-        total_vision_scans: predictions.length,
-        provenance: "CALCULATED FROM DATABASE RELATIONS"
-      }
+      analytics
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
