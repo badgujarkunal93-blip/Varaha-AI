@@ -228,6 +228,11 @@
 
       <!-- Header Tools & Role Switcher -->
       <div class="flex items-center gap-3">
+        <!-- Public Landing Showcase Link -->
+        <a href="/landing" class="hidden md:flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold font-mono bg-surface border border-outline-variant text-on-surface hover:bg-surface-container-high transition-colors" title="View Public Landing Page">
+          <span class="material-symbols-outlined text-sm text-primary">public</span> Showcase
+        </a>
+
         <!-- Global Operating Mode Toggle Button (Demo Mode vs Live Hardware) -->
         <button id="global-mode-toggle-btn" onclick="App.toggleMode()" title="Toggle between Demo Mode and Live Hardware Mode" class="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold font-mono bg-secondary-container text-on-secondary-container border border-secondary/40 shadow-sm cursor-pointer hover:opacity-90 transition-opacity">
           <span class="material-symbols-outlined text-sm">developer_board</span> Demo Mode

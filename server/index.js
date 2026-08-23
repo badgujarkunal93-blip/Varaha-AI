@@ -435,6 +435,11 @@ app.delete('/api/:table/:id', (req, res) => {
   res.json({ success: deleted });
 });
 
+// Landing Page Direct Route
+app.get('/landing', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'public', 'landing.html'));
+});
+
 // Single Page Application Fallback
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
