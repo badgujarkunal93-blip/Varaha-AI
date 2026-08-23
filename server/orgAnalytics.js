@@ -358,6 +358,10 @@ function getOrganizationComprehensiveAnalytics() {
 
   return {
     organization: org,
+    total_farmers: totalFarmers,
+    total_farms: totalFarms,
+    total_zones: totalZones,
+    total_devices: totalDevices,
     kpis: {
       total_farmers: totalFarmers,
       total_farms: totalFarms,

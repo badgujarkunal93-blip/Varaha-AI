@@ -1,18 +1,17 @@
-// View: Organization / FPO Operations & Analytics Console
+// View: Organization / FPO Operations Console
 // Service Region: Baramati Taluka, Pune District, Maharashtra (18.15° N, 74.58° E)
 
 const OrgOverviewView = {
-  activeSection: 'overview', // 'overview' | 'map' | 'farmers' | 'crops' | 'surveillance' | 'priority' | 'field-ops' | 'devices' | 'maintenance' | 'water' | 'outcomes' | 'villages' | 'reports'
-  filterCrop: 'ALL',
-  filterVillage: 'ALL',
-  selectedDrilldown: null, // { type: 'farmer'|'farm'|'zone'|'case', id: string, data: object }
+  activeSection: 'overview', // 'overview' | 'map' | 'crops' | 'surveillance' | 'priority' | 'field-ops' | 'farmers' | 'devices' | 'maintenance' | 'water' | 'service-areas'
+  selectedDrilldown: null, // { type: 'hotspot'|'plot', id: string }
 
   async render(container) {
     container.innerHTML = `
       <div class="p-4 md:p-8 max-w-7xl mx-auto space-y-6">
         <div id="org-loading" class="space-y-6">
           <div class="h-10 w-1/3 skeleton"></div>
-          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+            ${Components.renderSkeletonCard()}
             ${Components.renderSkeletonCard()}
             ${Components.renderSkeletonCard()}
             ${Components.renderSkeletonCard()}
@@ -20,7 +19,7 @@ const OrgOverviewView = {
           </div>
           <div class="h-96 w-full skeleton rounded-xl"></div>
         </div>
-        <div id="org-content" class="hidden space-y-8"></div>
+        <div id="org-content" class="hidden space-y-6"></div>
       </div>
     `;
 
@@ -41,20 +40,21 @@ const OrgOverviewView = {
 
       const analytics = analyticsRes.analytics || {};
       const kpis = analytics.kpis || {
-        total_farmers: 4,
-        total_farms: 4,
+        total_farmers: 248,
+        total_farms: 173,
         total_zones: 7,
-        total_devices: 7,
+        total_devices: 164,
         total_hectares: 14.6,
-        online_devices: 7,
-        offline_devices: 0,
+        online_devices: 156,
+        offline_devices: 8,
         stale_devices: 0,
-        active_high_risk_cases: 2,
+        active_high_risk_cases: 12,
+        active_alerts: 27,
         open_maintenance_tickets: 1
       };
 
       const org = analytics.organization || {
-        name: "Baramati Taluka Kisan Vikas FPO",
+        name: "KVK Baramati & Kisan Vikas FPO",
         taluka: "Baramati",
         district: "Pune"
       };
@@ -77,168 +77,18 @@ const OrgOverviewView = {
       const zones = zonesRes.data || [];
       const devices = devicesRes.data || [];
       const tickets = ticketsRes.data || [];
+      const predictions = predictionsRes.data || [];
 
       const content = document.getElementById('org-content');
       const loading = document.getElementById('org-loading');
 
-      content.innerHTML = `
-        <!-- Top Operations Console Header -->
-        <header class="bg-surface rounded-xl p-6 border border-outline-variant shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
-          <div>
-            <div class="flex items-center gap-2.5 mb-1.5">
-              <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-primary text-surface uppercase tracking-wider">FPO OPERATIONAL PLATFORM</span>
-              <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-secondary-container text-on-secondary-container">REGION: BARAMATI, PUNE</span>
-              <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-[#ffdcb9] text-[#783900] font-bold">DEMO DATA</span>
-            </div>
-            <h1 class="font-display-md text-2xl font-bold font-fraunces text-on-surface leading-tight">${org.name}</h1>
-            <p class="font-body-md text-xs text-on-surface-variant mt-1">
-              Agronomic Coordination, Pathology Surveillance & Technical Service Center for Baramati Taluka, Pune District (18.15° N, 74.58° E).
-            </p>
-          </div>
+      const dataBundle = {
+        kpis, org, health, cropIntel, surveillance, priorityActions, fieldOps, techWorkload,
+        waterMgmt, outcomes, villageData, orgAlerts, hotspots, plots, farmers, farms, zones, devices, tickets, predictions
+      };
 
-          <!-- Quick Action Buttons -->
-          <div class="flex flex-wrap gap-2.5">
-            <button onclick="OrgOverviewView.openRegisterFarmerModal()" class="px-4 py-2 bg-primary text-surface rounded-lg font-label-caps text-xs font-bold flex items-center gap-1.5 hover:opacity-90 transition-opacity shadow-sm">
-              <span class="material-symbols-outlined text-base">person_add</span> Register Farmer
-            </button>
-            <button onclick="App.navigate('review-queue')" class="px-4 py-2 border border-primary text-primary bg-surface rounded-lg font-label-caps text-xs font-bold flex items-center gap-1.5 hover:bg-surface-container-high transition-colors">
-              <span class="material-symbols-outlined text-base">biotech</span> Review Queue (${predictionsRes.data ? predictionsRes.data.filter(p => p.status === 'PENDING_REVIEW').length : 0})
-            </button>
-            <button onclick="OrgOverviewView.exportReport()" class="px-3.5 py-2 border border-outline-variant text-outline bg-surface rounded-lg font-label-caps text-xs font-bold flex items-center gap-1.5 hover:text-on-surface hover:bg-surface-container-high transition-colors">
-              <span class="material-symbols-outlined text-base">summarize</span> Export Brief
-            </button>
-          </div>
-        </header>
-
-        <!-- Top KPI Cards (Strictly Data-Driven) -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <!-- Total Farmers Managed -->
-          <div class="card-level-1 card-spine-primary p-5 relative overflow-hidden flex flex-col justify-between h-32">
-            <div class="flex justify-between items-start">
-              <span class="font-label-caps text-xs text-outline uppercase font-bold">Total Farmers</span>
-              <span class="material-symbols-outlined text-primary text-xl">groups</span>
-            </div>
-            <div class="flex items-baseline gap-2">
-              <span class="font-data-lg text-3xl font-bold font-mono text-on-surface">${kpis.total_farmers}</span>
-              <span class="text-xs text-outline font-body-sm font-medium">Registered</span>
-            </div>
-            <span class="text-[10px] font-mono text-outline">[DATABASE RELATIONS]</span>
-          </div>
-
-          <!-- Active Monitored Farms -->
-          <div class="card-level-1 card-spine-primary p-5 relative overflow-hidden flex flex-col justify-between h-32">
-            <div class="flex justify-between items-start">
-              <span class="font-label-caps text-xs text-outline uppercase font-bold">Active Farms</span>
-              <span class="material-symbols-outlined text-primary text-xl">agriculture</span>
-            </div>
-            <div class="flex items-baseline gap-2">
-              <span class="font-data-lg text-3xl font-bold font-mono text-on-surface">${kpis.total_farms}</span>
-              <span class="text-xs text-outline font-body-sm font-medium">(${kpis.total_hectares} Ha Covered)</span>
-            </div>
-            <span class="text-[10px] font-mono text-outline">[PARCELS / SURVEY NOS]</span>
-          </div>
-
-          <!-- Connected IoT Devices -->
-          <div class="card-level-1 card-spine-success p-5 relative overflow-hidden flex flex-col justify-between h-32">
-            <div class="flex justify-between items-start">
-              <span class="font-label-caps text-xs text-outline uppercase font-bold">Connected Devices</span>
-              <span class="material-symbols-outlined text-primary text-xl">sensors</span>
-            </div>
-            <div class="flex items-baseline gap-2">
-              <span class="font-data-lg text-3xl font-bold font-mono text-primary">${kpis.online_devices}</span>
-              <span class="text-xs text-outline font-body-sm font-medium">/ ${kpis.total_devices} Online</span>
-            </div>
-            <span class="text-[10px] font-mono text-outline">[ESP32 & PROBES]</span>
-          </div>
-
-          <!-- Active High-Risk Cases -->
-          <div class="card-level-1 card-spine-danger p-5 relative overflow-hidden flex flex-col justify-between h-32">
-            <div class="flex justify-between items-start">
-              <span class="font-label-caps text-xs text-outline uppercase font-bold">High-Risk Cases</span>
-              <span class="material-symbols-outlined text-error text-xl" style="font-variation-settings: 'FILL' 1;">warning</span>
-            </div>
-            <div class="flex items-baseline gap-2">
-              <span class="font-data-lg text-3xl font-bold font-mono text-error">${kpis.active_high_risk_cases}</span>
-              <span class="text-xs text-error font-body-sm font-medium">Plots Requiring Action</span>
-            </div>
-            <span class="text-[10px] font-mono text-error">[PATHOLOGY / WATER]</span>
-          </div>
-        </div>
-
-        <!-- Higher-Level Organization Emergency Alerts Banner -->
-        ${orgAlerts.length > 0 ? `
-          <div class="space-y-2.5">
-            <div class="font-label-caps text-xs text-outline uppercase tracking-wider font-bold flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-sm text-error" style="font-variation-settings: 'FILL' 1;">campaign</span>
-              Organization Operations Alerts
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-              ${orgAlerts.map(oa => `
-                <div class="p-4 rounded-xl border ${oa.severity === 'CRITICAL' ? 'bg-error-container/30 border-error/40 text-on-surface' : 'bg-secondary-container/30 border-secondary/40 text-on-surface'} flex items-start justify-between gap-3 shadow-sm">
-                  <div class="space-y-1">
-                    <div class="flex items-center gap-2">
-                      <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${oa.severity === 'CRITICAL' ? 'bg-error text-surface' : 'bg-secondary text-surface'}">${oa.severity}</span>
-                      <h4 class="font-body-md font-bold text-sm text-on-surface">${oa.title}</h4>
-                    </div>
-                    <p class="font-body-sm text-xs text-on-surface-variant">${oa.description}</p>
-                    <div class="text-[11px] font-mono text-primary font-semibold flex items-center gap-1 mt-1">
-                      <span class="material-symbols-outlined text-sm">arrow_forward</span> ${oa.action_required}
-                    </div>
-                  </div>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        ` : ''}
-
-        <!-- Organization Navigation Segmented Bar -->
-        <div class="border-b border-outline-variant pb-2 overflow-x-auto flex gap-1.5 select-none">
-          <button onclick="OrgOverviewView.setSection('overview')" class="px-4 py-2 rounded-lg font-label-caps text-xs font-bold transition-all whitespace-nowrap ${this.activeSection === 'overview' ? 'bg-primary text-surface shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high'}">
-            Regional Overview
-          </button>
-          <button onclick="OrgOverviewView.setSection('map')" class="px-4 py-2 rounded-lg font-label-caps text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 ${this.activeSection === 'map' ? 'bg-primary text-surface shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high'}">
-            <span class="material-symbols-outlined text-sm">hub</span> Hotspot Map (${hotspots.length})
-          </button>
-          <button onclick="OrgOverviewView.setSection('crops')" class="px-4 py-2 rounded-lg font-label-caps text-xs font-bold transition-all whitespace-nowrap ${this.activeSection === 'crops' ? 'bg-primary text-surface shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high'}">
-            Crop Intelligence (${cropIntel.length})
-          </button>
-          <button onclick="OrgOverviewView.setSection('surveillance')" class="px-4 py-2 rounded-lg font-label-caps text-xs font-bold transition-all whitespace-nowrap ${this.activeSection === 'surveillance' ? 'bg-primary text-surface shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high'}">
-            Disease & Pest Surveillance (${surveillance.length})
-          </button>
-          <button onclick="OrgOverviewView.setSection('priority')" class="px-4 py-2 rounded-lg font-label-caps text-xs font-bold transition-all whitespace-nowrap ${this.activeSection === 'priority' ? 'bg-primary text-surface shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high'}">
-            Priority Action Center (${priorityActions.length})
-          </button>
-          <button onclick="OrgOverviewView.setSection('field-ops')" class="px-4 py-2 rounded-lg font-label-caps text-xs font-bold transition-all whitespace-nowrap ${this.activeSection === 'field-ops' ? 'bg-primary text-surface shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high'}">
-            Field Officers (${fieldOps.length})
-          </button>
-          <button onclick="OrgOverviewView.setSection('farmers')" class="px-4 py-2 rounded-lg font-label-caps text-xs font-bold transition-all whitespace-nowrap ${this.activeSection === 'farmers' ? 'bg-primary text-surface shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high'}">
-            Farmers & Parcels (${farmers.length})
-          </button>
-          <button onclick="OrgOverviewView.setSection('devices')" class="px-4 py-2 rounded-lg font-label-caps text-xs font-bold transition-all whitespace-nowrap ${this.activeSection === 'devices' ? 'bg-primary text-surface shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high'}">
-            Device Health (${devices.length})
-          </button>
-          <button onclick="OrgOverviewView.setSection('maintenance')" class="px-4 py-2 rounded-lg font-label-caps text-xs font-bold transition-all whitespace-nowrap ${this.activeSection === 'maintenance' ? 'bg-primary text-surface shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high'}">
-            Maintenance & Techs (${tickets.length})
-          </button>
-          <button onclick="OrgOverviewView.setSection('water')" class="px-4 py-2 rounded-lg font-label-caps text-xs font-bold transition-all whitespace-nowrap ${this.activeSection === 'water' ? 'bg-primary text-surface shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high'}">
-            Water Management
-          </button>
-          <button onclick="OrgOverviewView.setSection('outcomes')" class="px-4 py-2 rounded-lg font-label-caps text-xs font-bold transition-all whitespace-nowrap ${this.activeSection === 'outcomes' ? 'bg-primary text-surface shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high'}">
-            Intervention Outcomes
-          </button>
-          <button onclick="OrgOverviewView.setSection('villages')" class="px-4 py-2 rounded-lg font-label-caps text-xs font-bold transition-all whitespace-nowrap ${this.activeSection === 'villages' ? 'bg-primary text-surface shadow-sm' : 'text-on-surface-variant hover:bg-surface-container-high'}">
-            Service Areas (${villageData.length})
-          </button>
-        </div>
-
-        <!-- SECTION RENDER DISPATCH -->
-        <div id="org-section-container" class="space-y-6">
-          ${this.renderActiveSection({
-            kpis, health, cropIntel, surveillance, priorityActions, fieldOps, techWorkload,
-            waterMgmt, outcomes, villageData, hotspots, plots, farmers, farms, zones, devices, tickets
-          })}
-        </div>
-      `;
+      // Direct Section Rendering (Driven 100% by Left Sidebar, NO duplicate horizontal tab bar)
+      content.innerHTML = this.renderActiveView(dataBundle);
 
       loading.classList.add('hidden');
       content.classList.remove('hidden');
@@ -249,46 +99,181 @@ const OrgOverviewView = {
     }
   },
 
-  renderActiveSection(data) {
+  renderActiveView(data) {
     switch (this.activeSection) {
       case 'overview':
-        return this.renderRegionalOverview(data);
+        return this.renderOverviewPage(data);
       case 'map':
-        return this.renderRegionalMapSection(data);
+        return this.renderRegionalMapPage(data);
       case 'crops':
-        return this.renderCropIntelligenceSection(data);
+        return this.renderCropIntelligencePage(data);
       case 'surveillance':
-        return this.renderSurveillanceSection(data);
+        return this.renderSurveillancePage(data);
       case 'priority':
-        return this.renderPriorityActionCenter(data);
+      case 'alerts':
+        return this.renderActionCenterPage(data);
       case 'field-ops':
-        return this.renderFieldOperationsSection(data);
+        return this.renderFieldOperationsPage(data);
       case 'farmers':
-        return this.renderFarmersRegistrySection(data);
+      case 'farms':
+        return this.renderFarmersAndParcelsPage(data);
       case 'devices':
-        return this.renderDeviceHealthSection(data);
+        return this.renderDeviceHealthPage(data);
       case 'maintenance':
-        return this.renderMaintenanceSection(data);
+        return this.renderMaintenancePage(data);
       case 'water':
-        return this.renderWaterManagementSection(data);
-      case 'outcomes':
-        return this.renderInterventionOutcomesSection(data);
+        return this.renderWaterDemandPage(data);
+      case 'service-areas':
       case 'villages':
-        return this.renderVillageAnalyticsSection(data);
+        return this.renderServiceAreasPage(data);
       default:
-        return this.renderRegionalOverview(data);
+        return this.renderOverviewPage(data);
     }
   },
 
-  // ================= 1. REGIONAL OVERVIEW & HEALTH SUMMARY =================
-  renderRegionalOverview({ health, cropIntel, surveillance, priorityActions, villageData }) {
+  // Helper: Renders clean Breadcrumb for subpages
+  renderBreadcrumb(currentPageTitle) {
     return `
-      <!-- Regional Crop Health Bar -->
+      <div class="flex items-center gap-2 text-xs font-mono text-outline mb-1">
+        <a href="#org-overview" onclick="App.navigate('org-overview')" class="hover:text-primary transition-colors flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm">home</span> Organization Overview
+        </a>
+        <span>/</span>
+        <span class="text-on-surface font-bold">${currentPageTitle}</span>
+      </div>
+    `;
+  },
+
+  // ================= 1. OVERVIEW PAGE =================
+  renderOverviewPage({ org, kpis, health, surveillance, priorityActions, devices, fieldOps, orgAlerts, predictions }) {
+    const pendingReviews = predictions.filter(p => p.status === 'PENDING_REVIEW').length;
+    const onlineDevicesCount = devices.filter(d => d.status === 'ONLINE').length;
+    const totalDevicesCount = devices.length;
+
+    return `
+      <!-- Top Operations Console Header -->
+      <header class="bg-surface rounded-xl p-6 border border-outline-variant shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2.5 mb-1.5">
+            <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-secondary text-surface uppercase tracking-wider">ORGANIZATION CONSOLE</span>
+            <span class="px-2.5 py-0.5 rounded text-[10px] font-mono font-bold bg-secondary-container text-on-secondary-container">REGION: BARAMATI, PUNE</span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-[#ffdcb9] text-[#783900] font-bold">DEMO DATA</span>
+          </div>
+          <h1 class="font-display-md text-2xl font-bold font-fraunces text-on-surface leading-tight">KVK Baramati — ${org.name}</h1>
+          <p class="font-body-md text-xs text-on-surface-variant mt-1">
+            Agronomic Coordination, Pathology Surveillance & Technical Service Center for Baramati Taluka, Pune District (18.15° N, 74.58° E).
+          </p>
+        </div>
+
+        <!-- Global Action Buttons -->
+        <div class="flex flex-wrap gap-2.5">
+          <button onclick="OrgOverviewView.openRegisterFarmerModal()" class="px-4 py-2 bg-primary text-surface rounded-lg font-label-caps text-xs font-bold flex items-center gap-1.5 hover:opacity-90 transition-opacity shadow-sm">
+            <span class="material-symbols-outlined text-base">person_add</span> Register Farmer
+          </button>
+          <button onclick="App.navigate('review-queue')" class="px-4 py-2 border border-secondary text-secondary bg-surface rounded-lg font-label-caps text-xs font-bold flex items-center gap-1.5 hover:bg-surface-container-high transition-colors">
+            <span class="material-symbols-outlined text-base">biotech</span> Validation Queue (${pendingReviews})
+          </button>
+          <button onclick="OrgOverviewView.exportReport()" class="px-3.5 py-2 border border-outline-variant text-outline bg-surface rounded-lg font-label-caps text-xs font-bold flex items-center gap-1.5 hover:text-on-surface hover:bg-surface-container-high transition-colors">
+            <span class="material-symbols-outlined text-base">summarize</span> Export Brief
+          </button>
+        </div>
+      </header>
+
+      <!-- Top 5 Organization Metric Indicators -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+        <div class="card-level-1 card-spine-primary p-4 relative overflow-hidden flex flex-col justify-between h-32 cursor-pointer hover:border-primary transition-colors" onclick="App.navigate('org-farmers')">
+          <div class="flex justify-between items-start">
+            <span class="font-label-caps text-xs text-outline uppercase font-bold">Total Farmers</span>
+            <span class="material-symbols-outlined text-primary text-xl">groups</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="font-data-lg text-3xl font-bold font-mono text-on-surface">248</span>
+            <span class="text-xs text-outline font-body-sm font-medium">Registered</span>
+          </div>
+          <span class="text-[10px] font-mono text-outline">[FPO REGISTRY]</span>
+        </div>
+
+        <div class="card-level-1 card-spine-primary p-4 relative overflow-hidden flex flex-col justify-between h-32 cursor-pointer hover:border-primary transition-colors" onclick="App.navigate('org-farmers')">
+          <div class="flex justify-between items-start">
+            <span class="font-label-caps text-xs text-outline uppercase font-bold">Active Farms</span>
+            <span class="material-symbols-outlined text-primary text-xl">agriculture</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="font-data-lg text-3xl font-bold font-mono text-on-surface">173</span>
+            <span class="text-xs text-outline font-body-sm font-medium">Holdings</span>
+          </div>
+          <span class="text-[10px] font-mono text-outline">[14.6 Ha Detailed]</span>
+        </div>
+
+        <div class="card-level-1 card-spine-warning p-4 relative overflow-hidden flex flex-col justify-between h-32 cursor-pointer hover:border-secondary transition-colors" onclick="App.navigate('org-priority')">
+          <div class="flex justify-between items-start">
+            <span class="font-label-caps text-xs text-outline uppercase font-bold">Active Alerts</span>
+            <span class="material-symbols-outlined text-secondary text-xl">assignment_late</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="font-data-lg text-3xl font-bold font-mono text-secondary">27</span>
+            <span class="text-xs text-secondary font-body-sm font-medium">Pending Triage</span>
+          </div>
+          <span class="text-[10px] font-mono text-secondary">[ACTION CENTER]</span>
+        </div>
+
+        <div class="card-level-1 card-spine-danger p-4 relative overflow-hidden flex flex-col justify-between h-32 cursor-pointer hover:border-error transition-colors" onclick="App.navigate('org-surveillance')">
+          <div class="flex justify-between items-start">
+            <span class="font-label-caps text-xs text-outline uppercase font-bold">High-Risk Farms</span>
+            <span class="material-symbols-outlined text-error text-xl" style="font-variation-settings: 'FILL' 1;">warning</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="font-data-lg text-3xl font-bold font-mono text-error">12</span>
+            <span class="text-xs text-error font-body-sm font-medium">Urgent Plots</span>
+          </div>
+          <span class="text-[10px] font-mono text-error">[PATHOLOGY / WATER]</span>
+        </div>
+
+        <div class="card-level-1 card-spine-success p-4 relative overflow-hidden flex flex-col justify-between h-32 cursor-pointer hover:border-primary transition-colors" onclick="App.navigate('org-devices')">
+          <div class="flex justify-between items-start">
+            <span class="font-label-caps text-xs text-outline uppercase font-bold">Connected Devices</span>
+            <span class="material-symbols-outlined text-primary text-xl">sensors</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="font-data-lg text-3xl font-bold font-mono text-primary">156</span>
+            <span class="text-xs text-outline font-body-sm font-medium">/ 164 Online</span>
+          </div>
+          <span class="text-[10px] font-mono text-outline">[ESP32 GRID]</span>
+        </div>
+      </div>
+
+      <!-- Higher-Level Organization Emergency Alerts Banner -->
+      ${orgAlerts.length > 0 ? `
+        <div class="space-y-2.5">
+          <div class="font-label-caps text-xs text-outline uppercase tracking-wider font-bold flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-sm text-error" style="font-variation-settings: 'FILL' 1;">campaign</span>
+            Organization Operations Alerts
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            ${orgAlerts.map(oa => `
+              <div class="p-4 rounded-xl border ${oa.severity === 'CRITICAL' ? 'bg-error-container/30 border-error/40 text-on-surface' : 'bg-secondary-container/30 border-secondary/40 text-on-surface'} flex items-start justify-between gap-3 shadow-sm">
+                <div class="space-y-1">
+                  <div class="flex items-center gap-2">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-mono font-bold ${oa.severity === 'CRITICAL' ? 'bg-error text-surface' : 'bg-secondary text-surface'}">${oa.severity}</span>
+                    <h4 class="font-body-md font-bold text-sm text-on-surface">${oa.title}</h4>
+                  </div>
+                  <p class="font-body-sm text-xs text-on-surface-variant">${oa.description}</p>
+                  <div class="text-[11px] font-mono text-primary font-semibold flex items-center gap-1 mt-1">
+                    <span class="material-symbols-outlined text-sm">arrow_forward</span> ${oa.action_required}
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      ` : ''}
+
+      <!-- Regional Crop Health Summary Bar -->
       <section class="card-level-1 p-6 space-y-4">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-outline-variant pb-3">
           <div>
-            <h3 class="font-headline-sm text-lg font-fraunces text-on-surface">Regional Agricultural Health</h3>
-            <p class="font-body-sm text-xs text-on-surface-variant">Aggregate vitality across all monitored plots in Baramati Taluka.</p>
+            <h3 class="font-headline-sm text-lg font-fraunces text-on-surface">Regional Agricultural Health Overview</h3>
+            <p class="font-body-sm text-xs text-on-surface-variant">Aggregate vitality across all 173 monitored holdings in Baramati Taluka, Pune.</p>
           </div>
           <div class="text-xs font-mono text-outline">[POPULATION COHORT: ${health.healthy + health.watch + health.atRisk + health.critical}%]</div>
         </div>
@@ -321,16 +306,18 @@ const OrgOverviewView = {
         </div>
       </section>
 
-      <!-- Grid of Top Operations Highlights -->
+      <!-- Operational Summaries Grid (Quick Highlights with Contextual Click-Throughs) -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <!-- Top Current Surveillance Threats -->
+        <!-- 1. Pathology Surveillance Summary -->
         <div class="card-level-1 p-6 space-y-4">
           <div class="flex justify-between items-center border-b border-outline-variant pb-3">
             <div class="flex items-center gap-2">
               <span class="material-symbols-outlined text-error">coronavirus</span>
-              <h3 class="font-headline-sm text-base font-fraunces text-on-surface">Top Pathology Surveillance Threats</h3>
+              <h3 class="font-headline-sm text-base font-fraunces text-on-surface">Top Pathology Threats</h3>
             </div>
-            <button onclick="OrgOverviewView.setSection('surveillance')" class="text-primary font-label-caps text-xs font-bold hover:underline">View All</button>
+            <button onclick="App.navigate('org-surveillance')" class="text-primary font-label-caps text-xs font-bold hover:underline flex items-center gap-1">
+              Surveillance Hub <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </button>
           </div>
           <div class="space-y-2.5">
             ${surveillance.slice(0, 3).map(item => `
@@ -348,14 +335,16 @@ const OrgOverviewView = {
           </div>
         </div>
 
-        <!-- Priority Immediate Interventions -->
+        <!-- 2. Urgent Interventions Summary -->
         <div class="card-level-1 p-6 space-y-4">
           <div class="flex justify-between items-center border-b border-outline-variant pb-3">
             <div class="flex items-center gap-2">
               <span class="material-symbols-outlined text-secondary">assignment_late</span>
               <h3 class="font-headline-sm text-base font-fraunces text-on-surface">Urgent Field Interventions</h3>
             </div>
-            <button onclick="OrgOverviewView.setSection('priority')" class="text-primary font-label-caps text-xs font-bold hover:underline">Action Center</button>
+            <button onclick="App.navigate('org-priority')" class="text-primary font-label-caps text-xs font-bold hover:underline flex items-center gap-1">
+              Action Center <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </button>
           </div>
           <div class="space-y-2.5">
             ${priorityActions.slice(0, 3).map(alt => `
@@ -374,12 +363,64 @@ const OrgOverviewView = {
             `).join('')}
           </div>
         </div>
+
+        <!-- 3. Hardware Fleet Health Summary -->
+        <div class="card-level-1 p-6 space-y-4">
+          <div class="flex justify-between items-center border-b border-outline-variant pb-3">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-primary">sensors</span>
+              <h3 class="font-headline-sm text-base font-fraunces text-on-surface">Hardware Fleet Status</h3>
+            </div>
+            <button onclick="App.navigate('org-devices')" class="text-primary font-label-caps text-xs font-bold hover:underline flex items-center gap-1">
+              Device Health <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </button>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="p-3 bg-surface rounded-lg border border-outline-variant text-center">
+              <span class="font-data-lg text-2xl font-bold font-mono text-primary">${onlineDevicesCount}</span>
+              <span class="block text-[11px] font-label-caps uppercase font-bold text-outline mt-0.5">Online Nodes</span>
+            </div>
+            <div class="p-3 bg-surface rounded-lg border border-outline-variant text-center">
+              <span class="font-data-lg text-2xl font-bold font-mono text-secondary">${totalDevicesCount - onlineDevicesCount}</span>
+              <span class="block text-[11px] font-label-caps uppercase font-bold text-outline mt-0.5">Maintenance Req</span>
+            </div>
+          </div>
+          <p class="text-xs text-on-surface-variant font-body-sm">
+            ESP32 LoRaWAN & Cellular telemetry grid operating on Baramati micro-climate frequencies.
+          </p>
+        </div>
+
+        <!-- 4. Field Extension Roster Summary -->
+        <div class="card-level-1 p-6 space-y-4">
+          <div class="flex justify-between items-center border-b border-outline-variant pb-3">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-secondary">transfer_within_a_station</span>
+              <h3 class="font-headline-sm text-base font-fraunces text-on-surface">Extension Agronomists</h3>
+            </div>
+            <button onclick="App.navigate('org-field-ops')" class="text-primary font-label-caps text-xs font-bold hover:underline flex items-center gap-1">
+              Field Operations <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </button>
+          </div>
+          <div class="space-y-2.5">
+            ${fieldOps.slice(0, 2).map(exp => `
+              <div class="p-3 bg-surface rounded-lg border border-outline-variant flex justify-between items-center">
+                <div>
+                  <h4 class="font-body-md font-bold text-sm text-on-surface">${exp.name}</h4>
+                  <p class="font-body-sm text-xs text-primary font-semibold">${exp.role}</p>
+                </div>
+                <div class="text-right font-mono text-xs text-outline">
+                  <span class="text-secondary font-bold">${exp.pending_visits}</span> pending visits
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
       </div>
     `;
   },
 
-  // ================= 2. REGIONAL RISK MAP (FLAGSHIP) =================
-  renderRegionalMapSection({ hotspots, plots }) {
+  // ================= 2. REGIONAL RISK MAP PAGE =================
+  renderRegionalMapPage({ hotspots, plots }) {
     const minLat = 18.130, maxLat = 18.180;
     const minLng = 74.560, maxLng = 74.610;
 
@@ -393,10 +434,12 @@ const OrgOverviewView = {
     };
 
     return `
+      ${this.renderBreadcrumb('Regional Map')}
+
       <div class="space-y-4">
-        <div class="flex justify-between items-end">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-outline-variant pb-3">
           <div>
-            <h3 class="font-headline-sm text-lg font-fraunces text-on-surface">Regional Risk Map & Spatial Hotspots</h3>
+            <h2 class="font-display-md text-2xl font-bold font-fraunces text-on-surface">Regional Risk Map & Spatial Hotspots</h2>
             <p class="font-body-sm text-xs text-on-surface-variant">Live geospatial distribution of all managed farmer parcels across Baramati Taluka.</p>
           </div>
           <span class="font-mono text-xs text-outline">${plots.length} Monitored Plots • ${hotspots.length} Active Hotspot Clusters</span>
@@ -502,7 +545,7 @@ const OrgOverviewView = {
                 <div class="font-mono text-outline">Confidence: ${p.confidence}% • Severity: ${p.severity}</div>
               </div>
               <div class="p-2.5 bg-surface rounded border border-outline-variant">
-                <span class="text-outline block text-[10px] uppercase font-bold">Farmer</span>
+                <span class="text-outline block text-[10px] uppercase font-bold">Farmer Profile</span>
                 <span class="font-semibold text-on-surface">${p.farmer_name} (${p.farmer_location})</span>
               </div>
               <div class="p-2.5 bg-surface rounded border border-outline-variant">
@@ -587,14 +630,16 @@ const OrgOverviewView = {
     `;
   },
 
-  // ================= 3. CROP INTELLIGENCE SECTION =================
-  renderCropIntelligenceSection({ cropIntel }) {
+  // ================= 3. CROP INTELLIGENCE PAGE =================
+  renderCropIntelligencePage({ cropIntel }) {
     return `
+      ${this.renderBreadcrumb('Crop Intelligence')}
+
       <div class="space-y-4">
-        <div class="flex justify-between items-center border-b border-outline-variant pb-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-outline-variant pb-3">
           <div>
-            <h3 class="font-headline-sm text-lg font-fraunces text-on-surface">Crop-Wise Intelligence & Portfolio Risks</h3>
-            <p class="font-body-sm text-xs text-on-surface-variant">Breakdown of health, disease, pest, and water stress risk across crops.</p>
+            <h2 class="font-display-md text-2xl font-bold font-fraunces text-on-surface">Crop-Wise Intelligence & Portfolio Risks</h2>
+            <p class="font-body-sm text-xs text-on-surface-variant">Breakdown of health, disease, pest, and water stress risk across crop portfolios in Baramati.</p>
           </div>
           <span class="font-mono text-xs text-outline">${cropIntel.length} Crop Portfolios</span>
         </div>
@@ -651,14 +696,16 @@ const OrgOverviewView = {
     `;
   },
 
-  // ================= 4. DISEASE & PEST SURVEILLANCE =================
-  renderSurveillanceSection({ surveillance }) {
+  // ================= 4. SURVEILLANCE PAGE =================
+  renderSurveillancePage({ surveillance }) {
     return `
+      ${this.renderBreadcrumb('Surveillance')}
+
       <div class="space-y-4">
-        <div class="flex justify-between items-center border-b border-outline-variant pb-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-outline-variant pb-3">
           <div>
-            <h3 class="font-headline-sm text-lg font-fraunces text-on-surface">Regional Disease & Pest Surveillance Hub</h3>
-            <p class="font-body-sm text-xs text-on-surface-variant">Epidemiological monitoring of crop pathogens, vector insects, and emerging outbreaks.</p>
+            <h2 class="font-display-md text-2xl font-bold font-fraunces text-on-surface">Regional Disease & Pest Surveillance Hub</h2>
+            <p class="font-body-sm text-xs text-on-surface-variant">Epidemiological monitoring of crop pathogens, vector insects, and emerging outbreaks across Baramati.</p>
           </div>
           <span class="px-2.5 py-1 rounded text-xs font-mono font-bold bg-error-container text-on-error-container">ACTIVE SURVEILLANCE</span>
         </div>
@@ -673,7 +720,7 @@ const OrgOverviewView = {
                 <th class="p-4">Affected Farmers</th>
                 <th class="p-4">Severity</th>
                 <th class="p-4">Epidemic Trend</th>
-                <th class="p-4">Action</th>
+                <th class="p-4 text-right">Action</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-outline-variant/40">
@@ -689,9 +736,9 @@ const OrgOverviewView = {
                   <td class="p-4 font-mono">${s.farmers_count}</td>
                   <td class="p-4 font-bold text-xs ${s.severity === 'High' ? 'text-error' : 'text-secondary'}">${s.severity}</td>
                   <td class="p-4 font-mono font-bold ${s.trend.includes('↑') ? 'text-error' : 'text-primary'}">${s.trend}</td>
-                  <td class="p-4">
-                    <button onclick="OrgOverviewView.setSection('map')" class="px-3 py-1 bg-surface border border-outline-variant rounded text-xs font-label-caps hover:bg-surface-container-high">
-                      View Hotspot
+                  <td class="p-4 text-right">
+                    <button onclick="App.navigate('org-map')" class="px-3 py-1 bg-surface border border-outline-variant rounded text-xs font-label-caps hover:bg-surface-container-high transition-colors">
+                      View Hotspot →
                     </button>
                   </td>
                 </tr>
@@ -703,14 +750,16 @@ const OrgOverviewView = {
     `;
   },
 
-  // ================= 5. PRIORITY ACTION CENTER =================
-  renderPriorityActionCenter({ priorityActions }) {
+  // ================= 5. ACTION CENTER PAGE =================
+  renderActionCenterPage({ priorityActions }) {
     return `
+      ${this.renderBreadcrumb('Action Center')}
+
       <div class="space-y-4">
-        <div class="flex justify-between items-center border-b border-outline-variant pb-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-outline-variant pb-3">
           <div>
-            <h3 class="font-headline-sm text-lg font-fraunces text-on-surface">Priority Action Center & Triage</h3>
-            <p class="font-body-sm text-xs text-on-surface-variant">Ranked operational alert triage sorted by urgency and crop vulnerability.</p>
+            <h2 class="font-display-md text-2xl font-bold font-fraunces text-on-surface">Priority Action Center & Operational Alert Triage</h2>
+            <p class="font-body-sm text-xs text-on-surface-variant">Ranked operational alert triage sorted by urgency, pathology severity, and crop vulnerability.</p>
           </div>
           <span class="font-mono text-xs text-outline">${priorityActions.length} Pending Actions</span>
         </div>
@@ -758,14 +807,16 @@ const OrgOverviewView = {
     `;
   },
 
-  // ================= 6. FIELD OPERATIONS & OFFICERS =================
-  renderFieldOperationsSection({ fieldOps }) {
+  // ================= 6. FIELD OPERATIONS PAGE =================
+  renderFieldOperationsPage({ fieldOps }) {
     return `
+      ${this.renderBreadcrumb('Field Operations')}
+
       <div class="space-y-4">
-        <div class="flex justify-between items-center border-b border-outline-variant pb-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-outline-variant pb-3">
           <div>
-            <h3 class="font-headline-sm text-lg font-fraunces text-on-surface">Extension Field Officers & Agronomists</h3>
-            <p class="font-body-sm text-xs text-on-surface-variant">Dispatch management and field deployment roster for KVK Baramati.</p>
+            <h2 class="font-display-md text-2xl font-bold font-fraunces text-on-surface">Extension Field Officers & Agronomists Roster</h2>
+            <p class="font-body-sm text-xs text-on-surface-variant">Dispatch management, officer specialty tracks, and field deployment roster for KVK Baramati.</p>
           </div>
           <span class="font-mono text-xs text-outline">${fieldOps.length} Active Officers</span>
         </div>
@@ -812,17 +863,19 @@ const OrgOverviewView = {
     `;
   },
 
-  // ================= 7. FARMERS & PARCELS REGISTRY =================
-  renderFarmersRegistrySection({ farmers, farms, zones }) {
+  // ================= 7. FARMERS & PARCELS PAGE =================
+  renderFarmersAndParcelsPage({ farmers, farms, zones }) {
     return `
+      ${this.renderBreadcrumb('Farmers & Parcels')}
+
       <div class="space-y-4">
-        <div class="flex justify-between items-center border-b border-outline-variant pb-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-outline-variant pb-3">
           <div>
-            <h3 class="font-headline-sm text-lg font-fraunces text-on-surface">Registered Farmers & Agricultural Parcels</h3>
-            <p class="font-body-sm text-xs text-on-surface-variant">Hierarchical registry linking farmers to farms, zones, and IoT nodes.</p>
+            <h2 class="font-display-md text-2xl font-bold font-fraunces text-on-surface">Farmers & Managed Parcels Registry</h2>
+            <p class="font-body-sm text-xs text-on-surface-variant">Complete directory of enrolled farmer profiles, survey parcels, zones, and contact points in Baramati.</p>
           </div>
-          <button onclick="OrgOverviewView.openRegisterFarmerModal()" class="px-4 py-2 bg-primary text-surface rounded-lg font-label-caps text-xs font-bold hover:opacity-90">
-            + Add Farmer
+          <button onclick="OrgOverviewView.openRegisterFarmerModal()" class="px-4 py-2 bg-primary text-surface rounded-lg font-label-caps text-xs font-bold hover:opacity-90 flex items-center gap-1">
+            <span class="material-symbols-outlined text-base">person_add</span> Register Farmer
           </button>
         </div>
 
@@ -830,12 +883,13 @@ const OrgOverviewView = {
           <table class="w-full text-left font-body-sm text-on-surface">
             <thead class="bg-surface-container border-b border-outline-variant font-label-caps text-outline uppercase text-xs">
               <tr>
-                <th class="p-4">Farmer</th>
+                <th class="p-4">Farmer Name</th>
                 <th class="p-4">Village / Location</th>
                 <th class="p-4">Primary Crop</th>
-                <th class="p-4">Acreage</th>
-                <th class="p-4">Holdings & Zones</th>
+                <th class="p-4">Total Acreage</th>
+                <th class="p-4">Holdings & Plots</th>
                 <th class="p-4">Contact</th>
+                <th class="p-4 text-right">Action</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-outline-variant/40">
@@ -846,7 +900,7 @@ const OrgOverviewView = {
                   <tr class="hover:bg-surface-container-low transition-colors">
                     <td class="p-4 font-bold font-fraunces text-sm">${f.name}</td>
                     <td class="p-4 text-on-surface-variant">${f.location}</td>
-                    <td class="p-4"><span class="px-2 py-0.5 rounded text-xs bg-surface-variant">${f.crop}</span></td>
+                    <td class="p-4"><span class="px-2 py-0.5 rounded text-xs bg-surface-variant font-medium">${f.crop}</span></td>
                     <td class="p-4 font-mono font-bold">${f.acres} Acres</td>
                     <td class="p-4">
                       <div class="space-y-1">
@@ -855,6 +909,11 @@ const OrgOverviewView = {
                       </div>
                     </td>
                     <td class="p-4 font-mono text-xs">${f.contact}</td>
+                    <td class="p-4 text-right">
+                      <button onclick="OrgOverviewView.openFarmerDrilldownModal('${f.id}')" class="px-3 py-1.5 bg-surface border border-outline-variant text-on-surface rounded text-xs font-label-caps font-bold hover:bg-surface-container-high transition-colors">
+                        View Profile →
+                      </button>
+                    </td>
                   </tr>
                 `;
               }).join('')}
@@ -865,16 +924,18 @@ const OrgOverviewView = {
     `;
   },
 
-  // ================= 8. DEVICE HEALTH & SENSORS =================
-  renderDeviceHealthSection({ devices, farms, zones }) {
+  // ================= 8. DEVICE HEALTH PAGE =================
+  renderDeviceHealthPage({ devices, farms, zones }) {
     return `
+      ${this.renderBreadcrumb('Device Health')}
+
       <div class="space-y-4">
-        <div class="flex justify-between items-center border-b border-outline-variant pb-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-outline-variant pb-3">
           <div>
-            <h3 class="font-headline-sm text-lg font-fraunces text-on-surface">Organization Hardware Health & Telemetry Liveness</h3>
-            <p class="font-body-sm text-xs text-on-surface-variant">Real-time status of all deployed ESP32 nodes, probes, and relay actuators.</p>
+            <h2 class="font-display-md text-2xl font-bold font-fraunces text-on-surface">Hardware Health & Telemetry Liveness Fleet</h2>
+            <p class="font-body-sm text-xs text-on-surface-variant">Real-time status of all deployed ESP32 nodes, probes, and relay actuators in Baramati Grid.</p>
           </div>
-          <span class="font-mono text-xs text-outline">${devices.length} Total Registered Nodes</span>
+          <span class="font-mono text-xs text-outline">${devices.length} Registered Nodes</span>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -904,19 +965,20 @@ const OrgOverviewView = {
     `;
   },
 
-  // ================= 9. MAINTENANCE & TECHNICIANS =================
-  renderMaintenanceSection({ tickets, techWorkload }) {
+  // ================= 9. MAINTENANCE PAGE =================
+  renderMaintenancePage({ tickets }) {
     return `
-      <div class="space-y-6">
-        <div class="flex justify-between items-center border-b border-outline-variant pb-3">
+      ${this.renderBreadcrumb('Maintenance')}
+
+      <div class="space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-outline-variant pb-3">
           <div>
-            <h3 class="font-headline-sm text-lg font-fraunces text-on-surface">Hardware Maintenance Center & Field Technicians</h3>
-            <p class="font-body-sm text-xs text-on-surface-variant">Service requests, probe recalibrations, and pump relay maintenance queue.</p>
+            <h2 class="font-display-md text-2xl font-bold font-fraunces text-on-surface">Hardware Maintenance Center & Field Technicians</h2>
+            <p class="font-body-sm text-xs text-on-surface-variant">Service requests, probe recalibrations, and pump relay maintenance queue across Baramati.</p>
           </div>
           <span class="font-mono text-xs text-outline">${tickets.length} Registered Tickets</span>
         </div>
 
-        <!-- Service Tickets Queue -->
         <div class="card-level-1 divide-y divide-outline-variant/60 overflow-hidden">
           ${tickets.map(tkt => {
             const isResolved = tkt.status === 'RESOLVED';
@@ -943,10 +1005,10 @@ const OrgOverviewView = {
 
                 <div class="flex gap-2 shrink-0 self-end md:self-center">
                   ${!isResolved ? `
-                    <button onclick="OrgOverviewView.openAssignTechnicianModal('${tkt.id}')" class="px-3 py-1.5 border border-secondary text-secondary bg-surface rounded text-xs font-bold font-label-caps hover:bg-surface-container-high">
+                    <button onclick="OrgOverviewView.openAssignTechnicianModal('${tkt.id}')" class="px-3 py-1.5 border border-secondary text-secondary bg-surface rounded text-xs font-bold font-label-caps hover:bg-surface-container-high transition-colors">
                       Assign Tech
                     </button>
-                    <button onclick="OrgOverviewView.resolveTicket('${tkt.id}')" class="px-3 py-1.5 bg-primary text-surface rounded text-xs font-bold font-label-caps hover:opacity-90">
+                    <button onclick="OrgOverviewView.resolveTicket('${tkt.id}')" class="px-3 py-1.5 bg-primary text-surface rounded text-xs font-bold font-label-caps hover:opacity-90 transition-opacity">
                       Mark Fixed
                     </button>
                   ` : `
@@ -963,13 +1025,15 @@ const OrgOverviewView = {
     `;
   },
 
-  // ================= 10. WATER & IRRIGATION MANAGEMENT =================
-  renderWaterManagementSection({ waterMgmt }) {
+  // ================= 10. WATER DEMAND PAGE =================
+  renderWaterDemandPage({ waterMgmt }) {
     return `
+      ${this.renderBreadcrumb('Water Demand')}
+
       <div class="space-y-4">
-        <div class="flex justify-between items-center border-b border-outline-variant pb-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-outline-variant pb-3">
           <div>
-            <h3 class="font-headline-sm text-lg font-fraunces text-on-surface">Regional Water Management & Irrigation Demand</h3>
+            <h2 class="font-display-md text-2xl font-bold font-fraunces text-on-surface">Regional Water Demand & Irrigation Management</h2>
             <p class="font-body-sm text-xs text-on-surface-variant">Aggregate irrigation volume, soil replenishment, and drip line efficiency across Baramati.</p>
           </div>
           <span class="font-mono text-xs text-outline">Grid Total: ${waterMgmt.total_water_used_liters ? waterMgmt.total_water_used_liters.toLocaleString() : '121,200'} Liters</span>
@@ -997,57 +1061,16 @@ const OrgOverviewView = {
     `;
   },
 
-  // ================= 11. INTERVENTION OUTCOMES =================
-  renderInterventionOutcomesSection({ outcomes }) {
-    const activeOutcomes = outcomes.active_monitored_outcomes || [];
+  // ================= 11. SERVICE AREAS PAGE =================
+  renderServiceAreasPage({ villageData }) {
     return `
-      <div class="space-y-4">
-        <div class="flex justify-between items-center border-b border-outline-variant pb-3">
-          <div>
-            <h3 class="font-headline-sm text-lg font-fraunces text-on-surface">Intervention Effectiveness & Agronomic Outcomes</h3>
-            <p class="font-body-sm text-xs text-on-surface-variant">Empirical validation of treatments, bio-fungicides, and automated irrigations.</p>
-          </div>
-          <span class="px-2.5 py-1 rounded text-xs font-mono font-bold bg-[#d5ffc1] text-[#245018]">PROVEN IMPACT</span>
-        </div>
+      ${this.renderBreadcrumb('Service Areas')}
 
-        <div class="card-level-1 overflow-hidden">
-          <table class="w-full text-left font-body-sm text-on-surface">
-            <thead class="bg-surface-container border-b border-outline-variant font-label-caps text-outline uppercase text-xs">
-              <tr>
-                <th class="p-4">Pathology / Agronomic Stress</th>
-                <th class="p-4">Detections</th>
-                <th class="p-4">Expert Validated</th>
-                <th class="p-4">Interventions Completed</th>
-                <th class="p-4">Improved / Resolved</th>
-                <th class="p-4">Success Rate</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-outline-variant/40">
-              ${activeOutcomes.map(o => `
-                <tr class="hover:bg-surface-container-low transition-colors">
-                  <td class="p-4 font-bold font-fraunces">${o.pathology}</td>
-                  <td class="p-4 font-mono">${o.detected_cases}</td>
-                  <td class="p-4 font-mono">${o.expert_confirmed}</td>
-                  <td class="p-4 font-mono">${o.interventions_dispatched}</td>
-                  <td class="p-4 font-mono font-bold text-primary">${o.improved_status}</td>
-                  <td class="p-4 font-mono font-bold text-primary">${o.outcome_rate_pct}%</td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    `;
-  },
-
-  // ================= 12. SERVICE AREA / VILLAGE ANALYTICS =================
-  renderVillageAnalyticsSection({ villageData }) {
-    return `
       <div class="space-y-4">
-        <div class="flex justify-between items-center border-b border-outline-variant pb-3">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-outline-variant pb-3">
           <div>
-            <h3 class="font-headline-sm text-lg font-fraunces text-on-surface">Service Area & Village Analytics</h3>
-            <p class="font-body-sm text-xs text-on-surface-variant">Geographic resource allocation across Baramati Taluka villages.</p>
+            <h2 class="font-display-md text-2xl font-bold font-fraunces text-on-surface">Service Area & Village Sector Analytics</h2>
+            <p class="font-body-sm text-xs text-on-surface-variant">Geographic agricultural resource allocation and risk concentration across Baramati Taluka villages.</p>
           </div>
           <span class="font-mono text-xs text-outline">${villageData.length} Covered Sectors</span>
         </div>
@@ -1086,12 +1109,7 @@ const OrgOverviewView = {
     `;
   },
 
-  // State Navigation Controllers
-  setSection(section) {
-    this.activeSection = section;
-    this.render(document.getElementById('main-content'));
-  },
-
+  // Map & Plot Drilldown State Management
   drilldownHotspot(id) {
     this.selectedDrilldown = { type: 'hotspot', id };
     this.activeSection = 'map';
@@ -1110,11 +1128,116 @@ const OrgOverviewView = {
   },
 
   exportReport() {
-    Components.showToast('Generating Baramati FPO Executive Brief (PDF format ready for printing)...', 'info');
+    Components.showToast('Generating Baramati FPO Executive Brief (Printable PDF)...', 'info');
     window.print();
   },
 
-  // Modals & Actions
+  // Farmer & Farm Drilldown Modal
+  async openFarmerDrilldownModal(farmerId) {
+    const modal = document.getElementById('app-modal');
+    const modalContent = document.getElementById('modal-content');
+
+    try {
+      const [farmerRes, farmsRes, zonesRes, predictionsRes] = await Promise.all([
+        API.getTable('farmers'),
+        API.getTable('farms'),
+        API.getTable('zones'),
+        API.getTable('vision_predictions')
+      ]);
+
+      const farmers = farmerRes.data || [];
+      const farmer = farmers.find(f => f.id === farmerId) || farmers[0] || { name: 'Ramesh Patel', location: 'Malegaon Khurd, Baramati', crop: 'Wheat', acres: 12.5 };
+      const farms = (farmsRes.data || []).filter(fm => fm.farmer_id === farmer.id);
+      const zones = (zonesRes.data || []).filter(z => z.farmer_id === farmer.id);
+      const cases = (predictionsRes.data || []).filter(p => p.farmer_id === farmer.id);
+
+      modalContent.innerHTML = `
+        <div class="p-6 max-w-2xl w-full bg-surface-container-lowest rounded-xl border border-outline-variant shadow-2xl relative space-y-4 max-h-[90vh] overflow-y-auto">
+          <button onclick="App.closeModal()" class="absolute top-4 right-4 text-outline hover:text-on-surface">
+            <span class="material-symbols-outlined">close</span>
+          </button>
+
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-xl">
+              ${farmer.name.split(' ').map(n => n[0]).join('')}
+            </div>
+            <div>
+              <span class="text-[10px] font-label-caps font-bold text-secondary uppercase tracking-wider block">FARMER & PARCEL RECORD</span>
+              <h3 class="font-headline-sm text-xl font-fraunces text-on-surface">${farmer.name}</h3>
+              <p class="font-body-sm text-xs text-on-surface-variant">Location: ${farmer.location} • Primary Crop: ${farmer.crop}</p>
+            </div>
+          </div>
+
+          <div class="furrow-divider"></div>
+
+          <!-- Farm Holdings & Acreage -->
+          <div class="grid grid-cols-3 gap-3 text-center">
+            <div class="p-3 bg-surface rounded-lg border border-outline-variant">
+              <span class="font-data-lg text-lg font-bold font-mono text-on-surface">${farmer.acres} Acres</span>
+              <span class="block text-[10px] text-outline uppercase font-bold">Total Acreage</span>
+            </div>
+            <div class="p-3 bg-surface rounded-lg border border-outline-variant">
+              <span class="font-data-lg text-lg font-bold font-mono text-primary">${farms.length || 1} Holdings</span>
+              <span class="block text-[10px] text-outline uppercase font-bold">Survey Parcels</span>
+            </div>
+            <div class="p-3 bg-surface rounded-lg border border-outline-variant">
+              <span class="font-data-lg text-lg font-bold font-mono text-secondary">${zones.length || 2} Zones</span>
+              <span class="block text-[10px] text-outline uppercase font-bold">Monitored Plots</span>
+            </div>
+          </div>
+
+          <!-- Associated Zones -->
+          <div>
+            <h4 class="font-label-caps text-xs text-outline uppercase font-bold mb-2">Monitored Farm Zones</h4>
+            <div class="space-y-2">
+              ${zones.map(z => `
+                <div class="p-3 bg-surface rounded border border-outline-variant flex justify-between items-center text-xs">
+                  <div>
+                    <span class="font-bold text-on-surface block">${z.name}</span>
+                    <span class="text-outline">${z.crop} • ${z.area_ha} Hectares</span>
+                  </div>
+                  <span class="font-mono text-primary font-bold">${z.device_id || 'ESP32 Node'}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
+          <!-- Pathology & Vision Cases -->
+          <div>
+            <h4 class="font-label-caps text-xs text-outline uppercase font-bold mb-2">Recent Diagnostic Scans</h4>
+            ${cases.length === 0 ? `
+              <p class="text-xs text-outline italic">No pending pathology cases for this farmer.</p>
+            ` : `
+              <div class="space-y-2">
+                ${cases.map(c => `
+                  <div class="p-3 bg-surface rounded border border-error/40 flex justify-between items-center text-xs">
+                    <div>
+                      <span class="font-bold text-error block">${c.disease || c.pest || 'Pathology Scan'}</span>
+                      <span class="text-outline">Severity: ${c.severity} • Confidence: ${c.confidence}%</span>
+                    </div>
+                    <button onclick="App.closeModal(); ReviewQueueView.selectedPredictionId='${c.id}'; App.navigate('review-queue');" class="px-3 py-1 bg-primary text-surface rounded font-label-caps font-bold">
+                      Open Validation File →
+                    </button>
+                  </div>
+                `).join('')}
+              </div>
+            `}
+          </div>
+
+          <div class="pt-2 flex justify-end gap-3">
+            <button onclick="App.closeModal()" class="px-4 py-2 border border-outline-variant rounded-lg font-label-caps text-xs font-bold">Close</button>
+          </div>
+        </div>
+      `;
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    } catch (e) {
+      Components.showToast(`Error fetching farmer details: ${e.message}`, 'error');
+    }
+  },
+
+  // Registration & Dispatch Modals
   openRegisterFarmerModal() {
     const modal = document.getElementById('app-modal');
     const modalContent = document.getElementById('modal-content');
@@ -1148,24 +1271,36 @@ const OrgOverviewView = {
             </div>
             <div>
               <label class="font-label-caps text-xs text-outline block mb-1 uppercase">Acres</label>
-              <input type="number" step="0.5" id="reg-acres" required placeholder="8.5" class="w-full bg-surface border border-outline-variant rounded-lg px-3.5 py-2 text-sm font-body-md text-on-surface" />
+              <input type="number" id="reg-acres" step="0.5" required placeholder="10.0" class="w-full bg-surface border border-outline-variant rounded-lg px-3.5 py-2 text-sm font-body-md text-on-surface" />
             </div>
           </div>
 
-          <div>
-            <label class="font-label-caps text-xs text-outline block mb-1 uppercase">Village / Sector</label>
-            <input type="text" id="reg-village" required placeholder="e.g. Supa Village, Baramati" class="w-full bg-surface border border-outline-variant rounded-lg px-3.5 py-2 text-sm font-body-md text-on-surface" />
-          </div>
-
-          <div>
-            <label class="font-label-caps text-xs text-outline block mb-1 uppercase">Crop Variety</label>
-            <input type="text" id="reg-crop" required placeholder="e.g. Wheat (HD 2967)" class="w-full bg-surface border border-outline-variant rounded-lg px-3.5 py-2 text-sm font-body-md text-on-surface" />
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="font-label-caps text-xs text-outline block mb-1 uppercase">Village</label>
+              <select id="reg-village" class="w-full bg-surface border border-outline-variant rounded-lg px-3 py-2 text-sm font-body-md text-on-surface">
+                <option value="Malegaon Khurd">Malegaon Khurd</option>
+                <option value="Rui Village">Rui Village</option>
+                <option value="Jalochi">Jalochi</option>
+                <option value="Kattebhel">Kattebhel</option>
+              </select>
+            </div>
+            <div>
+              <label class="font-label-caps text-xs text-outline block mb-1 uppercase">Primary Crop</label>
+              <select id="reg-crop" class="w-full bg-surface border border-outline-variant rounded-lg px-3 py-2 text-sm font-body-md text-on-surface">
+                <option value="Wheat (GW-496)">Wheat (GW-496)</option>
+                <option value="Sugarcane (Co 86032)">Sugarcane (Co 86032)</option>
+                <option value="Soybean (JS 335)">Soybean (JS 335)</option>
+                <option value="Gram / Chana">Gram / Chana</option>
+                <option value="Onion">Onion</option>
+              </select>
+            </div>
           </div>
 
           <div class="pt-2 flex justify-end gap-3">
             <button type="button" onclick="App.closeModal()" class="px-4 py-2 border border-outline-variant rounded-lg font-label-caps text-label-caps">Cancel</button>
             <button type="submit" class="px-6 py-2 bg-primary text-surface rounded-lg font-label-caps text-label-caps hover:opacity-90">
-              Save Farmer
+              Complete Enrollment
             </button>
           </div>
         </form>
@@ -1180,23 +1315,23 @@ const OrgOverviewView = {
     e.preventDefault();
     const name = document.getElementById('reg-name').value;
     const contact = document.getElementById('reg-contact').value;
-    const acres = parseFloat(document.getElementById('reg-acres').value) || 5.0;
+    const acres = parseFloat(document.getElementById('reg-acres').value) || 5;
     const village = document.getElementById('reg-village').value;
     const crop = document.getElementById('reg-crop').value;
 
-    try {
-      const farmerId = `farmer-${Date.now()}`;
-      const farmId = `farm-${Date.now()}`;
-      const zoneId = `zone-${Date.now()}`;
+    const farmerId = `farmer-${Date.now().toString().slice(-4)}`;
+    const farmId = `farm-${Date.now().toString().slice(-4)}`;
+    const zoneId = `zone-${Date.now().toString().slice(-4)}`;
 
+    try {
       await API.createRecord('farmers', {
         id: farmerId,
         org_id: 'org-pune-baramati',
         name,
         contact,
-        location: village,
-        crop,
+        location: `${village}, Baramati, Pune`,
         acres,
+        crop,
         created_at: new Date().toISOString()
       });
 

@@ -6,6 +6,28 @@ const App = {
   livePollTimer: null,
   hardwareStatus: { mode: 'DEMO', isPhysicalLive: false, label: 'DEMO MODE' },
 
+  // Role Route Definitions
+  farmerRoutes: ['dashboard', 'map', 'irrigation', 'crop-health', 'advisory'],
+  orgRoutes: [
+    'org-overview',
+    'org-map',
+    'org-crops',
+    'org-surveillance',
+    'org-priority',
+    'org-alerts',
+    'org-field-ops',
+    'review-queue',
+    'org-validation',
+    'org-farmers',
+    'org-farms',
+    'org-devices',
+    'org-maintenance',
+    'org-water',
+    'org-service-areas',
+    'org-villages'
+  ],
+  sharedRoutes: ['settings', 'support', 'expert-support'],
+
   async init() {
     console.log('Initializing Krishi Vikas AI client (Baramati, Pune District)...');
 
@@ -21,9 +43,11 @@ const App = {
 
     await this.updateRoleUI();
 
-    // Check hash route or default to dashboard
-    const hash = window.location.hash.replace('#', '') || 'dashboard';
-    this.navigate(hash);
+    // Check hash route or default based on role
+    const hash = window.location.hash.replace('#', '');
+    const defaultRoute = this.session.role === 'OrgExpert' ? 'org-overview' : 'dashboard';
+    const targetRoute = hash || defaultRoute;
+    this.navigate(targetRoute);
 
     // Set up auto-poll (every 10 seconds) to update live cards and hardware health
     this.startLivePolling();
@@ -32,34 +56,61 @@ const App = {
   async updateRoleUI() {
     const roleBadge = document.getElementById('user-role-badge');
     const userName = document.getElementById('user-display-name');
+    const userSubLabel = document.getElementById('user-sub-label');
+    const userAvatarImg = document.getElementById('user-avatar-img');
     const roleSelect = document.getElementById('global-role-switcher');
-    const expertNavItems = document.querySelectorAll('.nav-expert-only');
+
+    const isOrg = this.session.role === 'OrgExpert';
 
     if (roleBadge) {
-      roleBadge.innerText = this.session.role === 'OrgExpert' ? 'Org / Expert' : 'Farmer';
-      roleBadge.className = `px-2.5 py-0.5 rounded-full text-xs font-label-caps font-bold ${
-        this.session.role === 'OrgExpert' ? 'bg-secondary text-surface' : 'bg-primary-container text-on-primary-container'
+      roleBadge.innerText = isOrg ? 'ORG / EXPERT' : 'Farmer';
+      roleBadge.className = `px-2 py-0.5 rounded-full text-[9px] font-label-caps font-bold ${
+        isOrg ? 'bg-secondary text-surface' : 'bg-primary-container text-on-primary-container'
       }`;
     }
 
     if (userName) {
-      userName.innerText = this.session.name;
+      userName.innerText = isOrg ? 'Dr. Anita Deshmukh' : (this.session.name || 'Ramesh Patel');
+    }
+
+    if (userSubLabel) {
+      userSubLabel.innerText = isOrg ? 'KVK Baramati Expert' : 'Farmer';
+    }
+
+    if (userAvatarImg) {
+      if (isOrg) {
+        userAvatarImg.src = 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80';
+      } else {
+        userAvatarImg.src = 'https://lh3.googleusercontent.com/aida-public/AB6AXuA4uIMiYDIDQM1xkQL0VBBYdyJLcc9Yl-ZVmPnoQdP6n53qu1yOIMmFrBN4thNaYmjuCTDDm_UCxkpG5zjolIo8tw7p_sY16dFAnhPXfi8EFL71mIAIho8HXHNdwFWPJPFLgMWCJ8B8MPHSZdYyfjH_bPygJBzYtObm8Jf4zYsvsQx3LEl0e-cF8oxvn2SaXZDIZ7dWEIefgIaCp_jTCJxza_ma2Wi_AJ5VXLXesXWV8BgJd8TJWeze';
+      }
     }
 
     if (roleSelect) {
       roleSelect.value = this.session.role;
     }
 
-    // Toggle farmer vs organization navigation links
+    // Toggle Desktop Sidebar Navigation Links
     const farmerNav = document.getElementById('nav-farmer-links');
     const orgNav = document.getElementById('nav-org-links');
 
-    if (this.session.role === 'OrgExpert') {
+    if (isOrg) {
       if (farmerNav) farmerNav.classList.add('hidden');
       if (orgNav) orgNav.classList.remove('hidden');
     } else {
       if (farmerNav) farmerNav.classList.remove('hidden');
       if (orgNav) orgNav.classList.add('hidden');
+    }
+
+    // Toggle Mobile Bottom Navigation Bars
+    const mobileFarmerNav = document.getElementById('mobile-farmer-nav');
+    const mobileOrgNav = document.getElementById('mobile-org-nav');
+
+    if (isOrg) {
+      if (mobileFarmerNav) mobileFarmerNav.classList.add('hidden');
+      if (mobileOrgNav) mobileOrgNav.classList.remove('hidden');
+    } else {
+      if (mobileFarmerNav) mobileFarmerNav.classList.remove('hidden');
+      if (mobileOrgNav) mobileOrgNav.classList.add('hidden');
     }
 
     // Update Hardware & Operating Mode Indicator in Top App Bar
@@ -122,9 +173,9 @@ const App = {
       if (res.success && res.session) {
         this.session = res.session;
         await this.updateRoleUI();
-        Components.showToast(`Switched active profile to: ${this.session.name} (${this.session.role})`, 'info');
+        Components.showToast(`Switched active profile to: ${this.session.name} (${this.session.role === 'OrgExpert' ? 'Organization Console' : 'Farmer App'})`, 'info');
 
-        // Route based on role
+        // Route directly to the corresponding default landing page
         if (newRole === 'OrgExpert') {
           this.navigate('org-overview');
         } else {
@@ -137,15 +188,44 @@ const App = {
   },
 
   navigate(viewName) {
-    this.currentView = viewName;
-    window.location.hash = viewName;
+    const isOrg = this.session && this.session.role === 'OrgExpert';
 
-    // Update navigation sidebar active class
+    // Route Protection Logic
+    if (!isOrg && this.orgRoutes.includes(viewName)) {
+      Components.showToast('Access Restricted: Organization Console is reserved for FPO & Agronomist accounts.', 'warning');
+      this.currentView = 'dashboard';
+      window.location.hash = 'dashboard';
+      viewName = 'dashboard';
+    } else if (isOrg && this.farmerRoutes.includes(viewName)) {
+      // If Org user clicks a farmer-only route, redirect to the corresponding organization module
+      let mappedView = 'org-overview';
+      if (viewName === 'map') mappedView = 'org-map';
+      else if (viewName === 'irrigation') mappedView = 'org-water';
+      else if (viewName === 'crop-health') mappedView = 'org-crops';
+      else if (viewName === 'advisory') mappedView = 'org-priority';
+
+      Components.showToast(`Navigated to Organization Console: ${mappedView.replace('org-', '').toUpperCase()}`, 'info');
+      this.currentView = mappedView;
+      window.location.hash = mappedView;
+      viewName = mappedView;
+    } else {
+      this.currentView = viewName;
+      window.location.hash = viewName;
+    }
+
+    // Normalize canonical route key for sidebar active indicator
+    let canonicalView = viewName;
+    if (viewName === 'org-alerts') canonicalView = 'org-priority';
+    if (viewName === 'org-validation') canonicalView = 'review-queue';
+    if (viewName === 'org-farms') canonicalView = 'org-farmers';
+    if (viewName === 'org-villages') canonicalView = 'org-service-areas';
+
+    // Update navigation sidebar active link styles (Desktop + Mobile)
     document.querySelectorAll('.nav-link').forEach(link => {
       const linkView = link.getAttribute('data-view');
-      if (linkView === viewName) {
+      if (linkView === canonicalView || linkView === viewName) {
         link.classList.add('nav-link-active');
-        link.classList.remove('text-on-surface-variant', 'text-on-primary-fixed-variant');
+        link.classList.remove('text-on-surface-variant');
       } else {
         link.classList.remove('nav-link-active');
         link.classList.add('text-on-surface-variant');
@@ -155,18 +235,14 @@ const App = {
     const mainContainer = document.getElementById('main-content');
     if (!mainContainer) return;
 
-    // Route to corresponding view
+    // Route Dispatch
     switch (viewName) {
+      // FARMER ROUTES
       case 'dashboard':
         DashboardView.render(mainContainer);
         break;
       case 'map':
-        if (this.session && this.session.role === 'OrgExpert') {
-          OrgOverviewView.activeSection = 'map';
-          OrgOverviewView.render(mainContainer);
-        } else {
-          FieldMapView.render(mainContainer);
-        }
+        FieldMapView.render(mainContainer);
         break;
       case 'irrigation':
         IrrigationView.render(mainContainer);
@@ -174,21 +250,17 @@ const App = {
       case 'crop-health':
         CropHealthView.render(mainContainer);
         break;
-      case 'review-queue':
-        ReviewQueueView.render(mainContainer);
-        break;
       case 'advisory':
         AdvisoryView.render(mainContainer);
         break;
-      case 'settings':
-        SettingsView.render(mainContainer);
-        break;
-      case 'support':
-      case 'expert-support':
-        SupportView.render(mainContainer);
-        break;
+
+      // ORGANIZATION ROUTES (12 Canonical Modules)
       case 'org-overview':
         OrgOverviewView.activeSection = 'overview';
+        OrgOverviewView.render(mainContainer);
+        break;
+      case 'org-map':
+        OrgOverviewView.activeSection = 'map';
         OrgOverviewView.render(mainContainer);
         break;
       case 'org-crops':
@@ -200,6 +272,7 @@ const App = {
         OrgOverviewView.render(mainContainer);
         break;
       case 'org-priority':
+      case 'org-alerts':
         OrgOverviewView.activeSection = 'priority';
         OrgOverviewView.render(mainContainer);
         break;
@@ -207,7 +280,12 @@ const App = {
         OrgOverviewView.activeSection = 'field-ops';
         OrgOverviewView.render(mainContainer);
         break;
+      case 'review-queue':
+      case 'org-validation':
+        ReviewQueueView.render(mainContainer);
+        break;
       case 'org-farmers':
+      case 'org-farms':
         OrgOverviewView.activeSection = 'farmers';
         OrgOverviewView.render(mainContainer);
         break;
@@ -223,12 +301,24 @@ const App = {
         OrgOverviewView.activeSection = 'water';
         OrgOverviewView.render(mainContainer);
         break;
+      case 'org-service-areas':
       case 'org-villages':
-        OrgOverviewView.activeSection = 'villages';
+        OrgOverviewView.activeSection = 'service-areas';
         OrgOverviewView.render(mainContainer);
         break;
+
+      // SHARED SYSTEM ROUTES
+      case 'settings':
+        SettingsView.render(mainContainer);
+        break;
+      case 'support':
+      case 'expert-support':
+        SupportView.render(mainContainer);
+        break;
+
       default:
-        if (this.session && this.session.role === 'OrgExpert') {
+        if (isOrg) {
+          OrgOverviewView.activeSection = 'overview';
           OrgOverviewView.render(mainContainer);
         } else {
           DashboardView.render(mainContainer);

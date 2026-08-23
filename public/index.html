@@ -97,95 +97,103 @@
 
     <!-- Navigation Links -->
     <nav class="flex-1 flex flex-col gap-1 px-1 mt-2 overflow-y-auto select-none">
-      <!-- FARMER APPLICATION NAVIGATION -->
+      <!-- 1. FARMER APPLICATION NAVIGATION -->
       <div id="nav-farmer-links" class="space-y-1">
-        <span class="px-4 text-[10px] font-label-caps font-bold text-outline uppercase tracking-widest block mb-1">My Farm</span>
+        <div class="px-4 py-1 mb-1">
+          <span class="text-[10px] font-label-caps font-bold text-primary uppercase tracking-widest block">FARMER APP</span>
+          <span class="text-[9px] text-outline block">Personal Farm Management</span>
+        </div>
+
         <a href="#dashboard" onclick="App.navigate('dashboard')" data-view="dashboard" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined">dashboard</span>
-          <span class="font-label-caps text-xs uppercase font-bold">My Dashboard</span>
+          <span class="material-symbols-outlined text-xl">dashboard</span>
+          <span class="font-label-caps text-xs uppercase font-bold">Dashboard</span>
         </a>
 
         <a href="#map" onclick="App.navigate('map')" data-view="map" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined">map</span>
-          <span class="font-label-caps text-xs uppercase font-bold">My Field Map</span>
+          <span class="material-symbols-outlined text-xl">map</span>
+          <span class="font-label-caps text-xs uppercase font-bold">Field Map</span>
         </a>
 
         <a href="#irrigation" onclick="App.navigate('irrigation')" data-view="irrigation" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined">water_drop</span>
-          <span class="font-label-caps text-xs uppercase font-bold">My Irrigation</span>
+          <span class="material-symbols-outlined text-xl">water_drop</span>
+          <span class="font-label-caps text-xs uppercase font-bold">Irrigation</span>
         </a>
 
         <a href="#crop-health" onclick="App.navigate('crop-health')" data-view="crop-health" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined">grass</span>
-          <span class="font-label-caps text-xs uppercase font-bold">Crop Health & AI</span>
+          <span class="material-symbols-outlined text-xl">grass</span>
+          <span class="font-label-caps text-xs uppercase font-bold">Crop Health</span>
         </a>
 
         <a href="#advisory" onclick="App.navigate('advisory')" data-view="advisory" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined">psychology</span>
-          <span class="font-label-caps text-xs uppercase font-bold">My Advisory</span>
+          <span class="material-symbols-outlined text-xl">psychology</span>
+          <span class="font-label-caps text-xs uppercase font-bold">Advisory</span>
         </a>
       </div>
 
-      <!-- FPO / ORGANIZATION OPERATIONS CONSOLE NAVIGATION -->
-      <div id="nav-org-links" class="space-y-1 hidden">
-        <span class="px-4 text-[10px] font-label-caps font-bold text-secondary uppercase tracking-widest block mb-1">Organization Console</span>
-        <a href="#org-overview" onclick="App.navigate('org-overview')" data-view="org-overview" class="nav-link flex items-center gap-3 px-4 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-secondary">admin_panel_settings</span>
+      <!-- 2. FPO / ORGANIZATION OPERATIONS CONSOLE NAVIGATION -->
+      <div id="nav-org-links" class="space-y-0.5 hidden">
+        <div class="px-4 py-1 mb-1">
+          <span class="text-[10px] font-label-caps font-bold text-secondary uppercase tracking-widest block">ORGANIZATION CONSOLE</span>
+          <span class="text-[9px] text-outline block">FPO / Extension Operations</span>
+        </div>
+
+        <a href="#org-overview" onclick="App.navigate('org-overview')" data-view="org-overview" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+          <span class="material-symbols-outlined text-lg text-secondary">admin_panel_settings</span>
           <span class="font-label-caps text-xs uppercase font-bold">Overview</span>
         </a>
 
-        <a href="#map" onclick="App.navigate('map')" data-view="map" class="nav-link flex items-center gap-3 px-4 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined">hub</span>
+        <a href="#org-map" onclick="App.navigate('org-map')" data-view="org-map" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+          <span class="material-symbols-outlined text-lg">hub</span>
           <span class="font-label-caps text-xs uppercase font-bold">Regional Map</span>
         </a>
 
-        <a href="#org-crops" onclick="App.navigate('org-crops')" data-view="org-crops" class="nav-link flex items-center gap-3 px-4 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined">grain</span>
+        <a href="#org-crops" onclick="App.navigate('org-crops')" data-view="org-crops" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+          <span class="material-symbols-outlined text-lg">grain</span>
           <span class="font-label-caps text-xs uppercase font-bold">Crop Intelligence</span>
         </a>
 
-        <a href="#org-surveillance" onclick="App.navigate('org-surveillance')" data-view="org-surveillance" class="nav-link flex items-center gap-3 px-4 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined">coronavirus</span>
+        <a href="#org-surveillance" onclick="App.navigate('org-surveillance')" data-view="org-surveillance" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+          <span class="material-symbols-outlined text-lg">coronavirus</span>
           <span class="font-label-caps text-xs uppercase font-bold">Surveillance</span>
         </a>
 
-        <a href="#org-priority" onclick="App.navigate('org-priority')" data-view="org-priority" class="nav-link flex items-center gap-3 px-4 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined">assignment_late</span>
+        <a href="#org-priority" onclick="App.navigate('org-priority')" data-view="org-priority" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+          <span class="material-symbols-outlined text-lg">assignment_late</span>
           <span class="font-label-caps text-xs uppercase font-bold">Action Center</span>
         </a>
 
-        <a href="#org-field-ops" onclick="App.navigate('org-field-ops')" data-view="org-field-ops" class="nav-link flex items-center gap-3 px-4 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined">transfer_within_a_station</span>
+        <a href="#org-field-ops" onclick="App.navigate('org-field-ops')" data-view="org-field-ops" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+          <span class="material-symbols-outlined text-lg">transfer_within_a_station</span>
           <span class="font-label-caps text-xs uppercase font-bold">Field Operations</span>
         </a>
 
-        <a href="#review-queue" onclick="App.navigate('review-queue')" data-view="review-queue" class="nav-link flex items-center gap-3 px-4 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-secondary">verified_user</span>
+        <a href="#review-queue" onclick="App.navigate('review-queue')" data-view="review-queue" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+          <span class="material-symbols-outlined text-lg text-secondary">verified_user</span>
           <span class="font-label-caps text-xs uppercase font-bold">Validation Queue</span>
         </a>
 
-        <a href="#org-farmers" onclick="App.navigate('org-farmers')" data-view="org-farmers" class="nav-link flex items-center gap-3 px-4 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined">groups</span>
+        <a href="#org-farmers" onclick="App.navigate('org-farmers')" data-view="org-farmers" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+          <span class="material-symbols-outlined text-lg">groups</span>
           <span class="font-label-caps text-xs uppercase font-bold">Farmers & Parcels</span>
         </a>
 
-        <a href="#org-devices" onclick="App.navigate('org-devices')" data-view="org-devices" class="nav-link flex items-center gap-3 px-4 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined">sensors</span>
+        <a href="#org-devices" onclick="App.navigate('org-devices')" data-view="org-devices" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+          <span class="material-symbols-outlined text-lg">sensors</span>
           <span class="font-label-caps text-xs uppercase font-bold">Device Health</span>
         </a>
 
-        <a href="#org-maintenance" onclick="App.navigate('org-maintenance')" data-view="org-maintenance" class="nav-link flex items-center gap-3 px-4 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined">build</span>
+        <a href="#org-maintenance" onclick="App.navigate('org-maintenance')" data-view="org-maintenance" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+          <span class="material-symbols-outlined text-lg">build</span>
           <span class="font-label-caps text-xs uppercase font-bold">Maintenance</span>
         </a>
 
-        <a href="#org-water" onclick="App.navigate('org-water')" data-view="org-water" class="nav-link flex items-center gap-3 px-4 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined">water_drop</span>
+        <a href="#org-water" onclick="App.navigate('org-water')" data-view="org-water" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+          <span class="material-symbols-outlined text-lg">water_drop</span>
           <span class="font-label-caps text-xs uppercase font-bold">Water Demand</span>
         </a>
 
-        <a href="#org-villages" onclick="App.navigate('org-villages')" data-view="org-villages" class="nav-link flex items-center gap-3 px-4 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined">holiday_village</span>
+        <a href="#org-service-areas" onclick="App.navigate('org-service-areas')" data-view="org-service-areas" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
+          <span class="material-symbols-outlined text-lg">holiday_village</span>
           <span class="font-label-caps text-xs uppercase font-bold">Service Areas</span>
         </a>
       </div>
@@ -193,11 +201,11 @@
       <!-- Settings & Support -->
       <div class="mt-auto pt-3 border-t border-outline-variant/40 space-y-1">
         <a href="#settings" onclick="App.navigate('settings')" data-view="settings" class="nav-link flex items-center gap-3 px-4 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined">settings</span>
+          <span class="material-symbols-outlined text-lg">settings</span>
           <span class="font-label-caps text-xs uppercase font-bold">Settings</span>
         </a>
         <a href="#support" onclick="App.navigate('support')" data-view="support" class="nav-link flex items-center gap-3 px-4 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined">help</span>
+          <span class="material-symbols-outlined text-lg">help</span>
           <span class="font-label-caps text-xs uppercase font-bold">Support</span>
         </a>
       </div>
@@ -237,10 +245,13 @@
 
         <!-- User Profile Pill -->
         <div class="flex items-center gap-2.5 pl-2 border-l border-outline-variant/60">
-          <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4uIMiYDIDQM1xkQL0VBBYdyJLcc9Yl-ZVmPnoQdP6n53qu1yOIMmFrBN4thNaYmjuCTDDm_UCxkpG5zjolIo8tw7p_sY16dFAnhPXfi8EFL71mIAIho8HXHNdwFWPJPFLgMWCJ8B8MPHSZdYyfjH_bPygJBzYtObm8Jf4zYsvsQx3LEl0e-cF8oxvn2SaXZDIZ7dWEIefgIaCp_jTCJxza_ma2Wi_AJ5VXLXesXWV8BgJd8TJWeze" class="w-8 h-8 rounded-full object-cover border border-outline-variant" />
+          <img id="user-avatar-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4uIMiYDIDQM1xkQL0VBBYdyJLcc9Yl-ZVmPnoQdP6n53qu1yOIMmFrBN4thNaYmjuCTDDm_UCxkpG5zjolIo8tw7p_sY16dFAnhPXfi8EFL71mIAIho8HXHNdwFWPJPFLgMWCJ8B8MPHSZdYyfjH_bPygJBzYtObm8Jf4zYsvsQx3LEl0e-cF8oxvn2SaXZDIZ7dWEIefgIaCp_jTCJxza_ma2Wi_AJ5VXLXesXWV8BgJd8TJWeze" class="w-8 h-8 rounded-full object-cover border border-outline-variant" />
           <div class="hidden sm:block text-left">
             <p id="user-display-name" class="text-xs font-bold text-on-surface leading-tight">Ramesh Patel</p>
-            <span id="user-role-badge" class="px-2 py-0.5 rounded-full text-[10px] font-label-caps font-bold bg-primary-container text-on-primary-container">Farmer</span>
+            <div class="flex items-center gap-1.5 mt-0.5">
+              <span id="user-sub-label" class="text-[10px] text-outline font-medium">Farmer</span>
+              <span id="user-role-badge" class="px-2 py-0.5 rounded-full text-[9px] font-label-caps font-bold bg-primary-container text-on-primary-container">Farmer</span>
+            </div>
           </div>
         </div>
       </div>
@@ -251,27 +262,50 @@
       <!-- Dynamic Views Rendered Here -->
     </main>
 
-    <!-- Mobile Bottom Navigation Bar -->
-    <nav class="md:hidden flex justify-around items-center px-2 py-2 w-full bg-surface border-t border-outline-variant sticky bottom-0 z-40">
-      <a href="#dashboard" onclick="App.navigate('dashboard')" class="flex flex-col items-center p-1.5 text-on-surface-variant hover:text-primary">
+    <!-- Dynamic Role-Based Mobile Bottom Nav -->
+    <nav id="mobile-farmer-nav" class="md:hidden flex justify-around items-center px-2 py-2 w-full bg-surface border-t border-outline-variant sticky bottom-0 z-40">
+      <a href="#dashboard" onclick="App.navigate('dashboard')" data-view="dashboard" class="nav-link flex flex-col items-center p-1.5 text-on-surface-variant hover:text-primary">
         <span class="material-symbols-outlined text-xl">dashboard</span>
-        <span class="text-[10px] font-label-caps">Dash</span>
+        <span class="text-[10px] font-label-caps font-bold">Dashboard</span>
       </a>
-      <a href="#map" onclick="App.navigate('map')" class="flex flex-col items-center p-1.5 text-on-surface-variant hover:text-primary">
+      <a href="#map" onclick="App.navigate('map')" data-view="map" class="nav-link flex flex-col items-center p-1.5 text-on-surface-variant hover:text-primary">
         <span class="material-symbols-outlined text-xl">map</span>
-        <span class="text-[10px] font-label-caps">Map</span>
+        <span class="text-[10px] font-label-caps font-bold">Map</span>
       </a>
-      <a href="#irrigation" onclick="App.navigate('irrigation')" class="flex flex-col items-center p-1.5 text-on-surface-variant hover:text-primary">
+      <a href="#irrigation" onclick="App.navigate('irrigation')" data-view="irrigation" class="nav-link flex flex-col items-center p-1.5 text-on-surface-variant hover:text-primary">
         <span class="material-symbols-outlined text-xl">water_drop</span>
-        <span class="text-[10px] font-label-caps">Irrigate</span>
+        <span class="text-[10px] font-label-caps font-bold">Irrigate</span>
       </a>
-      <a href="#crop-health" onclick="App.navigate('crop-health')" class="flex flex-col items-center p-1.5 text-on-surface-variant hover:text-primary">
+      <a href="#crop-health" onclick="App.navigate('crop-health')" data-view="crop-health" class="nav-link flex flex-col items-center p-1.5 text-on-surface-variant hover:text-primary">
         <span class="material-symbols-outlined text-xl">grass</span>
-        <span class="text-[10px] font-label-caps">Health</span>
+        <span class="text-[10px] font-label-caps font-bold">Health</span>
       </a>
-      <a href="#advisory" onclick="App.navigate('advisory')" class="flex flex-col items-center p-1.5 text-on-surface-variant hover:text-primary">
+      <a href="#advisory" onclick="App.navigate('advisory')" data-view="advisory" class="nav-link flex flex-col items-center p-1.5 text-on-surface-variant hover:text-primary">
         <span class="material-symbols-outlined text-xl">psychology</span>
-        <span class="text-[10px] font-label-caps">Advisory</span>
+        <span class="text-[10px] font-label-caps font-bold">Advisory</span>
+      </a>
+    </nav>
+
+    <nav id="mobile-org-nav" class="md:hidden hidden flex justify-around items-center px-2 py-2 w-full bg-surface border-t border-outline-variant sticky bottom-0 z-40">
+      <a href="#org-overview" onclick="App.navigate('org-overview')" data-view="org-overview" class="nav-link flex flex-col items-center p-1.5 text-on-surface-variant hover:text-secondary">
+        <span class="material-symbols-outlined text-xl text-secondary">admin_panel_settings</span>
+        <span class="text-[10px] font-label-caps font-bold">Overview</span>
+      </a>
+      <a href="#org-map" onclick="App.navigate('org-map')" data-view="org-map" class="nav-link flex flex-col items-center p-1.5 text-on-surface-variant hover:text-secondary">
+        <span class="material-symbols-outlined text-xl">hub</span>
+        <span class="text-[10px] font-label-caps font-bold">Reg Map</span>
+      </a>
+      <a href="#org-farmers" onclick="App.navigate('org-farmers')" data-view="org-farmers" class="nav-link flex flex-col items-center p-1.5 text-on-surface-variant hover:text-secondary">
+        <span class="material-symbols-outlined text-xl">groups</span>
+        <span class="text-[10px] font-label-caps font-bold">Farmers</span>
+      </a>
+      <a href="#review-queue" onclick="App.navigate('review-queue')" data-view="review-queue" class="nav-link flex flex-col items-center p-1.5 text-on-surface-variant hover:text-secondary">
+        <span class="material-symbols-outlined text-xl text-secondary">verified_user</span>
+        <span class="text-[10px] font-label-caps font-bold">Validate</span>
+      </a>
+      <a href="#org-priority" onclick="App.navigate('org-priority')" data-view="org-priority" class="nav-link flex flex-col items-center p-1.5 text-on-surface-variant hover:text-secondary">
+        <span class="material-symbols-outlined text-xl">assignment_late</span>
+        <span class="text-[10px] font-label-caps font-bold">Alerts</span>
       </a>
     </nav>
   </div>
