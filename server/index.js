@@ -435,14 +435,27 @@ app.delete('/api/:table/:id', (req, res) => {
   res.json({ success: deleted });
 });
 
-// Landing Page Direct Route
+// Landing Page Routes (First page shown on app launch)
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+});
+
 app.get('/landing', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'landing.html'));
+  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+});
+
+// Main App Dashboard Routes
+app.get('/app', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'public', 'app.html'));
+});
+
+app.get('/dashboard', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'public', 'app.html'));
 });
 
 // Single Page Application Fallback
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'public', 'app.html'));
 });
 
 // Start Server & Background Services

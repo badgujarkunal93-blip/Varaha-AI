@@ -1,340 +1,1142 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Krishi Vikas AI — Precision Agriculture Ledger & Intelligence System</title>
-  
-  <!-- Fonts -->
+  <title>Krishi Vikas AI — Detect Earlier. Act Smarter. Grow Stronger.</title>
+  <meta name="description" content="Edge AI-powered agricultural intelligence for healthier crops, smarter irrigation, and faster field response." />
+
+  <!-- Google Fonts: Editorial Serif (Fraunces) + Clean Sans (Inter) + Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-  
-  <!-- Tailwind CSS CDN & Config -->
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400;1,9..144,600;1,9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
-      darkMode: "class",
       theme: {
         extend: {
           colors: {
-            outline: "#72796d",
-            "outline-variant": "#c2c9ba",
-            error: "#ba1a1a",
-            "error-container": "#ffdad6",
-            "on-error-container": "#93000a",
-            "surface-container": "#e2f3d8",
-            "surface-container-high": "#dcedd3",
-            "surface-container-highest": "#d6e8cd",
-            "surface-container-low": "#e8f9de",
-            "surface-container-lowest": "#ffffff",
-            "on-background": "#121f0e",
-            "on-primary": "#ffffff",
-            "primary-container": "#4c7a3d",
-            "on-primary-container": "#d5ffc1",
-            primary: "#346127",
-            "primary-fixed": "#bcf1a7",
-            "primary-fixed-dim": "#a1d48d",
-            background: "#edffe3",
-            surface: "#edffe3",
-            "surface-dim": "#cedfc5",
-            "surface-bright": "#edffe3",
-            "on-surface": "#121f0e",
-            "on-surface-variant": "#42493e",
-            secondary: "#845400",
-            "secondary-container": "#fcb654",
-            "on-secondary-container": "#714800",
-            "secondary-fixed": "#ffddb5",
-            "secondary-fixed-dim": "#ffb958",
-            tertiary: "#2e5e5a",
-            "tertiary-container": "#477773",
-            "on-tertiary-container": "#cafdf7",
-            "inverse-surface": "#263422",
-            "inverse-on-surface": "#e5f6db"
+            forest: {
+              950: '#0c1a0e',
+              900: '#142817',
+              850: '#1a331e',
+              800: '#224327',
+              700: '#2c5633',
+              600: '#386e41',
+              500: '#478953'
+            },
+            agri: {
+              green: '#2d6832',
+              light: '#3e8845',
+              leaf: '#5aa362',
+              sage: '#d8e5d3',
+              pale: '#ebf2e8'
+            },
+            earth: {
+              cream: '#FAF8F5',
+              sand: '#F5F1E8',
+              wheat: '#EDE6D8',
+              soil: '#5c4327',
+              darkSoil: '#3a2713'
+            },
+            amber: {
+              alert: '#d97706',
+              soft: '#fef3c7'
+            },
+            rust: {
+              danger: '#ba1a1a',
+              soft: '#ffdad6'
+            }
           },
           fontFamily: {
-            fraunces: ["Fraunces", "serif"],
-            sans: ["Inter", "sans-serif"],
-            mono: ["IBM Plex Mono", "monospace"],
-            "body-md": ["Inter", "sans-serif"],
-            "headline-sm": ["Fraunces", "serif"],
-            "display-md": ["Fraunces", "serif"],
-            "label-caps": ["Inter", "sans-serif"]
+            serif: ['Fraunces', 'serif'],
+            sans: ['Inter', 'sans-serif'],
+            mono: ['IBM Plex Mono', 'monospace']
           },
-          spacing: {
-            "furrow-lg": "48px",
-            "furrow-sm": "32px",
-            "stack-unit": "8px",
-            "margin-page": "24px",
-            "gutter-grid": "16px"
+          boxShadow: {
+            'subtle': '0 4px 20px -2px rgba(20, 40, 23, 0.06)',
+            'card': '0 12px 36px -4px rgba(20, 40, 23, 0.08), 0 4px 12px -2px rgba(20, 40, 23, 0.04)',
+            'elevated': '0 20px 50px -8px rgba(12, 26, 14, 0.16)'
           }
         }
       }
     };
   </script>
 
-  <!-- Custom Design Tokens & Spines -->
-  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    /* Custom Editorial Typography & Texture */
+    body {
+      background-color: #FAF8F5;
+      color: #1a261b;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+    
+    .font-editorial {
+      font-family: 'Fraunces', serif;
+      font-optical-sizing: auto;
+    }
+
+    .bg-grain {
+      background-image: radial-gradient(rgba(45, 104, 50, 0.06) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+
+    .glass-nav {
+      background: rgba(250, 248, 245, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .glass-dark {
+      background: rgba(20, 40, 23, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .text-balance {
+      text-wrap: balance;
+    }
+
+    /* Subtle Botanical Flourishes */
+    .leaf-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* Smooth Fade In */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-reveal {
+      animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
 </head>
 
-<body class="bg-[#F5F6F0] text-on-surface font-sans h-full flex overflow-hidden antialiased">
-  
-  <!-- Left SideNavBar (Desktop Fixed) -->
-  <aside class="hidden md:flex h-screen w-64 border-r border-outline-variant bg-surface-dim dark:bg-inverse-surface flex-col p-stack-unit z-40 fixed left-0 top-0 select-none">
-    <!-- Brand Logo -->
-    <div class="px-4 py-5 mb-2 border-b border-outline-variant/40">
-      <div class="flex items-center gap-2.5">
-        <div class="w-9 h-9 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center shadow-sm">
-          <span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">eco</span>
+<body class="selection:bg-agri-green selection:text-white bg-earth-cream antialiased">
+
+  <!-- ================= 1. FLOATING NAVBAR ================= -->
+  <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-8 py-4">
+    <div class="max-w-7xl mx-auto glass-nav rounded-2xl border border-forest-900/10 shadow-subtle px-5 py-3 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#hero" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-forest-900 text-earth-cream flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform">
+          <span class="material-symbols-outlined text-2xl text-agri-leaf" style="font-variation-settings: 'FILL' 1;">eco</span>
         </div>
         <div>
-          <h1 class="font-display-md text-lg font-bold font-fraunces text-on-surface leading-tight">Krishi Vikas AI</h1>
-          <p class="font-label-caps text-[10px] text-on-surface-variant tracking-wider uppercase">Field Ledger System</p>
+          <span class="font-editorial text-lg font-bold text-forest-950 block leading-tight tracking-tight">KRISHI VIKAS AI</span>
+          <span class="font-mono text-[9px] uppercase tracking-widest text-forest-700 block font-semibold">FIELD INTELLIGENCE PLATFORM</span>
         </div>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="hidden lg:flex items-center gap-7 text-xs font-medium text-forest-900/80">
+        <a href="#platform" class="hover:text-forest-900 transition-colors">Platform</a>
+        <a href="#how-it-works" class="hover:text-forest-900 transition-colors">How It Works</a>
+        <a href="#for-farmers" class="hover:text-forest-900 transition-colors">For Farmers</a>
+        <a href="#for-organizations" class="hover:text-forest-900 transition-colors">For Organizations</a>
+        <a href="#edge-ai" class="hover:text-forest-900 transition-colors">Technology</a>
+        <a href="#impact" class="hover:text-forest-900 transition-colors">Impact</a>
+      </nav>
+
+      <!-- Right Action CTAs -->
+      <div class="flex items-center gap-3">
+        <a href="/app#dashboard" onclick="event.preventDefault(); switchRoleAndLaunch('Farmer', '#dashboard')" class="px-4 py-2 text-xs font-semibold text-forest-900 hover:text-agri-green transition-colors hidden sm:block">
+          Sign In
+        </a>
+        <a href="/app#dashboard" onclick="event.preventDefault(); switchRoleAndLaunch('Farmer', '#dashboard')" class="px-5 py-2.5 rounded-xl bg-forest-900 text-earth-cream font-medium text-xs hover:bg-forest-800 transition-all shadow-sm hover:shadow flex items-center gap-1.5 group">
+          <span>Get Started</span>
+          <span class="material-symbols-outlined text-sm group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+        </a>
       </div>
     </div>
+  </header>
 
-    <!-- Navigation Links -->
-    <nav class="flex-1 flex flex-col gap-1 px-1 mt-2 overflow-y-auto select-none">
-      <!-- 1. FARMER APPLICATION NAVIGATION -->
-      <div id="nav-farmer-links" class="space-y-1">
-        <div class="px-4 py-1 mb-1">
-          <span class="text-[10px] font-label-caps font-bold text-primary uppercase tracking-widest block">FARMER APP</span>
-          <span class="text-[9px] text-outline block">Personal Farm Management</span>
+  <!-- ================= 2. HERO SECTION — CINEMATIC AGRICULTURAL FIRST ================= -->
+  <section id="hero" class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden bg-earth-cream bg-grain">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        
+        <!-- Left Hero Content -->
+        <div class="lg:col-span-6 space-y-7 z-10">
+          
+          <div class="leaf-badge bg-agri-sage/60 text-forest-900 border border-forest-900/10">
+            <span class="w-1.5 h-1.5 rounded-full bg-agri-green animate-pulse"></span>
+            EDGE AI • SMART FARMING • FIELD INTELLIGENCE
+          </div>
+
+          <h1 class="font-editorial text-4xl sm:text-5xl lg:text-6xl text-forest-950 font-bold leading-[1.12] tracking-tight">
+            Detect Earlier.<br />
+            Act Smarter.<br />
+            <span class="text-agri-green italic font-medium">Grow Stronger.</span>
+          </h1>
+
+          <p class="text-base sm:text-lg text-forest-900/80 font-normal leading-relaxed text-balance max-w-xl">
+            Krishi Vikas AI combines physical field sensors, crop imagery, weather intelligence, and edge-processed risk models to help Indian farmers and agricultural organizations respond before minor anomalies turn into crop losses.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-4 pt-2">
+            <a href="/app#dashboard" onclick="event.preventDefault(); switchRoleAndLaunch('Farmer', '#dashboard')" class="px-6 py-3.5 rounded-xl bg-forest-900 text-earth-cream font-medium text-sm hover:bg-forest-800 transition-all shadow-card flex items-center gap-2">
+              <span>Explore the Platform</span>
+              <span class="material-symbols-outlined text-base">arrow_forward</span>
+            </a>
+            
+            <a href="#how-it-works" class="px-5 py-3.5 rounded-xl bg-white border border-forest-900/15 text-forest-900 font-medium text-sm hover:bg-earth-sand transition-all flex items-center gap-1.5">
+              <span>See How It Works</span>
+              <span class="material-symbols-outlined text-base">arrow_downward</span>
+            </a>
+          </div>
+
+          <!-- Region / Provenance note -->
+          <div class="pt-4 flex items-center gap-3 text-xs text-forest-900/60 font-mono">
+            <span class="flex items-center gap-1">📍 Baramati Taluka, Pune</span>
+            <span>•</span>
+            <span class="flex items-center gap-1">🌾 Wheat, Sugarcane & Pulses</span>
+            <span>•</span>
+            <span class="flex items-center gap-1">⚡ ESP32 LoRa Grid</span>
+          </div>
+
         </div>
 
-        <a href="#dashboard" onclick="App.navigate('dashboard')" data-view="dashboard" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-xl">dashboard</span>
-          <span class="font-label-caps text-xs uppercase font-bold">Dashboard</span>
-        </a>
-
-        <a href="#map" onclick="App.navigate('map')" data-view="map" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-xl">map</span>
-          <span class="font-label-caps text-xs uppercase font-bold">Field Map</span>
-        </a>
-
-        <a href="#irrigation" onclick="App.navigate('irrigation')" data-view="irrigation" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-xl">water_drop</span>
-          <span class="font-label-caps text-xs uppercase font-bold">Irrigation</span>
-        </a>
-
-        <a href="#crop-health" onclick="App.navigate('crop-health')" data-view="crop-health" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-xl">grass</span>
-          <span class="font-label-caps text-xs uppercase font-bold">Crop Health</span>
-        </a>
-
-        <a href="#advisory" onclick="App.navigate('advisory')" data-view="advisory" class="nav-link flex items-center gap-3 px-4 py-2.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-xl">psychology</span>
-          <span class="font-label-caps text-xs uppercase font-bold">Advisory</span>
-        </a>
-      </div>
-
-      <!-- 2. FPO / ORGANIZATION OPERATIONS CONSOLE NAVIGATION -->
-      <div id="nav-org-links" class="space-y-0.5 hidden">
-        <div class="px-4 py-1 mb-1">
-          <span class="text-[10px] font-label-caps font-bold text-secondary uppercase tracking-widest block">ORGANIZATION CONSOLE</span>
-          <span class="text-[9px] text-outline block">FPO / Extension Operations</span>
-        </div>
-
-        <a href="#org-overview" onclick="App.navigate('org-overview')" data-view="org-overview" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-lg text-secondary">admin_panel_settings</span>
-          <span class="font-label-caps text-xs uppercase font-bold">Overview</span>
-        </a>
-
-        <a href="#org-map" onclick="App.navigate('org-map')" data-view="org-map" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-lg">hub</span>
-          <span class="font-label-caps text-xs uppercase font-bold">Regional Map</span>
-        </a>
-
-        <a href="#org-crops" onclick="App.navigate('org-crops')" data-view="org-crops" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-lg">grain</span>
-          <span class="font-label-caps text-xs uppercase font-bold">Crop Intelligence</span>
-        </a>
-
-        <a href="#org-surveillance" onclick="App.navigate('org-surveillance')" data-view="org-surveillance" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-lg">coronavirus</span>
-          <span class="font-label-caps text-xs uppercase font-bold">Surveillance</span>
-        </a>
-
-        <a href="#org-priority" onclick="App.navigate('org-priority')" data-view="org-priority" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-lg">assignment_late</span>
-          <span class="font-label-caps text-xs uppercase font-bold">Action Center</span>
-        </a>
-
-        <a href="#org-field-ops" onclick="App.navigate('org-field-ops')" data-view="org-field-ops" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-lg">transfer_within_a_station</span>
-          <span class="font-label-caps text-xs uppercase font-bold">Field Operations</span>
-        </a>
-
-        <a href="#review-queue" onclick="App.navigate('review-queue')" data-view="review-queue" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-lg text-secondary">verified_user</span>
-          <span class="font-label-caps text-xs uppercase font-bold">Validation Queue</span>
-        </a>
-
-        <a href="#org-farmers" onclick="App.navigate('org-farmers')" data-view="org-farmers" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-lg">groups</span>
-          <span class="font-label-caps text-xs uppercase font-bold">Farmers & Parcels</span>
-        </a>
-
-        <a href="#org-devices" onclick="App.navigate('org-devices')" data-view="org-devices" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-lg">sensors</span>
-          <span class="font-label-caps text-xs uppercase font-bold">Device Health</span>
-        </a>
-
-        <a href="#org-maintenance" onclick="App.navigate('org-maintenance')" data-view="org-maintenance" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-lg">build</span>
-          <span class="font-label-caps text-xs uppercase font-bold">Maintenance</span>
-        </a>
-
-        <a href="#org-water" onclick="App.navigate('org-water')" data-view="org-water" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-lg">water_drop</span>
-          <span class="font-label-caps text-xs uppercase font-bold">Water Demand</span>
-        </a>
-
-        <a href="#org-service-areas" onclick="App.navigate('org-service-areas')" data-view="org-service-areas" class="nav-link flex items-center gap-3 px-3.5 py-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-lg">holiday_village</span>
-          <span class="font-label-caps text-xs uppercase font-bold">Service Areas</span>
-        </a>
-      </div>
-
-      <!-- Settings & Support -->
-      <div class="mt-auto pt-3 border-t border-outline-variant/40 space-y-1">
-        <a href="#settings" onclick="App.navigate('settings')" data-view="settings" class="nav-link flex items-center gap-3 px-4 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-lg">settings</span>
-          <span class="font-label-caps text-xs uppercase font-bold">Settings</span>
-        </a>
-        <a href="#support" onclick="App.navigate('support')" data-view="support" class="nav-link flex items-center gap-3 px-4 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all">
-          <span class="material-symbols-outlined text-lg">help</span>
-          <span class="font-label-caps text-xs uppercase font-bold">Support</span>
-        </a>
-      </div>
-    </nav>
-  </aside>
-
-  <!-- Main Viewport Area -->
-  <div class="flex-1 flex flex-col md:ml-64 h-full overflow-hidden">
-    
-    <!-- Top Global App Bar -->
-    <header class="h-16 w-full bg-surface border-b border-outline-variant px-4 md:px-8 flex justify-between items-center z-30 shrink-0 select-none">
-      <!-- Title on Mobile & Hardware Connection Health -->
-      <div class="flex items-center gap-3">
-        <h1 class="md:hidden font-display-md text-base font-bold font-fraunces text-primary">Krishi Vikas AI</h1>
-        <span class="hidden md:inline-flex items-center gap-2 text-xs font-mono">
-          <span id="hw-status-dot" class="w-2 h-2 rounded-full bg-secondary inline-block"></span>
-          <span id="hw-status-label" class="text-outline">Simulated Telemetry (Baramati Grid)</span>
-        </span>
-      </div>
-
-      <!-- Header Tools & Role Switcher -->
-      <div class="flex items-center gap-3">
-        <!-- Public Landing Showcase Link -->
-        <a href="/landing" class="hidden md:flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold font-mono bg-surface border border-outline-variant text-on-surface hover:bg-surface-container-high transition-colors" title="View Public Landing Page">
-          <span class="material-symbols-outlined text-sm text-primary">public</span> Showcase
-        </a>
-
-        <!-- Global Operating Mode Toggle Button (Demo Mode vs Live Hardware) -->
-        <button id="global-mode-toggle-btn" onclick="App.toggleMode()" title="Toggle between Demo Mode and Live Hardware Mode" class="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-bold font-mono bg-secondary-container text-on-secondary-container border border-secondary/40 shadow-sm cursor-pointer hover:opacity-90 transition-opacity">
-          <span class="material-symbols-outlined text-sm">developer_board</span> Demo Mode
-        </button>
-
-        <!-- Global Role Switcher Dropdown (Allows seamless switching between Farmer and Org/Expert) -->
-        <div class="flex items-center gap-2 bg-surface-container p-1 rounded-lg border border-outline-variant">
-          <span class="material-symbols-outlined text-sm text-outline pl-1.5">switch_account</span>
-          <span class="text-xs font-label-caps text-outline hidden sm:inline">Role:</span>
-          <select id="global-role-switcher" onchange="App.switchRole(this.value)" class="bg-surface rounded border-0 py-1 px-2 text-xs font-bold text-on-surface focus:ring-0 cursor-pointer">
-            <option value="Farmer">Farmer (Ramesh Patel)</option>
-            <option value="OrgExpert">Org / Expert (Dr. Anita)</option>
-          </select>
-        </div>
-
-        <!-- User Profile Pill -->
-        <div class="flex items-center gap-2.5 pl-2 border-l border-outline-variant/60">
-          <img id="user-avatar-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4uIMiYDIDQM1xkQL0VBBYdyJLcc9Yl-ZVmPnoQdP6n53qu1yOIMmFrBN4thNaYmjuCTDDm_UCxkpG5zjolIo8tw7p_sY16dFAnhPXfi8EFL71mIAIho8HXHNdwFWPJPFLgMWCJ8B8MPHSZdYyfjH_bPygJBzYtObm8Jf4zYsvsQx3LEl0e-cF8oxvn2SaXZDIZ7dWEIefgIaCp_jTCJxza_ma2Wi_AJ5VXLXesXWV8BgJd8TJWeze" class="w-8 h-8 rounded-full object-cover border border-outline-variant" />
-          <div class="hidden sm:block text-left">
-            <p id="user-display-name" class="text-xs font-bold text-on-surface leading-tight">Ramesh Patel</p>
-            <div class="flex items-center gap-1.5 mt-0.5">
-              <span id="user-sub-label" class="text-[10px] text-outline font-medium">Farmer</span>
-              <span id="user-role-badge" class="px-2 py-0.5 rounded-full text-[9px] font-label-caps font-bold bg-primary-container text-on-primary-container">Farmer</span>
+        <!-- Right Hero Image & Layered Intelligence Card -->
+        <div class="lg:col-span-6 relative">
+          
+          <!-- Cinematic Indian Agriculture Photography Frame -->
+          <div class="relative rounded-3xl overflow-hidden shadow-elevated border-4 border-white aspect-[4/3] sm:aspect-[16/11]">
+            <img 
+              src="https://images.unsplash.com/photo-1592982537447-6f2a6a0c7c18?w=1200&auto=format&fit=crop&q=85" 
+              alt="Lush green agricultural wheat field in Maharashtra during golden hour" 
+              class="w-full h-full object-cover object-center scale-105 hover:scale-100 transition-transform duration-1000"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-forest-950/60 via-transparent to-transparent"></div>
+            
+            <!-- In-Photo Location Tag -->
+            <div class="absolute bottom-4 left-4 text-white text-[11px] font-mono flex items-center gap-2 bg-forest-950/70 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/15">
+              <span class="w-2 h-2 rounded-full bg-agri-leaf animate-ping"></span>
+              Live Monitored Field • Malegaon Khurd, Baramati
             </div>
           </div>
+
+          <!-- Floating Overlaid Live Intelligence Card -->
+          <div class="absolute -bottom-6 -left-4 sm:-left-8 max-w-xs sm:max-w-sm glass-card p-5 rounded-2xl border border-forest-900/10 shadow-elevated animate-reveal">
+            <div class="flex items-center justify-between pb-3 border-b border-forest-900/10">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-alert animate-pulse"></span>
+                <span class="font-mono text-[10px] font-bold uppercase tracking-wider text-forest-900">FIELD STATUS • LIVE</span>
+              </div>
+              <span class="text-[10px] font-mono text-rust-danger bg-rust-soft px-2 py-0.5 rounded font-bold">RISK: HIGH</span>
+            </div>
+
+            <div class="mt-3 space-y-1.5">
+              <div class="flex items-center justify-between">
+                <h4 class="font-editorial text-base font-bold text-forest-950">Zone B (Central Basin)</h4>
+                <span class="text-xs text-forest-700 font-mono">Wheat • Tillering</span>
+              </div>
+              <p class="text-xs text-rust-danger font-semibold flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">water_drop</span> Soil Water Stress Detected (17.3% Moisture)
+              </p>
+              <p class="text-[11px] text-forest-900/70 leading-relaxed">
+                Critical root threshold: 22%. Rain probability 14%. Recommended drip cycle: 8–12 mins.
+              </p>
+            </div>
+
+            <div class="mt-3 pt-2.5 flex items-center justify-between border-t border-forest-900/10">
+              <span class="text-[10px] font-mono text-forest-700">NODE: ESP32-SMP-9104</span>
+              <a href="/app#irrigation" onclick="event.preventDefault(); switchRoleAndLaunch('Farmer', '#irrigation')" class="text-xs font-bold text-agri-green hover:underline flex items-center gap-0.5">
+                View Advisory →
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= 3. SENSE • UNDERSTAND • ACT STATEMENT ================= -->
+  <section class="py-14 bg-earth-sand border-y border-forest-900/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8">
+      
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <span class="font-mono text-xs text-agri-green uppercase tracking-widest font-bold block mb-1">FIELD-TO-DECISION LOOP</span>
+        <h2 class="font-editorial text-2xl sm:text-3xl text-forest-950 font-bold">From field signals to informed action.</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Pillar 1: Sense -->
+        <div class="bg-white p-7 rounded-2xl border border-forest-900/10 shadow-subtle flex flex-col justify-between hover:shadow-card transition-shadow">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-xl bg-agri-sage text-forest-900 flex items-center justify-center">
+              <span class="material-symbols-outlined text-2xl">sensors</span>
+            </div>
+            <h3 class="font-editorial text-xl font-bold text-forest-950">1. SENSE</h3>
+            <p class="text-sm text-forest-900/80 leading-relaxed">
+              In-situ root-zone capacitive moisture probes, microclimate sensors, and high-resolution canopy photos capture reality at the farm level.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-forest-900/10 font-mono text-[11px] text-forest-700 font-semibold">
+            ESP32 • Soil • Temp • Images
+          </div>
+        </div>
+
+        <!-- Pillar 2: Understand -->
+        <div class="bg-white p-7 rounded-2xl border border-forest-900/10 shadow-subtle flex flex-col justify-between hover:shadow-card transition-shadow">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-xl bg-amber-soft text-amber-alert flex items-center justify-center">
+              <span class="material-symbols-outlined text-2xl">psychology</span>
+            </div>
+            <h3 class="font-editorial text-xl font-bold text-forest-950">2. UNDERSTAND</h3>
+            <p class="text-sm text-forest-900/80 leading-relaxed">
+              Multimodal AI correlates leaf pathology, micro-climate vapor deficit, growth stage, and Pune meteorological forecasts into unified risk scores.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-forest-900/10 font-mono text-[11px] text-forest-700 font-semibold">
+            Multimodal Edge AI • Pathogens
+          </div>
+        </div>
+
+        <!-- Pillar 3: Act -->
+        <div class="bg-white p-7 rounded-2xl border border-forest-900/10 shadow-subtle flex flex-col justify-between hover:shadow-card transition-shadow">
+          <div class="space-y-3">
+            <div class="w-12 h-12 rounded-xl bg-agri-pale text-agri-green flex items-center justify-center">
+              <span class="material-symbols-outlined text-2xl">verified_user</span>
+            </div>
+            <h3 class="font-editorial text-xl font-bold text-forest-950">3. ACT</h3>
+            <p class="text-sm text-forest-900/80 leading-relaxed">
+              Farmers receive actionable advice in regional languages, while KVK extension agronomists receive prioritized validation queues and outbreak alerts.
+            </p>
+          </div>
+          <div class="mt-5 pt-3 border-t border-forest-900/10 font-mono text-[11px] text-forest-700 font-semibold">
+            Localized Advisory • FPO Dispatch
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= 4. THE PROBLEM SECTION ================= -->
+  <section id="platform" class="py-24 bg-earth-cream">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left Agriculture Image -->
+        <div class="lg:col-span-5 relative">
+          <div class="rounded-3xl overflow-hidden shadow-elevated border-4 border-white">
+            <img 
+              src="https://images.unsplash.com/photo-1589923188900-85dae523342b?w=800&auto=format&fit=crop&q=80" 
+              alt="Farmer carefully inspecting infected crop leaf with fungal spores in field" 
+              class="w-full h-full object-cover aspect-[4/5]"
+            />
+          </div>
+          <div class="absolute -bottom-4 -right-4 bg-forest-900 text-earth-cream p-4 rounded-2xl shadow-card max-w-[220px] text-xs font-medium">
+            <span class="material-symbols-outlined text-amber-soft text-xl block mb-1">warning</span>
+            "By the time symptoms are visible to the naked eye, the pathogen has already spread."
+          </div>
+        </div>
+
+        <!-- Right Content & 4 Risk Cards -->
+        <div class="lg:col-span-7 space-y-7">
+          
+          <div class="space-y-3">
+            <span class="font-mono text-xs text-agri-green uppercase tracking-widest font-bold">THE TIME-TO-INTERVENTION GAP</span>
+            <h2 class="font-editorial text-3xl sm:text-4xl text-forest-950 font-bold leading-tight">
+              Crop problems don’t wait for an expert.
+            </h2>
+            <p class="text-base text-forest-900/80 leading-relaxed text-balance">
+              Smallholders and FPOs often discover fungal outbreaks, vector insect infestations, root dehydration, or weather shock days too late. Krishi Vikas AI bridges this gap with 24/7 continuous in-field intelligence.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            
+            <!-- Disease Card -->
+            <div class="bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle space-y-2">
+              <div class="flex items-center gap-2 text-rust-danger font-bold text-sm">
+                <span class="material-symbols-outlined text-lg">coronavirus</span>
+                <span>DISEASE</span>
+              </div>
+              <p class="text-xs text-forest-900/80 leading-relaxed">
+                Fungal spores like Wheat Leaf Rust multiply exponentially under high humidity before leaf necrosis appears.
+              </p>
+            </div>
+
+            <!-- Pest Card -->
+            <div class="bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle space-y-2">
+              <div class="flex items-center gap-2 text-amber-alert font-bold text-sm">
+                <span class="material-symbols-outlined text-lg">bug_report</span>
+                <span>PESTS</span>
+              </div>
+              <p class="text-xs text-forest-900/80 leading-relaxed">
+                Aphid and whitefly vectors spread viral mosaics across farm boundaries before conventional scouting notices.
+              </p>
+            </div>
+
+            <!-- Water Stress Card -->
+            <div class="bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle space-y-2">
+              <div class="flex items-center gap-2 text-blue-600 font-bold text-sm">
+                <span class="material-symbols-outlined text-lg">water_loss</span>
+                <span>WATER STRESS</span>
+              </div>
+              <p class="text-xs text-forest-900/80 leading-relaxed">
+                Over- or under-irrigation damages root-zone oxygenation and wastes canal water reserves during critical tillering.
+              </p>
+            </div>
+
+            <!-- Climate Risk Card -->
+            <div class="bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle space-y-2">
+              <div class="flex items-center gap-2 text-forest-800 font-bold text-sm">
+                <span class="material-symbols-outlined text-lg">thunderstorm</span>
+                <span>CLIMATE RISK</span>
+              </div>
+              <p class="text-xs text-forest-900/80 leading-relaxed">
+                Sudden heat spikes and unseasonal Western Maharashtra rain demand immediate adaptive crop protection.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= 5. HOW KRISHI VIKAS AI WORKS ================= -->
+  <section id="how-it-works" class="py-24 bg-earth-sand border-t border-forest-900/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 space-y-14">
+      
+      <div class="max-w-2xl">
+        <span class="font-mono text-xs text-agri-green uppercase tracking-widest font-bold">5-STAGE PRECISION CYCLE</span>
+        <h2 class="font-editorial text-3xl sm:text-4xl text-forest-950 font-bold mt-1">
+          From a signal in the field to a decision.
+        </h2>
+        <p class="text-sm text-forest-900/80 mt-2">
+          An automated, self-reinforcing agronomic cycle operating from root-level sensor nodes to expert extension desks.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        
+        <!-- Step 01 -->
+        <div class="bg-white p-6 rounded-2xl border border-forest-900/10 shadow-subtle flex flex-col justify-between hover:border-agri-green transition-all group">
+          <div>
+            <span class="font-editorial text-3xl font-bold text-forest-900/20 group-hover:text-agri-green transition-colors">01</span>
+            <h3 class="font-editorial text-lg font-bold text-forest-950 mt-3 mb-2">SENSE</h3>
+            <ul class="text-xs text-forest-900/70 space-y-1.5 font-mono">
+              <li>• Soil moisture %</li>
+              <li>• Canopy temp & RH</li>
+              <li>• Leaf camera scans</li>
+              <li>• Solar battery state</li>
+            </ul>
+          </div>
+          <span class="text-[10px] font-mono text-agri-green font-bold mt-6 block uppercase">Hardware Layer</span>
+        </div>
+
+        <!-- Step 02 -->
+        <div class="bg-white p-6 rounded-2xl border border-forest-900/10 shadow-subtle flex flex-col justify-between hover:border-agri-green transition-all group">
+          <div>
+            <span class="font-editorial text-3xl font-bold text-forest-900/20 group-hover:text-agri-green transition-colors">02</span>
+            <h3 class="font-editorial text-lg font-bold text-forest-950 mt-3 mb-2">ANALYZE</h3>
+            <ul class="text-xs text-forest-900/70 space-y-1.5 font-mono">
+              <li>• Multimodal Vision AI</li>
+              <li>• Leaf rust detection</li>
+              <li>• Aphid pest counts</li>
+              <li>• Hydration deficit</li>
+            </ul>
+          </div>
+          <span class="text-[10px] font-mono text-agri-green font-bold mt-6 block uppercase">Edge & Cloud AI</span>
+        </div>
+
+        <!-- Step 03 -->
+        <div class="bg-white p-6 rounded-2xl border border-forest-900/10 shadow-subtle flex flex-col justify-between hover:border-agri-green transition-all group">
+          <div>
+            <span class="font-editorial text-3xl font-bold text-forest-900/20 group-hover:text-agri-green transition-colors">03</span>
+            <h3 class="font-editorial text-lg font-bold text-forest-950 mt-3 mb-2">PREDICT</h3>
+            <ul class="text-xs text-forest-900/70 space-y-1.5 font-mono">
+              <li>• IMD Pune weather</li>
+              <li>• Crop growth phase</li>
+              <li>• Spore dispersal model</li>
+              <li>• Historical farm memory</li>
+            </ul>
+          </div>
+          <span class="text-[10px] font-mono text-agri-green font-bold mt-6 block uppercase">Risk Engine</span>
+        </div>
+
+        <!-- Step 04 -->
+        <div class="bg-white p-6 rounded-2xl border border-forest-900/10 shadow-subtle flex flex-col justify-between hover:border-agri-green transition-all group">
+          <div>
+            <span class="font-editorial text-3xl font-bold text-forest-900/20 group-hover:text-agri-green transition-colors">04</span>
+            <h3 class="font-editorial text-lg font-bold text-forest-950 mt-3 mb-2">DECIDE</h3>
+            <ul class="text-xs text-forest-900/70 space-y-1.5 font-mono">
+              <li>• Trigger drip relay</li>
+              <li>• Localized advisory</li>
+              <li>• Escalation to KVK</li>
+              <li>• Marathi/Hindi notices</li>
+            </ul>
+          </div>
+          <span class="text-[10px] font-mono text-agri-green font-bold mt-6 block uppercase">Decision Support</span>
+        </div>
+
+        <!-- Step 05 -->
+        <div class="bg-white p-6 rounded-2xl border border-forest-900/10 shadow-subtle flex flex-col justify-between hover:border-agri-green transition-all group">
+          <div>
+            <span class="font-editorial text-3xl font-bold text-forest-900/20 group-hover:text-agri-green transition-colors">05</span>
+            <h3 class="font-editorial text-lg font-bold text-forest-950 mt-3 mb-2">VERIFY</h3>
+            <ul class="text-xs text-forest-900/70 space-y-1.5 font-mono">
+              <li>• Agronomist sign-off</li>
+              <li>• Field officer visit</li>
+              <li>• Moisture sensor delta</li>
+              <li>• Ledger provenance</li>
+            </ul>
+          </div>
+          <span class="text-[10px] font-mono text-agri-green font-bold mt-6 block uppercase">Expert Validation</span>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= 6. EDGE AI & PHYSICAL HARDWARE ================= -->
+  <section id="edge-ai" class="py-24 bg-forest-950 text-earth-cream relative overflow-hidden">
+    <!-- Subtle Background Glow -->
+    <div class="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-agri-green/20 blur-3xl pointer-events-none"></div>
+    <div class="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-agri-green/10 blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 relative z-10">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left Content -->
+        <div class="lg:col-span-6 space-y-6">
+          <div class="leaf-badge bg-forest-800 text-agri-leaf border border-forest-700">
+            <span class="w-1.5 h-1.5 rounded-full bg-agri-leaf"></span>
+            EDGE-NATIVE ARCHITECTURE
+          </div>
+
+          <h2 class="font-editorial text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
+            Intelligence that stays close to the field.
+          </h2>
+
+          <p class="text-sm sm:text-base text-earth-cream/80 leading-relaxed text-balance">
+            Rural Indian agricultural grids cannot rely on constant 5G connectivity. Krishi Vikas AI is architected to execute risk scoring, sensor thresholding, and pump actuation locally on low-power ESP32 edge nodes — syncing back to the cloud ledger whenever bandwidth allows.
+          </p>
+
+          <!-- 4 Core Pillars -->
+          <div class="grid grid-cols-2 gap-4 pt-2">
+            <div class="p-4 rounded-xl bg-forest-900/80 border border-forest-800">
+              <span class="material-symbols-outlined text-agri-leaf text-2xl block mb-1">speed</span>
+              <h4 class="font-bold text-sm text-earth-cream">LOW LATENCY</h4>
+              <p class="text-xs text-earth-cream/70 mt-1">Sub-second local pump and relay actuation without cloud roundtrips.</p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-forest-900/80 border border-forest-800">
+              <span class="material-symbols-outlined text-agri-leaf text-2xl block mb-1">memory</span>
+              <h4 class="font-bold text-sm text-earth-cream">LOCAL PROCESSING</h4>
+              <p class="text-xs text-earth-cream/70 mt-1">On-device environmental correlation and sensor calibration routines.</p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-forest-900/80 border border-forest-800">
+              <span class="material-symbols-outlined text-agri-leaf text-2xl block mb-1">wifi_off</span>
+              <h4 class="font-bold text-sm text-earth-cream">INTERMITTENT READY</h4>
+              <p class="text-xs text-earth-cream/70 mt-1">Stores up to 72 hours of telemetry during network blackouts.</p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-forest-900/80 border border-forest-800">
+              <span class="material-symbols-outlined text-agri-leaf text-2xl block mb-1">solar_power</span>
+              <h4 class="font-bold text-sm text-earth-cream">SOLAR POWERED</h4>
+              <p class="text-xs text-earth-cream/70 mt-1">Operates autonomously on small LiFePO4 batteries and solar harvesting.</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Hardware Photography + Visual Architecture -->
+        <div class="lg:col-span-6 space-y-6">
+          
+          <div class="relative rounded-3xl overflow-hidden border border-forest-700 shadow-elevated">
+            <img 
+              src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80" 
+              alt="Physical microelectronic hardware and field sensor setup in agricultural environment" 
+              class="w-full h-72 object-cover"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-forest-950 via-transparent to-transparent"></div>
+            
+            <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between text-xs font-mono">
+              <span class="text-agri-leaf font-bold">HARDWARE: ESP32 + SOIL + RELAY</span>
+              <span class="text-earth-cream/80">FIRMWARE: v2.4.1 (BARAMATI)</span>
+            </div>
+          </div>
+
+          <!-- Architecture Visual Strip -->
+          <div class="p-5 rounded-2xl bg-forest-900/90 border border-forest-800 space-y-3 font-mono text-xs">
+            <div class="text-agri-leaf font-bold uppercase tracking-wider">FIELD PIPELINE TOPOLOGY</div>
+            
+            <div class="flex flex-wrap items-center justify-between gap-2 text-earth-cream font-bold">
+              <div class="px-3 py-1.5 rounded-lg bg-forest-800 border border-forest-700">🌱 SENSORS</div>
+              <span>→</span>
+              <div class="px-3 py-1.5 rounded-lg bg-agri-green text-white">⚡ EDGE NODE</div>
+              <span>→</span>
+              <div class="px-3 py-1.5 rounded-lg bg-forest-800 border border-forest-700">🧠 AI RISK</div>
+              <span>→</span>
+              <div class="px-3 py-1.5 rounded-lg bg-secondary text-white">💧 PUMP / ACT</div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= 7. FARMER EXPERIENCE SPLIT SECTION ================= -->
+  <section id="for-farmers" class="py-24 bg-earth-cream">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left Authentic Indian Farmer Photography -->
+        <div class="lg:col-span-6 relative">
+          <div class="rounded-3xl overflow-hidden shadow-elevated border-4 border-white">
+            <img 
+              src="https://images.unsplash.com/photo-1595278069441-2cf29f8005a4?w=800&auto=format&fit=crop&q=80" 
+              alt="Indian farmer standing proudly in his lush green wheat field in Maharashtra" 
+              class="w-full h-full object-cover aspect-[4/5]"
+            />
+          </div>
+          
+          <!-- Floating Farmer Testimonial / Info Badge -->
+          <div class="absolute -bottom-6 -right-4 sm:right-6 glass-card p-4 rounded-2xl border border-forest-900/10 shadow-elevated max-w-xs">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-agri-sage text-forest-900 font-bold flex items-center justify-center">RP</div>
+              <div>
+                <h5 class="font-bold text-sm text-forest-950">Ramesh Patel</h5>
+                <p class="text-xs text-forest-700 font-mono">12.5 Acres • Malegaon Khurd</p>
+              </div>
+            </div>
+            <p class="text-xs text-forest-900/80 mt-2 italic">
+              "The advisory told me about leaf rust in Zone A three days before the whole plot could catch it."
+            </p>
+          </div>
+        </div>
+
+        <!-- Right Farmer Feature Breakdown -->
+        <div class="lg:col-span-6 space-y-7">
+          
+          <div class="space-y-3">
+            <div class="leaf-badge bg-agri-pale text-agri-green border border-agri-green/20">FARMER CONSOLE</div>
+            <h2 class="font-editorial text-3xl sm:text-4xl text-forest-950 font-bold leading-tight">
+              Built around the farmer’s next decision.
+            </h2>
+            <p class="text-sm sm:text-base text-forest-900/80 leading-relaxed">
+              No complicated spreadsheets or bloated software. The Farmer App delivers straightforward answers to the four questions that matter every morning.
+            </p>
+          </div>
+
+          <div class="space-y-4">
+            
+            <div class="p-4 rounded-xl bg-white border border-forest-900/10 shadow-subtle flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-agri-sage text-forest-900 flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-xl">dashboard</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-forest-950">MY FARM & ZONES</h4>
+                <p class="text-xs text-forest-900/70 mt-0.5">Real-time status of each sub-plot, soil moisture level, and crop growth stage.</p>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-white border border-forest-900/10 shadow-subtle flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-agri-sage text-forest-900 flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-xl">photo_camera</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-forest-950">CROP SCAN & VISION DIAGNOSIS</h4>
+                <p class="text-xs text-forest-900/70 mt-0.5">Take a leaf photo in the field. Receive immediate AI identification with bounding boxes and expert verification.</p>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-white border border-forest-900/10 shadow-subtle flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-agri-sage text-forest-900 flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-xl">water_drop</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-forest-950">SMART IRRIGATION CONTROL</h4>
+                <p class="text-xs text-forest-900/70 mt-0.5">One-click drip pump actuation verified by sensor hydration deltas (+12.5% moisture confirmed).</p>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-xl bg-white border border-forest-900/10 shadow-subtle flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-agri-sage text-forest-900 flex items-center justify-center shrink-0">
+                <span class="material-symbols-outlined text-xl">translate</span>
+              </div>
+              <div>
+                <h4 class="font-bold text-sm text-forest-950">MULTILINGUAL ADVISORY</h4>
+                <p class="text-xs text-forest-900/70 mt-0.5">Instant audio and text advisories in Marathi (मराठी), Hindi (हिंदी), and English.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="pt-2">
+            <a href="/app#dashboard" onclick="event.preventDefault(); switchRoleAndLaunch('Farmer', '#dashboard')" class="px-6 py-3 rounded-xl bg-forest-900 text-earth-cream font-medium text-xs hover:bg-forest-800 transition-all inline-flex items-center gap-2">
+              <span>Launch Farmer App</span>
+              <span class="material-symbols-outlined text-sm">open_in_new</span>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= 8. ORGANIZATION / FPO & REGIONAL MAP ================= -->
+  <section id="for-organizations" class="py-24 bg-earth-sand border-t border-forest-900/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 space-y-16">
+      
+      <!-- Section Header -->
+      <div class="max-w-3xl">
+        <div class="leaf-badge bg-forest-900 text-earth-cream">FPO & EXTENSION OPERATIONS</div>
+        <h2 class="font-editorial text-3xl sm:text-5xl text-forest-950 font-bold mt-3 leading-tight">
+          One farm is a problem.<br />
+          <span class="text-agri-green italic">A pattern across farms is a signal.</span>
+        </h2>
+        <p class="text-base text-forest-900/80 mt-3 text-balance">
+          Individual farmers fight localized symptoms. Agricultural organizations, FPOs, and KVK research centers need macro intelligence to prevent epidemics, optimize water sheds, and deploy field agronomists effectively.
+        </p>
+      </div>
+
+      <!-- Regional Hotspot & Map Card -->
+      <div class="bg-forest-950 rounded-3xl p-6 sm:p-10 text-earth-cream border border-forest-800 shadow-elevated grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        
+        <!-- Left: Macro Visual Map Representation -->
+        <div class="lg:col-span-7 bg-[#162217] rounded-2xl p-6 border border-forest-800 relative overflow-hidden min-h-[380px] flex flex-col justify-between">
+          <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: linear-gradient(#3d5e3f 1px, transparent 1px), linear-gradient(to right, #3d5e3f 1px, #162217 1px); background-size: 32px 32px;"></div>
+          
+          <div class="flex justify-between items-start z-10">
+            <span class="text-[11px] font-mono font-bold text-agri-leaf bg-forest-900 px-3 py-1 rounded border border-forest-700">
+              📍 REGIONAL MAP: BARAMATI TALUKA
+            </span>
+            <span class="text-[11px] font-mono text-rust-danger bg-rust-danger/20 border border-rust-danger/40 px-2.5 py-1 rounded font-bold">
+              ● ACTIVE OUTBREAK CLUSTER
+            </span>
+          </div>
+
+          <!-- Hotspot Visual Ring -->
+          <div class="my-auto relative flex items-center justify-center py-10">
+            <div class="w-48 h-48 rounded-full border-2 border-dashed border-rust-danger/60 bg-rust-danger/15 flex items-center justify-center animate-pulse">
+              <div class="w-28 h-28 rounded-full bg-rust-danger/25 flex items-center justify-center text-center p-2">
+                <span class="text-xs font-mono font-bold text-white leading-tight">
+                  Rui Sector Cluster<br />
+                  <span class="text-[10px] text-amber-soft">12 Farms • Rust</span>
+                </span>
+              </div>
+            </div>
+
+            <!-- Surrounding Plot Nodes -->
+            <div class="absolute top-4 left-10 text-[10px] font-mono bg-forest-900/90 px-2 py-1 rounded border border-forest-700">
+              ● Malegaon Khurd (Wheat)
+            </div>
+            <div class="absolute bottom-6 left-12 text-[10px] font-mono bg-forest-900/90 px-2 py-1 rounded border border-forest-700">
+              ● Jalochi (Corn)
+            </div>
+            <div class="absolute top-8 right-8 text-[10px] font-mono bg-forest-900/90 px-2 py-1 rounded border border-forest-700">
+              ● Kattebhel (Soybean)
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between z-10 pt-3 border-t border-forest-800/80 text-[11px] font-mono text-earth-cream/70">
+            <span>Spatial Radius: 2.5 KM</span>
+            <span class="text-agri-leaf font-bold">Haversine Clustering Active</span>
+          </div>
+        </div>
+
+        <!-- Right: FPO Capability Highlights -->
+        <div class="lg:col-span-5 space-y-6">
+          
+          <div class="space-y-2">
+            <span class="text-xs font-mono text-agri-leaf uppercase tracking-wider font-bold">KVK AGRI-INTELLIGENCE DESK</span>
+            <h3 class="font-editorial text-2xl sm:text-3xl font-bold">Regional Surveillance Hub</h3>
+            <p class="text-xs sm:text-sm text-earth-cream/80 leading-relaxed">
+              Continuous monitoring across hundreds of member holdings. Automatically groups localized pathogen spikes into geographic outbreak warnings.
+            </p>
+          </div>
+
+          <div class="space-y-3 font-mono text-xs">
+            <div class="p-3 rounded-xl bg-forest-900 border border-forest-800 flex justify-between items-center">
+              <span>🌾 Managed Holdings</span>
+              <span class="font-bold text-agri-leaf">173 Plots (14.6 Ha)</span>
+            </div>
+            <div class="p-3 rounded-xl bg-forest-900 border border-forest-800 flex justify-between items-center">
+              <span>👥 Registered Farmers</span>
+              <span class="font-bold text-agri-leaf">248 Enrolled</span>
+            </div>
+            <div class="p-3 rounded-xl bg-forest-900 border border-forest-800 flex justify-between items-center">
+              <span>🔬 Expert Validation Queue</span>
+              <span class="font-bold text-amber-alert">4 Pending Review</span>
+            </div>
+            <div class="p-3 rounded-xl bg-forest-900 border border-forest-800 flex justify-between items-center">
+              <span>📡 Online Telemetry Nodes</span>
+              <span class="font-bold text-agri-leaf">156 / 164 Active</span>
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <a href="/app#org-overview" onclick="event.preventDefault(); switchRoleAndLaunch('OrgExpert', '#org-overview')" class="px-5 py-3 rounded-xl bg-agri-green text-white font-medium text-xs hover:bg-agri-light transition-all flex items-center justify-center gap-2">
+              <span>Access Organization Console</span>
+              <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= 9. AI TO ACTION TIMELINE ================= -->
+  <section class="py-24 bg-earth-cream">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 space-y-14">
+      
+      <div class="text-center max-w-2xl mx-auto space-y-2">
+        <span class="font-mono text-xs text-agri-green uppercase tracking-widest font-bold">END-TO-END WORKFLOW</span>
+        <h2 class="font-editorial text-3xl sm:text-4xl text-forest-950 font-bold">
+          Detection is only the beginning.
+        </h2>
+        <p class="text-sm text-forest-900/80 text-balance">
+          Unlike generic image scanners, Krishi Vikas AI guides the full lifecycle through agronomic validation, field dispatch, and verified outcomes.
+        </p>
+      </div>
+
+      <!-- 6-Step Horizontal / Vertical Process Strip -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+        
+        <!-- Step 1: Detect -->
+        <div class="bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-rust-soft text-rust-danger font-bold flex items-center justify-center text-xs">01</div>
+          <h4 class="font-bold text-sm text-forest-950">DETECT</h4>
+          <p class="text-xs text-forest-900/70">Edge camera/sensor flags possible Puccinia rust spores.</p>
+        </div>
+
+        <!-- Step 2: Correlate -->
+        <div class="bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-amber-soft text-amber-alert font-bold flex items-center justify-center text-xs">02</div>
+          <h4 class="font-bold text-sm text-forest-950">CORRELATE</h4>
+          <p class="text-xs text-forest-900/70">87% humidity & tillering stage elevate disease risk to High.</p>
+        </div>
+
+        <!-- Step 3: Validate -->
+        <div class="bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-agri-sage text-forest-900 font-bold flex items-center justify-center text-xs">03</div>
+          <h4 class="font-bold text-sm text-forest-950">VALIDATE</h4>
+          <p class="text-xs text-forest-900/70">KVK Expert reviews high-res scan and confirms diagnosis.</p>
+        </div>
+
+        <!-- Step 4: Advise -->
+        <div class="bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-agri-sage text-forest-900 font-bold flex items-center justify-center text-xs">04</div>
+          <h4 class="font-bold text-sm text-forest-950">ADVISE</h4>
+          <p class="text-xs text-forest-900/70">Targeted propiconazole bio-spray recommendation issued.</p>
+        </div>
+
+        <!-- Step 5: Act -->
+        <div class="bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-agri-pale text-agri-green font-bold flex items-center justify-center text-xs">05</div>
+          <h4 class="font-bold text-sm text-forest-950">ACT</h4>
+          <p class="text-xs text-forest-900/70">Extension field officer visits plot and coordinates spray.</p>
+        </div>
+
+        <!-- Step 6: Verify -->
+        <div class="bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle space-y-2">
+          <div class="w-8 h-8 rounded-lg bg-forest-900 text-earth-cream font-bold flex items-center justify-center text-xs">06</div>
+          <h4 class="font-bold text-sm text-forest-950">VERIFY</h4>
+          <p class="text-xs text-forest-900/70">Follow-up scan confirms disease arrest; saved to Farm Memory.</p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= 10. MEASURABLE IMPACT SECTION ================= -->
+  <section id="impact" class="py-24 bg-forest-950 text-earth-cream">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 space-y-16">
+      
+      <div class="text-center max-w-3xl mx-auto space-y-3">
+        <span class="font-mono text-xs text-agri-leaf uppercase tracking-widest font-bold">REAL-WORLD OUTCOMES</span>
+        <h2 class="font-editorial text-3xl sm:text-5xl font-bold">
+          Designed for measurable impact.
+        </h2>
+        <p class="text-sm sm:text-base text-earth-cream/80 text-balance">
+          Proven across Baramati Taluka, Pune District with tangible resource savings and protected yields.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 text-center">
+        
+        <div class="p-6 rounded-2xl bg-forest-900/80 border border-forest-800 space-y-2">
+          <span class="font-editorial text-4xl sm:text-5xl font-bold text-agri-leaf block">3–5 Days</span>
+          <h4 class="font-bold text-sm text-earth-cream">Earlier Detection</h4>
+          <p class="text-xs text-earth-cream/70">Pre-symptomatic spore and water deficit warnings.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-forest-900/80 border border-forest-800 space-y-2">
+          <span class="font-editorial text-4xl sm:text-5xl font-bold text-agri-leaf block">94%</span>
+          <h4 class="font-bold text-sm text-earth-cream">Drip Efficiency</h4>
+          <p class="text-xs text-earth-cream/70">Precision soil replenishment saving 200,000+ liters.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-forest-900/80 border border-forest-800 space-y-2">
+          <span class="font-editorial text-4xl sm:text-5xl font-bold text-agri-leaf block">&lt; 4 Hrs</span>
+          <h4 class="font-bold text-sm text-earth-cream">Expert Triage</h4>
+          <p class="text-xs text-earth-cream/70">Rapid agronomist validation of suspicious canopy scans.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-forest-900/80 border border-forest-800 space-y-2">
+          <span class="font-editorial text-4xl sm:text-5xl font-bold text-agri-leaf block">100%</span>
+          <h4 class="font-bold text-sm text-earth-cream">Data Provenance</h4>
+          <p class="text-xs text-earth-cream/70">Every decision backed by physical sensor evidence.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-forest-900/80 border border-forest-800 space-y-2">
+          <span class="font-editorial text-4xl sm:text-5xl font-bold text-agri-leaf block">3 Languages</span>
+          <h4 class="font-bold text-sm text-earth-cream">Native Marathi & Hindi</h4>
+          <p class="text-xs text-earth-cream/70">Accessible to all smallholders without language barriers.</p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= 11. PRODUCT EXPERIENCE PREVIEW ================= -->
+  <section class="py-24 bg-earth-sand border-t border-forest-900/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 space-y-12">
+      
+      <div class="text-center max-w-2xl mx-auto space-y-2">
+        <span class="font-mono text-xs text-agri-green uppercase tracking-widest font-bold">TWO DEDICATED EXPERIENCES</span>
+        <h2 class="font-editorial text-3xl sm:text-4xl text-forest-950 font-bold">
+          Tailored for farmers and organizations.
+        </h2>
+        <p class="text-sm text-forest-900/80">
+          Select your portal to experience the live application.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- Card 1: Farmer App Preview -->
+        <div class="bg-white rounded-3xl p-8 border border-forest-900/10 shadow-elevated flex flex-col justify-between space-y-6 hover:border-agri-green transition-colors">
+          <div class="space-y-4">
+            <div class="flex justify-between items-start">
+              <span class="leaf-badge bg-agri-sage text-forest-900">FARMER APPLICATION</span>
+              <span class="font-mono text-xs text-forest-700">Ramesh Patel (12.5 Ac)</span>
+            </div>
+            
+            <h3 class="font-editorial text-2xl font-bold text-forest-950">Field Operations for Smallholders</h3>
+            <p class="text-xs sm:text-sm text-forest-900/80 leading-relaxed">
+              Intuitive mobile-first dashboard with zone health cards, soil moisture gauges, live weather from Baramati, crop diagnosis upload, and drip pump automation.
+            </p>
+
+            <div class="p-4 rounded-xl bg-earth-cream border border-forest-900/10 space-y-2 font-mono text-xs">
+              <div class="flex justify-between"><span>🌱 Monitored Crop:</span> <span class="font-bold text-forest-900">Wheat (GW-496)</span></div>
+              <div class="flex justify-between"><span>💧 Soil Moisture:</span> <span class="font-bold text-agri-green">32.7% (Equilibrium)</span></div>
+              <div class="flex justify-between"><span>📢 Advisory:</span> <span class="font-bold text-forest-900">Optimal (मराठी / हिंदी / ENG)</span></div>
+            </div>
+          </div>
+
+          <a href="/app#dashboard" onclick="event.preventDefault(); switchRoleAndLaunch('Farmer', '#dashboard')" class="w-full py-3.5 rounded-xl bg-forest-900 text-earth-cream text-center font-medium text-xs hover:bg-forest-800 transition-all flex items-center justify-center gap-2">
+            <span>Explore Farmer Experience</span>
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </a>
+        </div>
+
+        <!-- Card 2: Organization Console Preview -->
+        <div class="bg-white rounded-3xl p-8 border border-forest-900/10 shadow-elevated flex flex-col justify-between space-y-6 hover:border-agri-green transition-colors">
+          <div class="space-y-4">
+            <div class="flex justify-between items-start">
+              <span class="leaf-badge bg-forest-900 text-earth-cream">ORGANIZATION CONSOLE</span>
+              <span class="font-mono text-xs text-forest-700">KVK Baramati Agronomist</span>
+            </div>
+            
+            <h3 class="font-editorial text-2xl font-bold text-forest-950">Regional Operations & Surveillance</h3>
+            <p class="text-xs sm:text-sm text-forest-900/80 leading-relaxed">
+              Command console for FPOs and agronomists: Macro risk map, Haversine outbreak clustering, expert validation queue with sun-ring confidence gauges, and field officer dispatch.
+            </p>
+
+            <div class="p-4 rounded-xl bg-earth-cream border border-forest-900/10 space-y-2 font-mono text-xs">
+              <div class="flex justify-between"><span>🗺️ Regional Hotspots:</span> <span class="font-bold text-rust-danger">2 Active Clusters</span></div>
+              <div class="flex justify-between"><span>👥 Monitored Farmers:</span> <span class="font-bold text-forest-900">248 Smallholders</span></div>
+              <div class="flex justify-between"><span>🔬 Review Queue:</span> <span class="font-bold text-amber-alert">Pending Validation (4)</span></div>
+            </div>
+          </div>
+
+          <a href="/app#org-overview" onclick="event.preventDefault(); switchRoleAndLaunch('OrgExpert', '#org-overview')" class="w-full py-3.5 rounded-xl bg-forest-900 text-earth-cream text-center font-medium text-xs hover:bg-forest-800 transition-all flex items-center justify-center gap-2">
+            <span>Explore Organization Experience</span>
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= 12. FINAL CINEMATIC CTA ================= -->
+  <section class="py-24 relative overflow-hidden bg-forest-950 text-earth-cream">
+    
+    <!-- Cinematic Agricultural Sunset Background -->
+    <div class="absolute inset-0 opacity-25">
+      <img 
+        src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1600&auto=format&fit=crop&q=85" 
+        alt="Panoramic sunset over Indian agricultural farmland" 
+        class="w-full h-full object-cover"
+      />
+    </div>
+
+    <div class="max-w-5xl mx-auto px-4 sm:px-8 relative z-10 text-center space-y-8">
+      
+      <div class="leaf-badge bg-agri-green text-white mx-auto">JOIN THE REVOLUTION</div>
+
+      <h2 class="font-editorial text-4xl sm:text-6xl font-bold leading-tight text-balance">
+        Make every field more informed.
+      </h2>
+
+      <p class="text-base sm:text-lg text-earth-cream/80 max-w-2xl mx-auto leading-relaxed text-balance">
+        Krishi Vikas AI brings continuous sensing, edge intelligence, and decisive action closer to the farmers and organizations who feed our nation.
+      </p>
+
+      <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
+        <a href="/app#dashboard" onclick="event.preventDefault(); switchRoleAndLaunch('Farmer', '#dashboard')" class="px-8 py-4 rounded-xl bg-agri-green text-white font-medium text-sm hover:bg-agri-light transition-all shadow-elevated flex items-center gap-2">
+          <span>Get Started Now</span>
+          <span class="material-symbols-outlined text-base">arrow_forward</span>
+        </a>
+
+        <a href="/app#org-overview" onclick="event.preventDefault(); switchRoleAndLaunch('OrgExpert', '#org-overview')" class="px-7 py-4 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-earth-cream font-medium text-sm hover:bg-white/20 transition-all">
+          <span>Launch Organization Console</span>
+        </a>
+      </div>
+
+      <p class="text-xs text-earth-cream/60 font-mono">
+        Built for Smallholders • FPOs • Extension Agronomists • KVK Centers
+      </p>
+
+    </div>
+  </section>
+
+  <!-- ================= 13. FOOTER ================= -->
+  <footer class="bg-forest-950 text-earth-cream/80 py-16 border-t border-forest-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-forest-900">
+        
+        <div class="md:col-span-5 space-y-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-agri-green text-white flex items-center justify-center">
+              <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">eco</span>
+            </div>
+            <span class="font-editorial text-lg font-bold text-white tracking-tight">KRISHI VIKAS AI</span>
+          </div>
+          <p class="text-xs text-earth-cream/70 max-w-sm leading-relaxed">
+            Edge AI-powered agricultural ledger and precision diagnostic platform tailored for Baramati Taluka, Pune District, Maharashtra.
+          </p>
+          <p class="text-[11px] font-mono text-agri-leaf">
+            18.15° N, 74.58° E • KVK Baramati Service Region
+          </p>
+        </div>
+
+        <div class="md:col-span-7 grid grid-cols-3 gap-6 text-xs">
+          
+          <div class="space-y-2.5">
+            <h5 class="font-mono font-bold text-white uppercase text-[11px] tracking-wider">PLATFORM</h5>
+            <ul class="space-y-2">
+              <li><a href="#platform" class="hover:text-agri-leaf transition-colors">Overview</a></li>
+              <li><a href="#how-it-works" class="hover:text-agri-leaf transition-colors">How It Works</a></li>
+              <li><a href="#edge-ai" class="hover:text-agri-leaf transition-colors">Edge AI & Hardware</a></li>
+              <li><a href="#impact" class="hover:text-agri-leaf transition-colors">Impact Metrics</a></li>
+            </ul>
+          </div>
+
+          <div class="space-y-2.5">
+            <h5 class="font-mono font-bold text-white uppercase text-[11px] tracking-wider">PORTALS</h5>
+            <ul class="space-y-2">
+              <li><a href="/app#dashboard" onclick="event.preventDefault(); switchRoleAndLaunch('Farmer', '#dashboard')" class="hover:text-agri-leaf transition-colors">Farmer App</a></li>
+              <li><a href="/app#org-overview" onclick="event.preventDefault(); switchRoleAndLaunch('OrgExpert', '#org-overview')" class="hover:text-agri-leaf transition-colors">Org Console</a></li>
+              <li><a href="/app#review-queue" onclick="event.preventDefault(); switchRoleAndLaunch('OrgExpert', '#review-queue')" class="hover:text-agri-leaf transition-colors">Validation Queue</a></li>
+              <li><a href="/app#map" onclick="event.preventDefault(); switchRoleAndLaunch('Farmer', '#map')" class="hover:text-agri-leaf transition-colors">Field Map</a></li>
+            </ul>
+          </div>
+
+          <div class="space-y-2.5">
+            <h5 class="font-mono font-bold text-white uppercase text-[11px] tracking-wider">CONNECT</h5>
+            <ul class="space-y-2">
+              <li><span class="text-earth-cream/60">KVK Baramati</span></li>
+              <li><span class="text-earth-cream/60">Pune, Maharashtra</span></li>
+              <li><span class="text-earth-cream/60">ESP32 Grid Telemetry</span></li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-earth-cream/60">
+        <div>© 2026 Krishi Vikas AI. Built for resilient, informed agriculture.</div>
+        <div class="flex items-center gap-4">
+          <span>Sense</span> • <span>Understand</span> • <span>Act</span>
         </div>
       </div>
-    </header>
 
-    <!-- Main Dynamic Content Container -->
-    <main id="main-content" class="flex-1 overflow-y-auto w-full h-full relative">
-      <!-- Dynamic Views Rendered Here -->
-    </main>
+    </div>
+  </footer>
 
-    <!-- Dynamic Role-Based Mobile Bottom Nav -->
-    <nav id="mobile-farmer-nav" class="md:hidden flex justify-around items-center px-2 py-2 w-full bg-surface border-t border-outline-variant sticky bottom-0 z-40">
-      <a href="#dashboard" onclick="App.navigate('dashboard')" data-view="dashboard" class="nav-link flex flex-col items-center p-1.5 text-on-surface-variant hover:text-primary">
-        <span class="material-symbols-outlined text-xl">dashboard</span>
-        <span class="text-[10px] font-label-caps font-bold">Dashboard</span>
-      </a>
-      <a href="#map" onclick="App.navigate('map')" data-view="map" class="nav-link flex flex-col items-center p-1.5 text-on-surface-variant hover:text-primary">
-        <span class="material-symbols-outlined text-xl">map</span>
-        <span class="text-[10px] font-label-caps font-bold">Map</span>
-      </a>
-      <a href="#irrigation" onclick="App.navigate('irrigation')" data-view="irrigation" class="nav-link flex flex-col items-center p-1.5 text-on-surface-variant hover:text-primary">
-        <span class="material-symbols-outlined text-xl">water_drop</span>
-        <span class="text-[10px] font-label-caps font-bold">Irrigate</span>
-      </a>
-      <a href="#crop-health" onclick="App.navigate('crop-health')" data-view="crop-health" class="nav-link flex flex-col items-center p-1.5 text-on-surface-variant hover:text-primary">
-        <span class="material-symbols-outlined text-xl">grass</span>
-        <span class="text-[10px] font-label-caps font-bold">Health</span>
-      </a>
-      <a href="#advisory" onclick="App.navigate('advisory')" data-view="advisory" class="nav-link flex flex-col items-center p-1.5 text-on-surface-variant hover:text-primary">
-        <span class="material-symbols-outlined text-xl">psychology</span>
-        <span class="text-[10px] font-label-caps font-bold">Advisory</span>
-      </a>
-    </nav>
+  <!-- Role Switcher Helper Script for Seamless App Launch -->
+  <script>
+    async function switchRoleAndLaunch(targetRole, targetHash = '') {
+      try {
+        await fetch('/api/auth/switch-role', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ role: targetRole })
+        });
+      } catch (e) {
+        console.warn('Role switch error:', e);
+      }
+      const hash = targetHash || (targetRole === 'OrgExpert' ? '#org-overview' : '#dashboard');
+      window.location.href = '/app' + hash;
+    }
+  </script>
 
-    <nav id="mobile-org-nav" class="md:hidden hidden flex justify-around items-center px-2 py-2 w-full bg-surface border-t border-outline-variant sticky bottom-0 z-40">
-      <a href="#org-overview" onclick="App.navigate('org-overview')" data-view="org-overview" class="nav-link flex flex-col items-center p-1.5 text-on-surface-variant hover:text-secondary">
-        <span class="material-symbols-outlined text-xl text-secondary">admin_panel_settings</span>
-        <span class="text-[10px] font-label-caps font-bold">Overview</span>
-      </a>
-      <a href="#org-map" onclick="App.navigate('org-map')" data-view="org-map" class="nav-link flex flex-col items-center p-1.5 text-on-surface-variant hover:text-secondary">
-        <span class="material-symbols-outlined text-xl">hub</span>
-        <span class="text-[10px] font-label-caps font-bold">Reg Map</span>
-      </a>
-      <a href="#org-farmers" onclick="App.navigate('org-farmers')" data-view="org-farmers" class="nav-link flex flex-col items-center p-1.5 text-on-surface-variant hover:text-secondary">
-        <span class="material-symbols-outlined text-xl">groups</span>
-        <span class="text-[10px] font-label-caps font-bold">Farmers</span>
-      </a>
-      <a href="#review-queue" onclick="App.navigate('review-queue')" data-view="review-queue" class="nav-link flex flex-col items-center p-1.5 text-on-surface-variant hover:text-secondary">
-        <span class="material-symbols-outlined text-xl text-secondary">verified_user</span>
-        <span class="text-[10px] font-label-caps font-bold">Validate</span>
-      </a>
-      <a href="#org-priority" onclick="App.navigate('org-priority')" data-view="org-priority" class="nav-link flex flex-col items-center p-1.5 text-on-surface-variant hover:text-secondary">
-        <span class="material-symbols-outlined text-xl">assignment_late</span>
-        <span class="text-[10px] font-label-caps font-bold">Alerts</span>
-      </a>
-    </nav>
-  </div>
-
-  <!-- Global Modal Container -->
-  <div id="app-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-    <div id="modal-content"></div>
-  </div>
-
-  <!-- Toast Notification Mount -->
-  <div id="toast-container"></div>
-
-  <!-- Application Scripts -->
-  <script src="/js/api.js"></script>
-  <script src="/js/components.js"></script>
-  <script src="/js/views/dashboard.js"></script>
-  <script src="/js/views/map.js"></script>
-  <script src="/js/views/irrigation.js"></script>
-  <script src="/js/views/cropHealth.js"></script>
-  <script src="/js/views/reviewQueue.js"></script>
-  <script src="/js/views/advisory.js"></script>
-  <script src="/js/views/settings.js"></script>
-  <script src="/js/views/support.js"></script>
-  <script src="/js/views/orgOverview.js"></script>
-  <script src="/js/app.js"></script>
 </body>
 </html>
