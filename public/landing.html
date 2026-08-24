@@ -129,6 +129,64 @@
     .animate-reveal {
       animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
+
+    /* Workflow Section Card Scroll Animation & Hover Interactions */
+    .workflow-card {
+      opacity: 0;
+      transform: translateY(30px) scale(0.97);
+      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform;
+    }
+
+    .workflow-card.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .workflow-card.is-visible:hover {
+      transform: translateY(-5px) scale(1.01);
+      box-shadow: 0 16px 36px -4px rgba(20, 40, 23, 0.12), 0 6px 16px -2px rgba(20, 40, 23, 0.06);
+      border-color: rgba(34, 76, 42, 0.28);
+    }
+
+    .workflow-badge {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .workflow-card:hover .workflow-badge {
+      transform: scale(1.08);
+    }
+
+    .workflow-progress-bar {
+      transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Metric Cards Vertical Spacing Fix */
+    .metric-card-title {
+      margin-bottom: clamp(28px, 4vw, 52px);
+    }
+
+    /* Respect reduced-motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+      .workflow-card {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      .workflow-card.is-visible:hover {
+        transform: none !important;
+      }
+      .workflow-badge {
+        transition: none !important;
+      }
+      .workflow-progress-bar {
+        width: 100% !important;
+        transition: none !important;
+      }
+    }
   </style>
 </head>
 
@@ -225,7 +283,7 @@
           <!-- Cinematic Indian Agriculture Photography Frame -->
           <div class="relative rounded-3xl overflow-hidden shadow-elevated border-4 border-white aspect-[4/3] sm:aspect-[16/11]">
             <img 
-              src="https://images.unsplash.com/photo-1592982537447-6f2a6a0c7c18?w=1200&auto=format&fit=crop&q=85" 
+              src="/images/hero-field.jpg" 
               alt="Lush green agricultural wheat field in Maharashtra during golden hour" 
               class="w-full h-full object-cover object-center scale-105 hover:scale-100 transition-transform duration-1000"
             />
@@ -350,8 +408,8 @@
         <div class="lg:col-span-5 relative">
           <div class="rounded-3xl overflow-hidden shadow-elevated border-4 border-white">
             <img 
-              src="https://images.unsplash.com/photo-1589923188900-85dae523342b?w=800&auto=format&fit=crop&q=80" 
-              alt="Farmer carefully inspecting infected crop leaf with fungal spores in field" 
+              src="/images/polyhouse-section.jpg" 
+              alt="Researcher inspecting crops in polyhouse greenhouse setup" 
               class="w-full h-full object-cover aspect-[4/5]"
             />
           </div>
@@ -584,8 +642,8 @@
           
           <div class="relative rounded-3xl overflow-hidden border border-forest-700 shadow-elevated">
             <img 
-              src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800&auto=format&fit=crop&q=80" 
-              alt="Physical microelectronic hardware and field sensor setup in agricultural environment" 
+              src="/images/agri-researcher.png" 
+              alt="Agriscience researcher collecting soil data in polyhouse setup" 
               class="w-full h-72 object-cover"
             />
             <div class="absolute inset-0 bg-gradient-to-t from-forest-950 via-transparent to-transparent"></div>
@@ -628,8 +686,8 @@
         <div class="lg:col-span-6 relative">
           <div class="rounded-3xl overflow-hidden shadow-elevated border-4 border-white">
             <img 
-              src="https://images.unsplash.com/photo-1595278069441-2cf29f8005a4?w=800&auto=format&fit=crop&q=80" 
-              alt="Indian farmer standing proudly in his lush green wheat field in Maharashtra" 
+              src="/images/extension-officer.jpg" 
+              alt="Agricultural officer with laptop demonstrating advisory insights to farmer in cotton field" 
               class="w-full h-full object-cover aspect-[4/5]"
             />
           </div>
@@ -826,7 +884,7 @@
   </section>
 
   <!-- ================= 9. AI TO ACTION TIMELINE ================= -->
-  <section class="py-24 bg-earth-cream">
+  <section id="workflow" class="py-24 bg-earth-cream overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 space-y-14">
       
       <div class="text-center max-w-2xl mx-auto space-y-2">
@@ -840,48 +898,95 @@
       </div>
 
       <!-- 6-Step Horizontal / Vertical Process Strip -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 relative">
         
         <!-- Step 1: Detect -->
-        <div class="bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle space-y-2">
-          <div class="w-8 h-8 rounded-lg bg-rust-soft text-rust-danger font-bold flex items-center justify-center text-xs">01</div>
-          <h4 class="font-bold text-sm text-forest-950">DETECT</h4>
-          <p class="text-xs text-forest-900/70">Edge camera/sensor flags possible Puccinia rust spores.</p>
+        <div class="workflow-card group relative bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle flex flex-col justify-between" style="--step-index: 0;">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="workflow-badge w-8 h-8 rounded-lg bg-rust-soft text-rust-danger font-bold flex items-center justify-center text-xs">01</div>
+              <span class="lg:block hidden text-forest-900/30 text-xs font-mono font-bold">→</span>
+            </div>
+            <h4 class="font-bold text-sm text-forest-950 tracking-tight">DETECT</h4>
+            <p class="text-xs text-forest-900/70 leading-relaxed">Edge camera/sensor flags possible Puccinia rust spores.</p>
+          </div>
+          <div class="w-full h-1 bg-forest-900/5 rounded-full overflow-hidden mt-4">
+            <div class="workflow-progress-bar h-full bg-rust-danger rounded-full" style="width: 0%;"></div>
+          </div>
         </div>
 
         <!-- Step 2: Correlate -->
-        <div class="bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle space-y-2">
-          <div class="w-8 h-8 rounded-lg bg-amber-soft text-amber-alert font-bold flex items-center justify-center text-xs">02</div>
-          <h4 class="font-bold text-sm text-forest-950">CORRELATE</h4>
-          <p class="text-xs text-forest-900/70">87% humidity & tillering stage elevate disease risk to High.</p>
+        <div class="workflow-card group relative bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle flex flex-col justify-between" style="--step-index: 1;">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="workflow-badge w-8 h-8 rounded-lg bg-amber-soft text-amber-alert font-bold flex items-center justify-center text-xs">02</div>
+              <span class="lg:block hidden text-forest-900/30 text-xs font-mono font-bold">→</span>
+            </div>
+            <h4 class="font-bold text-sm text-forest-950 tracking-tight">CORRELATE</h4>
+            <p class="text-xs text-forest-900/70 leading-relaxed">87% humidity &amp; tillering stage elevate disease risk to High.</p>
+          </div>
+          <div class="w-full h-1 bg-forest-900/5 rounded-full overflow-hidden mt-4">
+            <div class="workflow-progress-bar h-full bg-amber-alert rounded-full" style="width: 0%;"></div>
+          </div>
         </div>
 
         <!-- Step 3: Validate -->
-        <div class="bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle space-y-2">
-          <div class="w-8 h-8 rounded-lg bg-agri-sage text-forest-900 font-bold flex items-center justify-center text-xs">03</div>
-          <h4 class="font-bold text-sm text-forest-950">VALIDATE</h4>
-          <p class="text-xs text-forest-900/70">KVK Expert reviews high-res scan and confirms diagnosis.</p>
+        <div class="workflow-card group relative bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle flex flex-col justify-between" style="--step-index: 2;">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="workflow-badge w-8 h-8 rounded-lg bg-agri-sage text-forest-900 font-bold flex items-center justify-center text-xs">03</div>
+              <span class="lg:block hidden text-forest-900/30 text-xs font-mono font-bold">→</span>
+            </div>
+            <h4 class="font-bold text-sm text-forest-950 tracking-tight">VALIDATE</h4>
+            <p class="text-xs text-forest-900/70 leading-relaxed">KVK Expert reviews high-res scan and confirms diagnosis.</p>
+          </div>
+          <div class="w-full h-1 bg-forest-900/5 rounded-full overflow-hidden mt-4">
+            <div class="workflow-progress-bar h-full bg-agri-green rounded-full" style="width: 0%;"></div>
+          </div>
         </div>
 
         <!-- Step 4: Advise -->
-        <div class="bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle space-y-2">
-          <div class="w-8 h-8 rounded-lg bg-agri-sage text-forest-900 font-bold flex items-center justify-center text-xs">04</div>
-          <h4 class="font-bold text-sm text-forest-950">ADVISE</h4>
-          <p class="text-xs text-forest-900/70">Targeted propiconazole bio-spray recommendation issued.</p>
+        <div class="workflow-card group relative bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle flex flex-col justify-between" style="--step-index: 3;">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="workflow-badge w-8 h-8 rounded-lg bg-agri-sage text-forest-900 font-bold flex items-center justify-center text-xs">04</div>
+              <span class="lg:block hidden text-forest-900/30 text-xs font-mono font-bold">→</span>
+            </div>
+            <h4 class="font-bold text-sm text-forest-950 tracking-tight">ADVISE</h4>
+            <p class="text-xs text-forest-900/70 leading-relaxed">Targeted propiconazole bio-spray recommendation issued.</p>
+          </div>
+          <div class="w-full h-1 bg-forest-900/5 rounded-full overflow-hidden mt-4">
+            <div class="workflow-progress-bar h-full bg-agri-green rounded-full" style="width: 0%;"></div>
+          </div>
         </div>
 
         <!-- Step 5: Act -->
-        <div class="bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle space-y-2">
-          <div class="w-8 h-8 rounded-lg bg-agri-pale text-agri-green font-bold flex items-center justify-center text-xs">05</div>
-          <h4 class="font-bold text-sm text-forest-950">ACT</h4>
-          <p class="text-xs text-forest-900/70">Extension field officer visits plot and coordinates spray.</p>
+        <div class="workflow-card group relative bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle flex flex-col justify-between" style="--step-index: 4;">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="workflow-badge w-8 h-8 rounded-lg bg-agri-pale text-agri-green font-bold flex items-center justify-center text-xs">05</div>
+              <span class="lg:block hidden text-forest-900/30 text-xs font-mono font-bold">→</span>
+            </div>
+            <h4 class="font-bold text-sm text-forest-950 tracking-tight">ACT</h4>
+            <p class="text-xs text-forest-900/70 leading-relaxed">Extension field officer visits plot and coordinates spray.</p>
+          </div>
+          <div class="w-full h-1 bg-forest-900/5 rounded-full overflow-hidden mt-4">
+            <div class="workflow-progress-bar h-full bg-agri-green rounded-full" style="width: 0%;"></div>
+          </div>
         </div>
 
         <!-- Step 6: Verify -->
-        <div class="bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle space-y-2">
-          <div class="w-8 h-8 rounded-lg bg-forest-900 text-earth-cream font-bold flex items-center justify-center text-xs">06</div>
-          <h4 class="font-bold text-sm text-forest-950">VERIFY</h4>
-          <p class="text-xs text-forest-900/70">Follow-up scan confirms disease arrest; saved to Farm Memory.</p>
+        <div class="workflow-card group relative bg-white p-5 rounded-2xl border border-forest-900/10 shadow-subtle flex flex-col justify-between" style="--step-index: 5;">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="workflow-badge w-8 h-8 rounded-lg bg-forest-900 text-earth-cream font-bold flex items-center justify-center text-xs">06</div>
+            </div>
+            <h4 class="font-bold text-sm text-forest-950 tracking-tight">VERIFY</h4>
+            <p class="text-xs text-forest-900/70 leading-relaxed">Follow-up scan confirms disease arrest; saved to Farm Memory.</p>
+          </div>
+          <div class="w-full h-1 bg-forest-900/5 rounded-full overflow-hidden mt-4">
+            <div class="workflow-progress-bar h-full bg-forest-900 rounded-full" style="width: 0%;"></div>
+          </div>
         </div>
 
       </div>
@@ -890,8 +995,8 @@
   </section>
 
   <!-- ================= 10. MEASURABLE IMPACT SECTION ================= -->
-  <section id="impact" class="py-24 bg-forest-950 text-earth-cream">
-    <div class="max-w-7xl mx-auto px-4 sm:px-8 space-y-16">
+  <section id="impact" class="py-24 bg-forest-950 text-earth-cream overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
       
       <div class="text-center max-w-3xl mx-auto space-y-3">
         <span class="font-mono text-xs text-agri-leaf uppercase tracking-widest font-bold">REAL-WORLD OUTCOMES</span>
@@ -903,36 +1008,36 @@
         </p>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 text-center">
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 lg:gap-4 xl:gap-6 text-center w-full">
         
-        <div class="p-6 rounded-2xl bg-forest-900/80 border border-forest-800 space-y-2">
-          <span class="font-editorial text-4xl sm:text-5xl font-bold text-agri-leaf block">3–5 Days</span>
-          <h4 class="font-bold text-sm text-earth-cream">Earlier Detection</h4>
-          <p class="text-xs text-earth-cream/70">Pre-symptomatic spore and water deficit warnings.</p>
+        <div class="min-w-0 p-5 rounded-2xl bg-forest-900/80 border border-forest-800 flex flex-col justify-start text-center">
+          <span class="font-editorial text-2xl sm:text-3xl lg:text-2xl xl:text-3xl font-bold text-agri-leaf block leading-tight whitespace-normal break-words mb-2">3–5 Days</span>
+          <h4 class="font-bold text-sm text-earth-cream metric-card-title">Earlier Detection</h4>
+          <p class="text-xs text-earth-cream/70 leading-relaxed mt-0">Pre-symptomatic spore and water deficit warnings.</p>
         </div>
 
-        <div class="p-6 rounded-2xl bg-forest-900/80 border border-forest-800 space-y-2">
-          <span class="font-editorial text-4xl sm:text-5xl font-bold text-agri-leaf block">94%</span>
-          <h4 class="font-bold text-sm text-earth-cream">Drip Efficiency</h4>
-          <p class="text-xs text-earth-cream/70">Precision soil replenishment saving 200,000+ liters.</p>
+        <div class="min-w-0 p-5 rounded-2xl bg-forest-900/80 border border-forest-800 flex flex-col justify-start text-center">
+          <span class="font-editorial text-3xl sm:text-4xl lg:text-3xl xl:text-4xl font-bold text-agri-leaf block leading-tight mb-2">94%</span>
+          <h4 class="font-bold text-sm text-earth-cream metric-card-title">Drip Efficiency</h4>
+          <p class="text-xs text-earth-cream/70 leading-relaxed mt-0">Precision soil replenishment saving 200,000+ liters.</p>
         </div>
 
-        <div class="p-6 rounded-2xl bg-forest-900/80 border border-forest-800 space-y-2">
-          <span class="font-editorial text-4xl sm:text-5xl font-bold text-agri-leaf block">&lt; 4 Hrs</span>
-          <h4 class="font-bold text-sm text-earth-cream">Expert Triage</h4>
-          <p class="text-xs text-earth-cream/70">Rapid agronomist validation of suspicious canopy scans.</p>
+        <div class="min-w-0 p-5 rounded-2xl bg-forest-900/80 border border-forest-800 flex flex-col justify-start text-center">
+          <span class="font-editorial text-2xl sm:text-3xl lg:text-2xl xl:text-3xl font-bold text-agri-leaf block leading-tight whitespace-normal break-words mb-2">&lt; 4 Hrs</span>
+          <h4 class="font-bold text-sm text-earth-cream metric-card-title">Expert Triage</h4>
+          <p class="text-xs text-earth-cream/70 leading-relaxed mt-0">Rapid agronomist validation of suspicious canopy scans.</p>
         </div>
 
-        <div class="p-6 rounded-2xl bg-forest-900/80 border border-forest-800 space-y-2">
-          <span class="font-editorial text-4xl sm:text-5xl font-bold text-agri-leaf block">100%</span>
-          <h4 class="font-bold text-sm text-earth-cream">Data Provenance</h4>
-          <p class="text-xs text-earth-cream/70">Every decision backed by physical sensor evidence.</p>
+        <div class="min-w-0 p-5 rounded-2xl bg-forest-900/80 border border-forest-800 flex flex-col justify-start text-center">
+          <span class="font-editorial text-3xl sm:text-4xl lg:text-3xl xl:text-4xl font-bold text-agri-leaf block leading-tight mb-2">100%</span>
+          <h4 class="font-bold text-sm text-earth-cream metric-card-title">Data Provenance</h4>
+          <p class="text-xs text-earth-cream/70 leading-relaxed mt-0">Every decision backed by physical sensor evidence.</p>
         </div>
 
-        <div class="p-6 rounded-2xl bg-forest-900/80 border border-forest-800 space-y-2">
-          <span class="font-editorial text-4xl sm:text-5xl font-bold text-agri-leaf block">3 Languages</span>
-          <h4 class="font-bold text-sm text-earth-cream">Native Marathi & Hindi</h4>
-          <p class="text-xs text-earth-cream/70">Accessible to all smallholders without language barriers.</p>
+        <div class="min-w-0 p-5 rounded-2xl bg-forest-900/80 border border-forest-800 flex flex-col justify-start text-center">
+          <span class="font-editorial text-2xl sm:text-3xl lg:text-2xl xl:text-3xl font-bold text-agri-leaf block leading-tight whitespace-normal break-words mb-2">3 Languages</span>
+          <h4 class="font-bold text-sm text-earth-cream metric-card-title">Native Marathi &amp; Hindi</h4>
+          <p class="text-xs text-earth-cream/70 leading-relaxed mt-0">Accessible to all smallholders without language barriers.</p>
         </div>
 
       </div>
@@ -1136,6 +1241,58 @@
       const hash = targetHash || (targetRole === 'OrgExpert' ? '#org-overview' : '#dashboard');
       window.location.href = '/app' + hash;
     }
+
+    // Intersection Observer for Workflow Cards Sequential Entrance Animation
+    document.addEventListener('DOMContentLoaded', () => {
+      const workflowCards = document.querySelectorAll('.workflow-card');
+      if (!workflowCards.length) return;
+
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      
+      if (prefersReducedMotion) {
+        workflowCards.forEach(card => {
+          card.classList.add('is-visible');
+          const bar = card.querySelector('.workflow-progress-bar');
+          if (bar) bar.style.width = '100%';
+        });
+        return;
+      }
+
+      const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -60px 0px',
+        threshold: 0.1
+      };
+
+      const observer = new IntersectionObserver((entries, observerInstance) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            workflowCards.forEach((card, index) => {
+              const delay = index * 120; // 120ms sequential stagger
+              card.style.transitionDelay = `${delay}ms`;
+              
+              setTimeout(() => {
+                card.classList.add('is-visible');
+                const bar = card.querySelector('.workflow-progress-bar');
+                if (bar) {
+                  bar.style.transitionDelay = `${delay + 150}ms`;
+                  bar.style.width = '100%';
+                }
+              }, 50);
+            });
+            observerInstance.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      const workflowSection = document.getElementById('workflow');
+      if (workflowSection) {
+        observer.observe(workflowSection);
+      } else {
+        const parent = workflowCards[0].parentElement;
+        if (parent) observer.observe(parent);
+      }
+    });
   </script>
 
 </body>
